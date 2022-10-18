@@ -10,7 +10,7 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 **Membres du groupe** :
 - BOUCHADEL Maxence
 - GONCALVES Florian
-- JEANJACQUOT Thomas
+- JEANJACQUOT Thomas (chef de projet)
 - VATRY Etienne
 
 ## Description du projet
