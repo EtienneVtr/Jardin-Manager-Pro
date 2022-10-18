@@ -8,10 +8,10 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 ## Titre du projet
 
 **Membres du groupe** :
-- À compléter
-- À compléter
-- À compléter
-- À compléter
+- BOUCHADEL Maxence
+- GONCALVES Florian
+- JEANJACQUOT Thomas
+- VATRY Etienne
 
 ## Description du projet
 
