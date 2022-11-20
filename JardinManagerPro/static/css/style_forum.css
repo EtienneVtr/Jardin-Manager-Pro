@@ -1,0 +1,48 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+.Créerunsujet{
+    width:100%;
+    max-width:700px;
+    background:rgba(255,255,255,0.2);
+    display:flex;
+    align-items:center;
+    border-radius:60px;
+    padding:10px 20px;
+    backdrop-filter:blur(4px) saturate(180%);
+}
+.barrederecherche{
+    width:100%;
+    max-width:700px;
+    background:rgba(255,255,255,0.2);
+    display:flex;
+    align-items:center;
+    border-radius:60px;
+    padding:10px 20px;
+    backdrop-filter:blur(4px) saturate(180%);
+}
+.barrederecherche input{
+    background:transparent;
+    flex:1;
+    border:0;
+    outline:none;
+    font-size:20px;
+    color:rgb(107, 119, 111);
+}
+::placeholder{
+    color:rgb(83, 100, 83)
+}
+.barrederecherche button img{
+    width:25px;
+}
+.barrederecherche button{
+    border:0;
+    border-radius:50%;
+    width:25px;
+    height:25px;
+    background:rgb(74, 77, 70);
+    cursor:pointer;
+}
