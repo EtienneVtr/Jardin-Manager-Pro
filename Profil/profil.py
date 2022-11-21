@@ -2,45 +2,7 @@ import string
 import random
 from flask import Flask, render_template, request, redirect
 import sqlite3
-
-def to_string(chaine):
-    tmp = str(chaine)
-    n = len(tmp)
-    
-
-def connectDatabase():
-    """
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    db = sqlite3.connect('profils.db')
-    cursor = db.cursor()
-    return db, cursor
-
-def initDB():
-    query = '''
-    DROP TABLE IF EXISTS profils;
-    
-    CREATE TABLE profils 
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Pseudo TEXT,
-        Mail TEXT,
-        Mdp TEXT,
-        Photo TEXT
-    );
-    
-    '''
-    db, cursor = connectDatabase()
-    cursor.execute(query)
-    db.commit()
-    cursor.close()
-    db.close()
+from fonctions import *
 
 app = Flask(__name__)
 
@@ -74,11 +36,10 @@ def profil():
     query = """SELECT Pseudo FROM profils"""
     db, cursor = connectDatabase()
     cursor.execute(query)
-    data = cursor.fetchall()
+    data = to_string(cursor.fetchall())
     db.close()
     
-    mot = str(data[1])
-    print(mot[1])
+    print(data[1])
     
     return render_template("profil.html", pseudo=pseudo)
 
@@ -94,4 +55,4 @@ if __name__ == "__main__":
     if (False):
         initDB()
         
-    app.run()
+    app.run(debug=1, host='0.0.0.0', port='5454')
