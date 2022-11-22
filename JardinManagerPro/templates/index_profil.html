@@ -1,0 +1,27 @@
+{% extends "layouts.html" %} 
+
+{% block body %} 
+
+    <h1>Connection</h1>
+    <div>
+        <form action="/profil" method="post">
+            <div>
+                <input autocomplete="off" autofocus name="pseudo" placeholder="Pseudo" type="text">
+            </div>
+            <div>
+                <input autocomplete="off" autofocus name="mdp" placeholder="Mot de passe" type="password">
+            </div>
+            <div>
+                <input type="submit">
+            </div>
+        </form>
+    </di>
+    <div>
+        Pas encore inscrit ? Inscrivez-vous vite 
+        <a href="/inscription">
+            ici
+        </a>
+        !
+    </div>
+
+{% endblock %}
