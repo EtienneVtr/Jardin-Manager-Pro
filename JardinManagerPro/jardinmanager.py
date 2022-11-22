@@ -13,9 +13,11 @@ from fonctions import *
 app = Flask(__name__)
 
 #def des routes:
+
+#/home (max)
 @app.route("/")
-def index():
-    return "Up and Run"
+def home():
+    return render_template("home.html")
 
 
 
