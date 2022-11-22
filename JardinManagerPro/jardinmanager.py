@@ -80,8 +80,6 @@ def profil():
     data = to_string(cursor.fetchall())
     db.close()
     
-    print(data[1])
-    
     return render_template("profil.html", pseudo=pseudo)
 
 #inscription
