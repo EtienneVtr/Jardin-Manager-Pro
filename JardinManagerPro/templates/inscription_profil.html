@@ -1,10 +1,10 @@
-{% extends "layouts.html" %} 
+{% extends "layouts_profil.html" %} 
 
 {% block body %}
 
 <h1>Inscritpion</h1>
 <div>
-    <form action="/" method="post">
+    <form action="/inscription" method="post">
         <div>
             <input autocomplete="off" autofocus name="pseudo" placeholder="Pseudo" type="text">
         </div>
@@ -13,6 +13,9 @@
         </div>
         <div>
             <input autocomplete="off" autofocus name="mdp" placeholder="Mot de passe" type="password">
+        </div>
+        <div>
+            <input autocomplete="off" autofocus name="ville" placeholder="Ville" type="text">
         </div>
         <div>
             <input type="submit">

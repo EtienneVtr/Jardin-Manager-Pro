@@ -50,12 +50,28 @@ def cabanon():
 
 
 #gestion  de profil (étienne)
-@app.route("/connextion", methods=["GET","POST"])
+@app.route("/connection", methods=["GET","POST"])
 def connextion():
     if request.method == "GET":
-        return render_template("index.html")
-    
+        return render_template("connection.html")
     if request.method == "POST":
+        pseudo = request.form.get("pseudo")
+        mdp = request.form.get("mdp")
+
+
+#profil
+@app.route("/profil")
+def profil():
+    return render_template("profil.html")
+
+
+
+#inscription
+@app.route("/inscription", methods = ["GET","POST"])
+def inscription():
+    if request.method == "GET" :
+        return render_template("inscription_profil.html")
+    if request.method == "POST" :
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
         mdp=request.form.get("mdp")
@@ -67,35 +83,12 @@ def connextion():
         db.commit()
         db.close()
         
-    return redirect("/")
-
-#profil
-@app.route("/profil", methods=["POST"])
-def profil():
-    pseudo=request.form.get("pseudo")
-    
-    query = """SELECT Pseudo FROM profils"""
-    db, cursor = connectDatabase()
-    cursor.execute(query)
-    data = to_string(cursor.fetchall())
-    db.close()
-    
-    return render_template("profil.html", pseudo=pseudo)
-
-#inscription
-@app.route("/inscription")
-def inscription():
-    return render_template("inscription.html")
-
-
-
-
-
-
-
+        return redirect("/connection")
 
 
 #main
 if __name__ == "__main__":
+    if (False):
+        initDB()
     
     app.run(debug=1, host='0.0.0.0', port='5454')
