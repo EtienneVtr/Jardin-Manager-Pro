@@ -14,6 +14,13 @@ def to_string(chaine):
         T[i] = T[i][2:m-3]
     return T
 
+""" #fonction permettant de mettre les données récupérées de profils.db sous forme de int
+def to_int(chaine):
+    n = len(chaine)
+    T = n*[0]
+    for i in range (n):
+        T[i] =  """
+
 #fonction permettant de se connecter à la base de donnée
 def connectDatabase():
     """
@@ -63,10 +70,10 @@ def fct_connection(pseudo, mdp):
     args = [pseudo]
     db, cursor = connectDatabase()
     cursor.execute(query, args)
-    data = to_string(cursor.fetchall())
+    data = cursor.fetchall()
     db.close()
     
-    print(pseudo)
+    print(data)
     
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
