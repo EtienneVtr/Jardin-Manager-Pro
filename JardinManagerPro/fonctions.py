@@ -1,3 +1,7 @@
+# imports
+import string
+import random
+from flask import Flask, request, render_template, flash, redirect
 import sqlite3
 
 #fonction permettant de mettre les données récupérées de profils.db sous forme de chaîne de caractère
@@ -47,4 +51,28 @@ def initDB():
     cursor.close()
     db.close()
     
-#
+#fonction gérant la connection
+def fct_connection(pseudo, mdp):
+    query = """SELECT Pseudo FROM profils"""
+    db, cursor = connectDatabase()
+    cursor.execute(query)
+    liste_pseudo = to_string(cursor.fetchall())
+    db.close()
+    
+    query = """SELECT Mdp FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = to_string(cursor.fetchall())
+    db.close()
+    
+    print(pseudo)
+    
+    if pseudo == ("""""") or mdp == ("""""") :
+        return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
+    elif pseudo not in liste_pseudo :
+        return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
+    elif mdp != data :
+        return render_template("error_profil.html", message = "Mauvais mot de passe !")
+    else :
+        return render_template("profil.html")

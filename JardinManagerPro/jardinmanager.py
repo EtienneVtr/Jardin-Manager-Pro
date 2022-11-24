@@ -48,15 +48,16 @@ def cabanon():
 
 
 
-#test
+
 #gestion  de profil (étienne)
 @app.route("/connection", methods=["GET","POST"])
-def connextion():
+def connection():
     if request.method == "GET":
         return render_template("connection.html")
     if request.method == "POST":
         pseudo = request.form.get("pseudo")
         mdp = request.form.get("mdp")
+        return fct_connection(pseudo, mdp)
 
 
 #profil
@@ -75,9 +76,10 @@ def inscription():
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
         mdp=request.form.get("mdp")
+        ville=request.form.get("ville")
         
-        query = """INSERT INTO profils (Pseudo, Mail, Mdp) VALUES (?, ?, ?);"""
-        args = (pseudo, mail, mdp)
+        query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
+        args = (pseudo, mail, mdp, ville)
         db, cursor = connectDatabase()
         cursor.execute(query, args)
         db.commit()
