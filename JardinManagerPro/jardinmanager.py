@@ -48,7 +48,7 @@ def cabanon():
 
 
 
-
+#test
 #gestion  de profil (étienne)
 @app.route("/connection", methods=["GET","POST"])
 def connextion():
