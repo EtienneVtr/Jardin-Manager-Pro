@@ -50,10 +50,10 @@ def cabanon():
 
 
 #gestion  de profil (étienne)
-@app.route("/connextion", methods=["GET","POST"])
+@app.route("/connexion", methods=["GET","POST"])
 def connextion():
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("index_profil.html")
     
     if request.method == "POST":
         pseudo=request.form.get("pseudo")
@@ -87,7 +87,7 @@ def profil():
 #inscription
 @app.route("/inscription")
 def inscription():
-    return render_template("inscription.html")
+    return render_template("inscription_profil.html")
 
 
 
