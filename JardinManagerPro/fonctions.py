@@ -4,23 +4,6 @@ import random
 from flask import Flask, request, render_template, flash, redirect
 import sqlite3
 
-#fonction permettant de mettre les données récupérées de profils.db sous forme de chaîne de caractère
-def to_string(chaine):
-    n = len(chaine)
-    T = n*[0]
-    for i in range (n):
-        T[i] = str(chaine[i])
-        m = len(T[i])
-        T[i] = T[i][2:m-3]
-    return T
-
-""" #fonction permettant de mettre les données récupérées de profils.db sous forme de int
-def to_int(chaine):
-    n = len(chaine)
-    T = n*[0]
-    for i in range (n):
-        T[i] =  """
-
 #fonction permettant de se connecter à la base de donnée
 def connectDatabase():
     """
@@ -63,7 +46,7 @@ def fct_connection(pseudo, mdp):
     query = """SELECT Pseudo FROM profils"""
     db, cursor = connectDatabase()
     cursor.execute(query)
-    liste_pseudo = to_string(cursor.fetchall())
+    liste_pseudo = cursor.fetchall()
     db.close()
     
     query = """SELECT Mdp FROM profils WHERE Pseudo LIKE (?)"""
@@ -73,13 +56,31 @@ def fct_connection(pseudo, mdp):
     data = cursor.fetchall()
     db.close()
     
-    print(data)
-    
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
-    elif pseudo not in liste_pseudo :
+    elif pseudo not in str(liste_pseudo) :
         return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
-    elif mdp != data :
+    elif str(mdp) not in str(data):
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
     else :
         return render_template("profil.html")
+    
+#fonction gérant l'inscription
+def fct_inscritpion(pseudo, mail, mdp, ville):
+    query = """SELECT Pseudo FROM Profils WHERE (Pseudo LIKE (?) OR Mail LIKE (?));"""
+    args = [pseudo,mail]
+    db, cursor = connectDatabase()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    db.close()
+    
+    if data == [] :
+        query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
+        args = (pseudo, mail, mdp, ville)
+        db, cursor = connectDatabase()
+        cursor.execute(query, args)
+        db.commit()
+        db.close()
+        return redirect("/connection")
+    else :
+        return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")

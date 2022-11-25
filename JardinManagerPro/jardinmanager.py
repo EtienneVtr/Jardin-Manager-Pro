@@ -78,14 +78,7 @@ def inscription():
         mdp=request.form.get("mdp")
         ville=request.form.get("ville")
         
-        query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
-        args = (pseudo, mail, mdp, ville)
-        db, cursor = connectDatabase()
-        cursor.execute(query, args)
-        db.commit()
-        db.close()
-        
-        return redirect("/connection")
+        return fct_inscritpion(pseudo, mail, mdp, ville)
 
 
 #main
