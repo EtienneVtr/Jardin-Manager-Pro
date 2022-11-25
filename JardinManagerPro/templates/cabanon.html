@@ -1,17 +1,16 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/css/style_cabanon.css">
-    <title>Jardin Manager</title>
+{% extends "layout.html" %}
 
-</head>
-<body>
+{% block head%}
+    <link rel="stylesheet" href="../static/css/style_cabanon.css">
+{% endblock head%}
+
+
+{% block body%}
     <h1><center>Jardin Copain</center></h1>
     <h2><center>Bienvenu sur le Cabanon, ici vous pouvez consulter toutes les annonces disponibles</center></h2>
 
     <div class="annonce">
-        <img class="img_annonce" src="../static/image/pommes.jpg" />
+        <img class="img_annonce" src="../static/image/photo_cabanon/pommes.jpg" />
         <div class="text_annonce" style="line-height:15px;">
             
             <p class="titre_annonce">
@@ -31,7 +30,7 @@
     </div>
 
     <div class="annonce">
-        <img class="img_annonce" src="../static/image/bananes.jpg" />
+        <img class="img_annonce" src="../static/image/photo_cabanon/bananes.jpg" />
         <div class="text_annonce" style="line-height:15px;">
             
             <p class="titre_annonce">
@@ -50,5 +49,4 @@
         
     </div>
     
-</body>
-</html>
+{% endblock body %}

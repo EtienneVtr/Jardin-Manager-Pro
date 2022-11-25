@@ -66,14 +66,20 @@ body {
     -moz-justify-content: space-between;
     -webkit-justify-content: space-between;
 }
+
+.form-v9-content .form-row2 {
+	display:flex;
+	text-align: center;
+}
 .form-v9-content .form-row {
     width: 45%;
+	
 }
 .form-v9-content .form-detail .form-row-last {
 	text-align: center;
 }
 .form-v9-content .form-detail .input-text {
-	margin-bottom: 45px;
+	margin-bottom: 30px;
 }
 .form-v9-content .form-detail input {
 	width: 100%;
@@ -154,14 +160,12 @@ input:-moz-placeholder { /* Firefox 18- */
 }
 @media screen and (max-width: 767px) {
 	.form-v9-content .form-row-total {
-		flex-direction: column;
-		-o-flex-direction: column;
-		-ms-flex-direction: column;
-		-moz-flex-direction: column;
-		-webkit-flex-direction: column;
+		text-align: center;
+
 	}
 	.form-v9-content .form-row {
 		width: 100%;
+		
 	}
 }
 @media screen and (max-width: 575px) {
