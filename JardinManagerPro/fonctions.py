@@ -65,9 +65,11 @@ def connectdbforum():
         Returns :
             - tuple [Connection, Cursor] : a tuple of the database connection and cursor
     """
-    db = sqlite3.connect('forum.db')
-    cursor = db.cursor()
-    return db, cursor
+    dbf = sqlite3.connect('forum.db')
+    cursor = dbf.cursor()
+    cursor.execute("SELECT * from forum")
+    dbtable=cursor.fetchall()
+    return dbf, cursor
 
 def initDBforum():
     query = '''
@@ -81,10 +83,10 @@ def initDBforum():
     );
     
     '''
-    db, cursor = connectdbforum()
+    dbf, cursor = connectdbforum()
     cursor.execute(query)
-    db.commit()
+    dbf.commit()
     cursor.close()
-    db.close()
+    dbf.close()
 
 #
