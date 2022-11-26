@@ -1,20 +1,18 @@
-<!doctype html>
-<html>
-<head>
+{% extends "layout.html" %}
+
+{% block head%}
     <link rel="stylesheet" href="../static/css/style_forum.css">
-    <style>
-        table,th,td {
-            border:1px solid black;
-        }
-        </style>
+{% endblock head%}
+
+{% block body%}
 <title>Jardin Manager</title>
 </head>
 <body>
     <h1><center>Jardin Copain</center></h1>
     <div class="Créerunsujet"> 
-    <h2><a href='https://google.com'target ="_blank">
+    <a href='creerunsujet'target ="_blank">
         Créer un sujet</a>
-    </h2></div>
+    </div>
     <form action="https://www.google.com/search"
         method="get" class="barrederecherche">
             <input type="text" placeholder="Rechercher un sujet"
@@ -22,30 +20,19 @@
             <button type="submit"><img src="../static/image/photo_forum/loupe.jpeg">
             </button>
     </form>
-    <table style="width:100%"> 
-        <tr>
-            <th>SUJET</th>
-            <th>AUTEUR</th>
-            <th>DATE</th>
-            <th>REPONSES</th>
-        </tr>
-        <tr>
-            <th>
-                <a href='https://google.com'target
-                ="_blank">Mes tomates sont roses help</a></th>
-            <th><a href='https://google.com'target ="_blank">
-                FunkyChris</a></th>
-            <th>22/12/2022</th>
-            <th>99</th>
-        </tr>
-        <tr>
-            <th><a href='https://google.com'target
-            ="_blank">Goblin dans mon jardin</a></th>
-            <th><a href='https://google.com'target ="_blank">
-                Bébou</a></th>
-            <th>30/01/1999</th>
-            <th>69</th>
-        </tr>
+    <table class='table'>
+        <tbody>
+            <tr>
+                <th>Sujet</th>
+                <th>Message</th>
+                <th>Nombre de réponses</th>
+            </tr>
+            <tr>
+                <td>Goblin dans mon jardin</td>
+                <td>Attaque de gnome je ne sais pas quoi faire help svp</td>
+                <td>0 mdr ya personne sur ce site de mort</td>
+            </tr>
+        </tbody>
     </table>
 </body>
-</html>
+{% endblock body %}

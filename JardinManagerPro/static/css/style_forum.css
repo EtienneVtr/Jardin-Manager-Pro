@@ -1,18 +1,19 @@
 *{
-    margin:0;
+    margin:60;
     padding:0;
     box-sizing:border-box;
     font-family:'Poppins',sans-serif;
 }
 .Créerunsujet{
     width:100%;
-    max-width:700px;
+    max-width:400px;
     background:rgba(255,255,255,0.2);
     display:flex;
     align-items:center;
     border-radius:60px;
     padding:10px 20px;
     backdrop-filter:blur(4px) saturate(180%);
+    font-size:20px;
 }
 .barrederecherche{
     width:100%;
@@ -30,10 +31,10 @@
     border:0;
     outline:none;
     font-size:20px;
-    color:rgb(107, 119, 111);
+    color:rgb(112, 196, 105);
 }
 ::placeholder{
-    color:rgb(83, 100, 83)
+    color:rgb(112, 196, 105)
 }
 .barrederecherche button img{
     width:25px;
@@ -45,4 +46,28 @@
     height:25px;
     background:rgb(74, 77, 70);
     cursor:pointer;
+}
+
+.table{
+    font-family:sans-serif;
+    -webkit-font-smoothing:antialiased;
+    font-size:115%;
+    width:auto;
+    overflow:auto;
+    display:block;
+    padding:20px;
+}
+
+.table th{
+    background-color:rgb(112,196,105);
+    font-weight:normal;
+    color:white;
+    padding:20px 30px;
+    text-align:center;
+}
+
+.table td{
+    background-color:rgb(238,238,238);
+    padding:20px 30px;
+    color:rgb(111,111,111);
 }
