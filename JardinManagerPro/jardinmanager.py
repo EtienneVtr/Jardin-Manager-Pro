@@ -50,6 +50,8 @@ def cabanon():
 
 
 #gestion  de profil (étienne)
+
+#connection
 @app.route("/connection", methods=["GET","POST"])
 def connection():
     if request.method == "GET":
