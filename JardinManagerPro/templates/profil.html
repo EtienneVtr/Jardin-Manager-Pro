@@ -10,9 +10,14 @@
                     <img src="./../static/image/photo_profil/photoprofil.png"/>
                 </td>
                 <td>
-                    <div style="color:white;">Pseudo : </div>
-                    <div style="color:white;">Mail : </div>
-                    <div style="color:white;">Mot de passe : </div>
+                    <div style="color:white;">Pseudo : {{ pseudo }}</div>
+                    <div style="color:white;">Mail : {{ items[0][0] }}</div>
+                    <div style="color:white;">Mot de passe : 
+                        {% for lettre in items[0][1] %}
+                            *
+                        {% endfor %}
+                    </div>
+                    <div style="color:white;">Ville : {{ items[0][3] }}</div>
                 </td>
             </tr>
         </tbody>

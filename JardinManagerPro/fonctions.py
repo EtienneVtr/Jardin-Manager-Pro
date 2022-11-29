@@ -49,7 +49,7 @@ def fct_connection(pseudo, mdp):
     liste_pseudo = cursor.fetchall()
     db.close()
     
-    query = """SELECT Mdp FROM profils WHERE Pseudo LIKE (?)"""
+    query = """SELECT Mail, Mdp, Photo, Ville FROM profils WHERE Pseudo LIKE (?)"""
     args = [pseudo]
     db, cursor = connectDatabase()
     cursor.execute(query, args)
@@ -60,10 +60,11 @@ def fct_connection(pseudo, mdp):
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
     elif pseudo not in str(liste_pseudo) :
         return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
-    elif str(mdp) not in str(data):
+    elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
     else :
-        return render_template("profil.html")
+        print(data)
+        return render_template("profil.html", pseudo=pseudo, items=data)
     
 #fonction gérant l'inscription
 def fct_inscritpion(pseudo, mail, mdp, ville):
