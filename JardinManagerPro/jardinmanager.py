@@ -45,7 +45,7 @@ def creerunsujet():
         dbf.commit()
         dbf.close()
         
-        return render_template("forum.html")
+        return fct_creersujet(sujet,message)
 
 
 

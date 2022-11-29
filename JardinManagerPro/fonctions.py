@@ -68,7 +68,6 @@ def connectdbforum():
     dbf = sqlite3.connect('forum.db')
     cursor = dbf.cursor()
     cursor.execute("SELECT * from forum")
-    dbtable=cursor.fetchall()
     return dbf, cursor
 
 def initDBforum():
@@ -88,5 +87,22 @@ def initDBforum():
     dbf.commit()
     cursor.close()
     dbf.close()
+
+def fct_creersujet(sujet,message):
+    query = """SELECT * FROM forum;"""
+    args = [sujet,message]
+    dbf, cursor = connectdbforum()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbf.close()
+    
+    if data == [] :
+        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
+        args = (sujet,message)
+        dbf, cursor = connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+        return redirect("/forum")
 
 #
