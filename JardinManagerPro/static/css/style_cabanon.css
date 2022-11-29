@@ -1,11 +1,15 @@
+html{
+    color : #ffffff;
+    }
+
+
 .annonce{
-    
     padding:0.5cm 0.5cm 0.5cm 1cm;
     clear:both;
     border: solid;
     overflow:auto;
     border-radius: 80px 80px;
-    margin: 1cm 8cm;
+    margin: 1cm 1cm;
 
 }
 
@@ -21,4 +25,8 @@
     
     
 
+}
+
+.text_annonce{
+    float:right;
 }
