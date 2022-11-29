@@ -1,16 +1,12 @@
-<!doctype html>
-<html>
-<head>
-    <link rel="stylesheet" href="../static/css/style_forum.css">
-    <style>
-        table,th,td {
-            border:1px solid black;
-        }
-        </style>
-<title>Jardin Manager</title>
-
-</head>
-<body>
+ 
+{% extends "layout.html" %} 
+<style>
+    table,th,td {
+        border:1px solid black;
+    }
+    </style>
+    
+    {% block body %} 
     <h1><center>Jardin Copain</center></h1>
     <div class="Créerunsujet"> 
     <h2><a href='https://google.com'target ="_blank">
@@ -48,5 +44,4 @@
             <th>69</th>
         </tr>
     </table>
-</body>
-</html>
+    {% endblock body %}f
