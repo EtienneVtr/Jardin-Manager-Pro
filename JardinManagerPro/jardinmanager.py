@@ -30,8 +30,21 @@ def forum():
         return render_template('forum.html')
 
 
-
-
+@app.route("/creerunsujet", methods = ["GET","POST"])
+def creerunsujet():
+    if request.method == "GET" :
+        return render_template("creerunsujet.html")
+    if request.method == "POST" :
+        sujet=request.form.get("sujet")
+        message=request.form.get("message")
+        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
+        args = (sujet,message)
+        dbf, cursor = connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+        
+        return fct_creersujet(sujet,message)
 
 
 
@@ -50,13 +63,16 @@ def cabanon():
 
 
 #gestion  de profil (étienne)
+
+#connection
 @app.route("/connection", methods=["GET","POST"])
-def connextion():
+def connection():
     if request.method == "GET":
         return render_template("connection.html")
     if request.method == "POST":
         pseudo = request.form.get("pseudo")
         mdp = request.form.get("mdp")
+        return fct_connection(pseudo, mdp)
 
 
 #profil
@@ -75,20 +91,16 @@ def inscription():
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
         mdp=request.form.get("mdp")
+        ville=request.form.get("ville")
         
-        query = """INSERT INTO profils (Pseudo, Mail, Mdp) VALUES (?, ?, ?);"""
-        args = (pseudo, mail, mdp)
-        db, cursor = connectDatabase()
-        cursor.execute(query, args)
-        db.commit()
-        db.close()
-        
-        return redirect("/connection")
+        return fct_inscritpion(pseudo, mail, mdp, ville)
 
 
 #main
 if __name__ == "__main__":
     if (False):
         initDB()
+    if (False):
+        initDBforum()    
     
     app.run(debug=1, host='0.0.0.0', port='5454')
