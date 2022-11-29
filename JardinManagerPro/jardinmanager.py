@@ -24,10 +24,30 @@ def home():
 
 
 #route forum (flo)
+
+
 @app.route('/forum',methods=['GET','POST'])
 def forum():     
     if request.method=='GET':
         return render_template('forum.html')
+
+@app.route("/creerunsujet", methods = ["GET","POST"])
+def creerunsujet():
+    if request.method == "GET" :
+        return render_template("creerunsujet.html")
+    if request.method == "POST" :
+        sujet=request.form.get("sujet")
+        message=request.form.get("message")
+        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
+        args = (sujet,message)
+        dbf, cursor = connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+        
+        return fct_creersujet(sujet,message)
+
+
 
 
 
@@ -89,6 +109,13 @@ def inscription():
 #main
 if __name__ == "__main__":
     if (False):
+        initDBforum()
+    
+    app.run(debug=1, host='0.0.0.0', port='5454')
+    
+if __name__ == "__main__":
+    if (False):
         initDB()
     
     app.run(debug=1, host='0.0.0.0', port='5454')
+
