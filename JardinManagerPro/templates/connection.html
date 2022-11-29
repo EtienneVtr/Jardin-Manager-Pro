@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./../static/css/style_inscription.css">
 {% extends "layout.html" %} 
 
-{% block body %} 
+{% block profil %} 
 
 <body class="form-v9">
     <div class="page-content">
@@ -21,11 +21,7 @@
                 <div class="form-row-last">
                     <input type="submit" name="connexion" class="register" value="se connecter">
                 </div>
-                <h3>Pas encore inscrit ? Inscrivez-vous vite 
-                    <a href="/inscription">
-                        ici
-                    </a>
-                    !</h3>
+                <h3><a href="/inscription">Pas encore inscrit ? Inscrivez-vous vite ici !</a></h3>
                     
                 </div>
             </form>
@@ -34,4 +30,4 @@
 
 
 
-{% endblock %}
+{% endblock profil %}
