@@ -85,3 +85,56 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
         return redirect("/connection")
     else :
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
+    
+#base de donnéé forum
+
+def connectdbforum():
+    """
+        Function that returns db connection and the cursor to interact with the database.db file
+
+        Parameters :
+            None
+
+        Returns :
+            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
+    """
+    dbf = sqlite3.connect('forum.db')
+    cursor = dbf.cursor()
+    cursor.execute("SELECT * from forum")
+    return dbf, cursor
+
+def initDBforum():
+    query = '''
+    DROP TABLE IF EXISTS forum;
+    
+    CREATE TABLE forum
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Sujet TEXT,
+        Message TEXT,
+    );
+    
+    '''
+    dbf, cursor = connectdbforum()
+    cursor.execute(query)
+    dbf.commit()
+    cursor.close()
+    dbf.close()
+
+def fct_creersujet(sujet,message):
+    query = """SELECT * FROM forum;"""
+    args = [sujet,message]
+    dbf, cursor = connectdbforum()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbf.close()
+    
+    if data == [] :
+        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
+        args = (sujet,message)
+        dbf, cursor = connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+        return redirect("/forum")
+

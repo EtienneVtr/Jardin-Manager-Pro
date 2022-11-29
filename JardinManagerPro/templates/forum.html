@@ -1,17 +1,18 @@
- 
-{% extends "layout.html" %} 
-<style>
-    table,th,td {
-        border:1px solid black;
-    }
-    </style>
-    
-    {% block body %} 
+{% extends "layout.html" %}
+
+{% block head%}
+    <link rel="stylesheet" href="../static/css/style_forum.css">
+{% endblock head%}
+
+
+
+{% block body%}
+
     <h1><center>Jardin Copain</center></h1>
     <div class="Créerunsujet"> 
-    <h2><a href='https://google.com'target ="_blank">
+    <a href='creerunsujet'target ="_blank">
         Créer un sujet</a>
-    </h2></div>
+    </div>
     <form action="https://www.google.com/search"
         method="get" class="barrederecherche">
             <input type="text" placeholder="Rechercher un sujet"
@@ -19,29 +20,36 @@
             <button type="submit"><img src="../static/image/photo_forum/loupe.jpeg">
             </button>
     </form>
-    <table style="width:100%"> 
-        <tr>
-            <th>SUJET</th>
-            <th>AUTEUR</th>
-            <th>DATE</th>
-            <th>REPONSES</th>
-        </tr>
-        <tr>
-            <th>
-                <a href='https://google.com'target
-                ="_blank">Mes tomates sont roses help</a></th>
-            <th><a href='https://google.com'target ="_blank">
-                FunkyChris</a></th>
-            <th>22/12/2022</th>
-            <th>99</th>
-        </tr>
-        <tr>
-            <th><a href='https://google.com'target
-            ="_blank">Goblin dans mon jardin</a></th>
-            <th><a href='https://google.com'target ="_blank">
-                Bébou</a></th>
-            <th>30/01/1999</th>
-            <th>69</th>
-        </tr>
+    <table class='table'>
+        <tbody>
+            <TR><TH>id</TH>
+                <TH>sujet</TH>
+                <TH>message</TH>
+                </TR>
+                <TR><TD>1</TD>
+                <TD>a</TD>
+                <TD>aa</TD>
+                </TR>
+                <TR><TD>2</TD>
+                <TD>b</TD>
+                <TD>bb</TD>
+                </TR>
+                <TR><TD>3</TD>
+                <TD>c</TD>
+                <TD>cc</TD>
+                </TR>
+                <TR><TD>4</TD>
+                <TD>fdsfsdf</TD>
+                <TD>vfdgfdgfdg</TD>
+                </TR>
+                <TR><TD>5</TD>
+                <TD>rze</TD>
+                <TD>fdsfd</TD>
+                </TR>
+                <TR><TD>6</TD>
+                <TD>fdsfd</TD>
+                <TD>fdsfddsfdfsdfs</TD>
+                </TR>
+        </tbody>
     </table>
-    {% endblock body %}f
+{% endblock body%}
