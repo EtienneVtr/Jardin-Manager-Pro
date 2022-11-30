@@ -56,6 +56,15 @@ def cabanon():
 
 
 
+#Jardin (max et thomas)
+@app.route('/jardin')
+def jardin():
+    return render_template('jardin.html')
+
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 
 
