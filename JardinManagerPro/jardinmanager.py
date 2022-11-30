@@ -11,7 +11,6 @@ from fonctions import *
 
 # flask app creation
 app = Flask(__name__)
-#test
 
 #def des routes:
 
