@@ -78,6 +78,7 @@ def connection():
         mdp = request.form.get("mdp")
         return fct_connection(pseudo, mdp)
 
+
 #deconnexion
 @app.route("/deconnexion")
 def deconnexion():
@@ -107,6 +108,26 @@ def inscription():
         ville=request.form.get("ville")
         
         return fct_inscritpion(pseudo, mail, mdp, ville)
+        
+
+#mise a jour donnee profil
+@app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
+def maj(donnee : str):
+    if request.method == "GET" :
+        return render_template(f"maj_{ donnee }.html")
+    if request.method == "POST" :
+        if donnee == "pseudo" :
+            new_pseudo = request.form.get("new_pseudo")
+            return maj_db({ session.name }, new_pseudo)
+        elif donnee == "mail" :
+            new_mail = request.form.get("new_mail")
+            return maj_db({ session.name }, new_mail)
+        elif donnee == "mdp" :
+            new_mdp = request.form.get("new_mdp")
+            return maj_db({ session.name }, new_mdp)
+        else :
+            new_ville = request.form.get("new_ville")
+            return maj_db({ session.name }, new_ville)
 
 
 #main
