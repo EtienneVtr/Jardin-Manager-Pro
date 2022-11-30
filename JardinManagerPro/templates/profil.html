@@ -7,17 +7,50 @@
         <tbody>
             <tr>
                 <td>
-                    <img src="./../static/image/photo_profil/photoprofil.png"/>
+                    <div style="color:white;">Pseudo</div>
                 </td>
                 <td>
-                    <div style="color:white;">Pseudo : {{ pseudo }}</div>
-                    <div style="color:white;">Mail : {{ items[0][0] }}</div>
-                    <div style="color:white;">Mot de passe : 
+                    <div style="color:white;">{{ pseudo }}</div>
+                </td>
+                <td>
+                    <a href="/profil" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Changer </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="color:white;">Mail</div>
+                </td>
+                <td>
+                    <div style="color:white;">{{ items[0][0] }}</div>
+                </td>
+                <td>
+                    <a href="/profil" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Changer </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="color:white;">Mot de passe</div>
+                </td>
+                <td>
+                    <div style="color:white;"> 
                         {% for lettre in items[0][1] %}
                             *
                         {% endfor %}
                     </div>
-                    <div style="color:white;">Ville : {{ items[0][3] }}</div>
+                </td>
+                <td>
+                    <a href="/profil" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Changer </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="color:white;">Ville</div>
+                </td>
+                <td>
+                    <div style="color:white;">{{ items[0][3] }}</div>
+                </td>
+                <td>
+                    <a href="/profil" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Changer </a>
                 </td>
             </tr>
         </tbody>

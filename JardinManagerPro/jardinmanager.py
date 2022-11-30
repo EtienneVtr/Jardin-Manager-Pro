@@ -68,7 +68,7 @@ def cabanon():
 
 #gestion  de profil (étienne)
 
-#connection
+#connexion
 @app.route("/connection", methods=["GET","POST"])
 def connection():
     if request.method == "GET":
@@ -77,6 +77,12 @@ def connection():
         pseudo = request.form.get("pseudo")
         mdp = request.form.get("mdp")
         return fct_connection(pseudo, mdp)
+
+#deconnexion
+@app.route("/deconnexion")
+def deconnexion():
+    session["name"] = None
+    return redirect("/")
 
 
 #profil
