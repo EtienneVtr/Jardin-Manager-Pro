@@ -3,7 +3,7 @@ import string
 import random
 from flask import Flask, request, render_template, flash, redirect, session
 import sqlite3
-from flask.sessions import Session
+from flask_session import Session
 
 
 #importation des fonctions créée:

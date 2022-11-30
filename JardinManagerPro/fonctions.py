@@ -2,7 +2,7 @@
 import string
 import random
 from flask import Flask, request, render_template, flash, redirect, session
-from flask.sessions import Session
+from flask_session import Session
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
