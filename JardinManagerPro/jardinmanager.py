@@ -78,7 +78,7 @@ def connection():
 #profil
 @app.route("/profil")
 def profil():
-    return render_template("profil.html")
+    return redirect("/connection")
 
 
 
