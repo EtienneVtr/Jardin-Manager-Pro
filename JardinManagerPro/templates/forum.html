@@ -10,7 +10,7 @@
 
     <h1><center>Jardin Copain</center></h1>
     <div class="Créerunsujet"> 
-    <a href='creerunsujet'target ="_blank">
+    <a href='creersujet'target ="_blank">
         Créer un sujet</a>
     </div>
     <form action="https://www.google.com/search"
@@ -22,34 +22,16 @@
     </form>
     <table class='table'>
         <tbody>
-            <TR><TH>id</TH>
-                <TH>sujet</TH>
-                <TH>message</TH>
-                </TR>
-                <TR><TD>1</TD>
-                <TD>a</TD>
-                <TD>aa</TD>
-                </TR>
-                <TR><TD>2</TD>
-                <TD>b</TD>
-                <TD>bb</TD>
-                </TR>
-                <TR><TD>3</TD>
-                <TD>c</TD>
-                <TD>cc</TD>
-                </TR>
-                <TR><TD>4</TD>
-                <TD>fdsfsdf</TD>
-                <TD>vfdgfdgfdg</TD>
-                </TR>
-                <TR><TD>5</TD>
-                <TD>rze</TD>
-                <TD>fdsfd</TD>
-                </TR>
-                <TR><TD>6</TD>
-                <TD>fdsfd</TD>
-                <TD>fdsfddsfdfsdfs</TD>
-                </TR>
+            <th>
+                <td>Sujet</td>
+                <td>Message</td>
+            </th>
+            {% for row in listdb %}
+                <tr> 
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock body%}

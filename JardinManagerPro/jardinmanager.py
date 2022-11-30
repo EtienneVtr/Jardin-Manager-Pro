@@ -27,23 +27,16 @@ def home():
 @app.route('/forum',methods=['GET','POST'])
 def forum():     
     if request.method=='GET':
-        return render_template('forum.html')
+        return affichertableforum()
 
 
-@app.route("/creerunsujet", methods = ["GET","POST"])
-def creerunsujet():
+@app.route("/creersujet", methods = ["GET","POST"])
+def creersujet():
     if request.method == "GET" :
-        return render_template("creerunsujet.html")
+        return render_template("creersujet.html")
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
-        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
-        args = (sujet,message)
-        dbf, cursor = connectdbforum()
-        cursor.execute(query, args)
-        dbf.commit()
-        dbf.close()
-        
         return fct_creersujet(sujet,message)
 
 
