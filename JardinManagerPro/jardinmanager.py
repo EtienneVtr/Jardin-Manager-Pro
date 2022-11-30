@@ -1,8 +1,9 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect
+from flask import Flask, request, render_template, flash, redirect, session
 import sqlite3
+from flask.sessions import Session
 
 
 #importation des fonctions créée:
@@ -11,6 +12,9 @@ from fonctions import *
 
 # flask app creation
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 #def des routes:
 
@@ -78,8 +82,11 @@ def connection():
 #profil
 @app.route("/profil")
 def profil():
-    return redirect("/connection")
-
+    if not session.get("name"):
+        return redirect("/connection")
+    else :
+        pseudo = session.get("name")
+        return fct_profil(pseudo)
 
 
 #inscription
