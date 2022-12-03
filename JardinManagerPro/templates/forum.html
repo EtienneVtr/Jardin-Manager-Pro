@@ -1,37 +1,58 @@
+<link rel="stylesheet" href="../static/css/style_forum.css">
+<link rel="stylesheet" href="./../static/css/style_inscription.css">
+
 {% extends "layout.html" %}
 
-{% block head%}
-    <link rel="stylesheet" href="../static/css/style_forum.css">
-{% endblock head%}
-
-
-
-{% block body%}
-
-    <h1><center>Jardin Copain</center></h1>
-    <div class="Créerunsujet"> 
-    <a href='creersujet'target ="_blank">
-        Créer un sujet</a>
+{% block body %}
+<body class="form-v9">
+    <div class="page-content">
+        <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <form class="form-detail" action="/creersujet" method="post">
+                <h2>Jardin Copain</h2>
+                <div class="form-row-last">
+                    <div class="Créerunsujet"> 
+                        <a href='creersujet'target ="_blank">Créer un sujet</a>
+                    </div>
+                </div>
+            </form>
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un sujet..">
+            <table id = "myTable" class="container">
+                <thead>
+                    <tr>
+                        <th><h1>Sujet</h1></th>
+                        <th><h1>Message</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in listdb %}
+                        <tr> 
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <script>
+                function myFunction() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("myInput");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("myTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";}
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                        }
+                    }
+                }
+            </script>
+            </div>
+        </div>
     </div>
-    <form action="https://www.google.com/search"
-        method="get" class="barrederecherche">
-            <input type="text" placeholder="Rechercher un sujet"
-            name="q">
-            <button type="submit"><img src="../static/image/photo_forum/loupe.jpeg">
-            </button>
-    </form>
-    <table class='table'>
-        <tbody>
-            <th>
-                <td>Sujet</td>
-                <td>Message</td>
-            </th>
-            {% for row in listdb %}
-                <tr> 
-                        <td>{{ row[0] }}</td>
-                        <td>{{ row[1] }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock body%}
+{% endblock body %}
