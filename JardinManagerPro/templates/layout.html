@@ -70,10 +70,21 @@
               <a href="/profil" class="text-base font-medium text-white hover:text-gray-300">Profil</a>
             </div>
           </div>
+          
+          
+
+          {% if session.name %}
           <div class="hidden md:flex md:items-center md:space-x-6">
-            <a href="/connection" class="text-base font-medium text-white hover:text-gray-300"> Connexion </a>
-            <a href="/inscription" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> S'inscrire </a>
+            <a class="text-base font-medium text-white"> {{ session.name }} </a>
+            <a href="/deconnexion" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Se déconnecter </a>
           </div>
+          {% else %}
+            <div class="hidden md:flex md:items-center md:space-x-6">
+              <a href="/connection" class="text-base font-medium text-white hover:text-gray-300"> Connexion </a>
+              <a href="/inscription" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> S'inscrire </a>
+            </div>
+          {% endif %}
+          
         </nav> 
         {% block profil %} 
         {% endblock profil %}
