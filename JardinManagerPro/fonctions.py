@@ -112,7 +112,6 @@ def connectdbforum():
     """
     dbf = sqlite3.connect('forum.db')
     cursor = dbf.cursor()
-    cursor.execute("SELECT * from forum")
     return dbf, cursor
 
 def initDBforum():
@@ -134,19 +133,20 @@ def initDBforum():
     dbf.close()
 
 def fct_creersujet(sujet,message):
-    query = """SELECT * FROM forum;"""
+    query = """INSERT INTO forum (Sujet,Message) VALUES (?,?);"""
     args = [sujet,message]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
-    data = cursor.fetchall()
+    dbf.commit()
     dbf.close()
-    
-    if data == [] :
-        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
-        args = (sujet,message)
-        dbf, cursor = connectdbforum()
-        cursor.execute(query, args)
-        dbf.commit()
-        dbf.close()
-        return redirect("/forum")
+    return redirect ("/forum")
+
+def affichertableforum():
+    query="""SELECT Sujet,Message FROM forum;"""
+    dbf,cursor=connectdbforum()
+    cursor.execute(query)
+    data=cursor.fetchall()
+    dbf.close()
+
+    return render_template("forum.html", listdb=data)
 
