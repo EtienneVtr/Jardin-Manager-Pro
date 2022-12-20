@@ -89,11 +89,7 @@ def deconnexion():
 #profil
 @app.route("/profil")
 def profil():
-    if not session.get("name"):
-        return redirect("/connection")
-    else :
-        pseudo = session.get("name")
-        return fct_profil(pseudo)
+    return render_template("profil.html")
 
 
 #inscription
