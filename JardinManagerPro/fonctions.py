@@ -1,7 +1,8 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect
+from flask import Flask, request, render_template, flash, redirect, session
+from flask_session import Session
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -63,8 +64,19 @@ def fct_connection(pseudo, mdp):
     elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
     else :
-        print(data)
-        return render_template("profil.html", pseudo=pseudo, items=data)
+        session["name"] = pseudo
+        return render_template("profil.html", items = data, pseudo = pseudo)
+
+#fonction gérant affichage profil une fois connecté
+def fct_profil(pseudo):
+    query = """SELECT Mail, Mdp, Photo, Ville FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = cursor.fetchall()
+    db.close()
+    
+    return render_template("profil.html", items = data, pseudo = pseudo)
     
 #fonction gérant l'inscription
 def fct_inscritpion(pseudo, mail, mdp, ville):

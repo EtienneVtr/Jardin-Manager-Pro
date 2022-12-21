@@ -1,16 +1,20 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect
+from flask import Flask, request, render_template, flash, redirect, session
+from flask_session import Session
 import sqlite3
 
 
 #importation des fonctions créée:
 from fonctions import *
-
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 # flask app creation
 app = Flask(__name__)
+
 
 #def des routes:
 
@@ -69,6 +73,15 @@ def cabanon():
 
 
 
+#Jardin (max et thomas)
+@app.route('/jardin')
+def jardin():
+    return render_template('jardin.html')
+
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 
 
@@ -77,7 +90,7 @@ def cabanon():
 
 #gestion  de profil (étienne)
 
-#connection
+#connexion
 @app.route("/connection", methods=["GET","POST"])
 def connection():
     if request.method == "GET":
@@ -87,13 +100,20 @@ def connection():
         mdp = request.form.get("mdp")
         return fct_connection(pseudo, mdp)
 
+#deconnexion
+@app.route("/deconnexion")
+def deconnexion():
+    session["name"] = None
+    return redirect("/")
 
 #profil
 @app.route("/profil")
 def profil():
-    return redirect("/connection")
-
-
+    if not session.get("name"):
+        return redirect("/connection")
+    else :
+        pseudo = session.get("name")
+        return fct_profil(pseudo)
 
 #inscription
 @app.route("/inscription", methods = ["GET","POST"])
@@ -108,6 +128,24 @@ def inscription():
         
         return fct_inscritpion(pseudo, mail, mdp, ville)
 
+#mise a jour donnee profil
+@app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
+def maj(donnee : str):
+    if request.method == "GET" :
+        return render_template(f"maj_{ donnee }.html")
+    if request.method == "POST" :
+        if donnee == "pseudo" :
+            new_pseudo = request.form.get("new_pseudo")
+            return maj_db({ session.name }, new_pseudo)
+        elif donnee == "mail" :
+            new_mail = request.form.get("new_mail")
+            return maj_db({ session.name }, new_mail)
+        elif donnee == "mdp" :
+            new_mdp = request.form.get("new_mdp")
+            return maj_db({ session.name }, new_mdp)
+        else :
+            new_ville = request.form.get("new_ville")
+            return maj_db({ session.name }, new_ville)
 
 #main
 if __name__ == "__main__":
