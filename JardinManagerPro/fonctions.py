@@ -102,6 +102,38 @@ def connectdbforum():
     cursor = dbf.cursor()
     return dbf, cursor
 
+def connectdbreponseforum():
+    """
+        Function that returns db connection and the cursor to interact with the database.db file
+
+        Parameters :
+            None
+
+        Returns :
+            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
+    """
+    dbrf = sqlite3.connect('reponse.db')
+    cursor = dbrf.cursor()
+    return dbrf, cursor
+
+def initDBreponseforum():
+    query = '''
+    DROP TABLE IF EXISTS reponse;
+    
+    CREATE TABLE reponse
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Sujet TEXT,
+        Reponse TEXT
+    );
+    
+    '''
+    dbrf, cursor = connectdbreponseforum()
+    cursor.execute(query)
+    dbrf.commit()
+    cursor.close()
+    dbrf.close()
+
 def initDBforum():
     query = '''
     DROP TABLE IF EXISTS forum;
@@ -110,7 +142,7 @@ def initDBforum():
     (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         Sujet TEXT,
-        Message TEXT,
+        Message TEXT
     );
     
     '''
@@ -129,6 +161,15 @@ def fct_creersujet(sujet,message):
     dbf.close()
     return redirect ("/forum")
 
+def fct_creerreponse(sujet,reponse):
+    query = """INSERT INTO reponse (Sujet,Reponse) VALUES (?,?);"""
+    args = [sujet,reponse]
+    dbrf, cursor = connectdbreponseforum()
+    cursor.execute(query,args)
+    dbrf.commit()
+    dbrf.close()
+    return redirect ("/reponsesujet")
+
 def affichertableforum():
     query="""SELECT Sujet,Message FROM forum;"""
     dbf,cursor=connectdbforum()
@@ -137,4 +178,6 @@ def affichertableforum():
     dbf.close()
 
     return render_template("forum.html", listdb=data)
+
+
 

@@ -39,6 +39,26 @@ def creersujet():
         message=request.form.get("message")
         return fct_creersujet(sujet,message)
 
+@app.route("/creerreponse", methods = ["GET","POST"])
+def creerreponse():
+    if request.method == "GET" :
+        sujet=request.args.get('sujet')
+        return render_template("creerreponse.html", sujet=sujet)
+    if request.method == "POST" :
+        sujet=request.form.get('sujet')
+        reponse=request.form.get("reponse")
+        return fct_creerreponse(sujet,reponse)
+
+@app.route("/reponsesujet", methods = ["GET","POST"])
+def reponsesujet():
+    if request.method == "GET" :
+        query="""SELECT Sujet,Reponse FROM reponse;"""
+        dbrf,cursor=connectdbreponseforum()
+        cursor.execute(query)
+        data=cursor.fetchall()
+        dbrf.close()
+        return render_template("reponse.html", listdbr=data)
+
 
 
 

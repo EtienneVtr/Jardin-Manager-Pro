@@ -9,11 +9,11 @@
 <body class="form-v9">
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-            <form class="form-detail" action="/creersujet" method="post">
+            <form class="form-detail" action="/creerreponse" method="post">
                 <h2>Jardin Copain</h2>
                 <div class="form-row-last">
                     <div class="Créerunsujet"> 
-                        <a href='creersujet'target ="_blank">Créer un sujet</a>
+                        <a href='creerreponse'target ="_blank">Répondre</a>
                     </div>
                 </div>
             </form>
@@ -26,9 +26,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in listdb %}
+                    {% for row in listdbr %}
                         <tr> 
-                            <td><a href='creerreponse?sujet={{ row[0] }}' target='_blank'>{{ row[0] }}</a></td>
+                            <td>{{ row[0] }}</td>
 
                             <td>{{ row[1] }}</td>
                         </tr>
