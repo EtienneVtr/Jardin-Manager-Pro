@@ -1,16 +1,13 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect, session
-from flask_session import Session
+from flask import Flask, request, render_template, flash, redirect, session, url_for
 import sqlite3
 
 
 #importation des fonctions créée:
 from fonctions import *
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+
 
 # flask app creation
 app = Flask(__name__)
@@ -42,6 +39,28 @@ def creersujet():
         sujet=request.form.get("sujet")
         message=request.form.get("message")
         return fct_creersujet(sujet,message)
+
+@app.route("/creerreponse", methods = ["GET","POST"])
+def creerreponse():
+    if request.method == "GET" :
+        sujet=request.args.get('sujet')
+        return render_template("creerreponse.html", sujet=sujet)
+    if request.method == "POST" :
+        sujet=request.form.get('sujet')
+        reponse=request.form.get("reponse")
+        return fct_creerreponse(sujet,reponse)
+
+@app.route("/reponsesujet", methods = ["GET","POST"])
+def reponsesujet():
+    if request.method == "GET" :
+        sujet = request.args.get('sujet')
+        query="""SELECT Reponse FROM reponse WHERE Sujet=?"""
+        args=[sujet]
+        dbf,cursor=connectdbforum()
+        cursor.execute(query,args)
+        data=cursor.fetchall()
+        dbf.close()
+        return render_template("reponse.html", listdb=data,sujet=sujet)
 
 
 
