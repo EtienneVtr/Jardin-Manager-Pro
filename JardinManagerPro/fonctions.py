@@ -138,6 +138,17 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         return redirect("/profil")
     return redirect("/profil")
     
+# fonction gérant affichage profil public
+def fct_profil_public(pseudo):
+    query = """SELECT Ville FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = cursor.fetchall()
+    db.close()
+    
+    return render_template("profil_public.html", items = data, pseudo = pseudo)
+
 #base de donnéé forum
 
 def connectdbforum():

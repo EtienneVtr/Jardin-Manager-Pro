@@ -129,6 +129,11 @@ def maj(donnee : str):
             new_ville = request.form.get("new_ville")
             return maj_db(pseudo, new_ville, "Ville")
 
+#profil public
+@app.route("/user/<string:donnee>")
+def user(donnee : str):
+    return fct_profil_public(donnee)
+
 #main
 if __name__ == "__main__":
     if (False):
