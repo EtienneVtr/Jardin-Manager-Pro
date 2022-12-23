@@ -1,8 +1,7 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect, session
-from flask_session import Session
+from flask import Flask, request, render_template, flash, redirect, session, url_for
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -114,24 +113,6 @@ def connectdbforum():
     cursor = dbf.cursor()
     return dbf, cursor
 
-def initDBforum():
-    query = '''
-    DROP TABLE IF EXISTS forum;
-    
-    CREATE TABLE forum
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Sujet TEXT,
-        Message TEXT,
-    );
-    
-    '''
-    dbf, cursor = connectdbforum()
-    cursor.execute(query)
-    dbf.commit()
-    cursor.close()
-    dbf.close()
-
 def fct_creersujet(sujet,message):
     query = """INSERT INTO forum (Sujet,Message) VALUES (?,?);"""
     args = [sujet,message]
@@ -141,6 +122,15 @@ def fct_creersujet(sujet,message):
     dbf.close()
     return redirect ("/forum")
 
+def fct_creerreponse(sujet,reponse):
+    query = """INSERT INTO reponse (Sujet,Reponse) VALUES (?,?);"""
+    args = [sujet,reponse]
+    dbf, cursor = connectdbforum()
+    cursor.execute(query,args)
+    dbf.commit()
+    dbf.close()
+    return redirect(url_for('reponsesujet',sujet=sujet))
+
 def affichertableforum():
     query="""SELECT Sujet,Message FROM forum;"""
     dbf,cursor=connectdbforum()
@@ -149,4 +139,6 @@ def affichertableforum():
     dbf.close()
 
     return render_template("forum.html", listdb=data)
+
+
 
