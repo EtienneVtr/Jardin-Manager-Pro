@@ -1,8 +1,7 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect, session
-from flask_session import Session
+from flask import Flask, request, render_template, flash, redirect, session, url_for
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -114,56 +113,6 @@ def connectdbforum():
     cursor = dbf.cursor()
     return dbf, cursor
 
-def connectdbreponseforum():
-    """
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    dbrf = sqlite3.connect('reponse.db')
-    cursor = dbrf.cursor()
-    return dbrf, cursor
-
-def initDBreponseforum():
-    query = '''
-    DROP TABLE IF EXISTS reponse;
-    
-    CREATE TABLE reponse
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Sujet TEXT,
-        Reponse TEXT
-    );
-    
-    '''
-    dbrf, cursor = connectdbreponseforum()
-    cursor.execute(query)
-    dbrf.commit()
-    cursor.close()
-    dbrf.close()
-
-def initDBforum():
-    query = '''
-    DROP TABLE IF EXISTS forum;
-    
-    CREATE TABLE forum
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Sujet TEXT,
-        Message TEXT
-    );
-    
-    '''
-    dbf, cursor = connectdbforum()
-    cursor.execute(query)
-    dbf.commit()
-    cursor.close()
-    dbf.close()
-
 def fct_creersujet(sujet,message):
     query = """INSERT INTO forum (Sujet,Message) VALUES (?,?);"""
     args = [sujet,message]
@@ -176,11 +125,11 @@ def fct_creersujet(sujet,message):
 def fct_creerreponse(sujet,reponse):
     query = """INSERT INTO reponse (Sujet,Reponse) VALUES (?,?);"""
     args = [sujet,reponse]
-    dbrf, cursor = connectdbreponseforum()
+    dbf, cursor = connectdbforum()
     cursor.execute(query,args)
-    dbrf.commit()
-    dbrf.close()
-    return redirect ("/reponsesujet")
+    dbf.commit()
+    dbf.close()
+    return redirect(url_for('reponsesujet',sujet=sujet))
 
 def affichertableforum():
     query="""SELECT Sujet,Message FROM forum;"""

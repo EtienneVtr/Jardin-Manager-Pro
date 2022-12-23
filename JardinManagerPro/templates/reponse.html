@@ -13,24 +13,27 @@
                 <h2>Jardin Copain</h2>
                 <div class="form-row-last">
                     <div class="Créerunsujet"> 
-                        <a href='creerreponse'target ="_blank">Répondre</a>
+                        <a href='creerreponse?sujet={{ sujet }}'target ="_blank">Répondre</a>
                     </div>
                 </div>
             </form>
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un sujet..">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
+            <div class="form-v9-vontent">
+                Sujet : {{ sujet }}
+            </div>
             <table id = "myTable" class="container">
                 <thead>
                     <tr>
-                        <th><h1>Sujet</h1></th>
-                        <th><h1>Message</h1></th>
+                        <th><h1>Réponses</h1></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in listdbr %}
+                    {% for row in listdb %}
                         <tr> 
                             <td>{{ row[0] }}</td>
 
-                            <td>{{ row[1] }}</td>
+                            
                         </tr>
                     {% endfor %}
                 </tbody>
