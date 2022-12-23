@@ -98,6 +98,46 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
     else :
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
     
+# fonction pour changer de pseudo,...
+def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
+    if donnee_a_changer == "Pseudo":
+        query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    elif donnee_a_changer == "Mail":
+        query = """UPDATE profils SET Mail = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    elif donnee_a_changer == "Mdp":
+        query = """UPDATE profils SET Mdp = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    else :
+        query = """UPDATE profils SET Ville = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    return redirect("/profil")
+    
 #base de donnéé forum
 
 def connectdbforum():
