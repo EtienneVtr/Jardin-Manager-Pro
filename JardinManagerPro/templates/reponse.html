@@ -25,6 +25,8 @@
                 <thead>
                     <tr>
                         <th><h1>Réponses</h1></th>
+                        <th><h1>Utilisateur</h1></th>
+                        <th><h1>Date</h1></th>
                         
                     </tr>
                 </thead>
@@ -32,6 +34,8 @@
                     {% for row in listdb %}
                         <tr> 
                             <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
 
                             
                         </tr>

@@ -1,7 +1,9 @@
 # imports
 import string
 import random
+import datetime
 from flask import Flask, request, render_template, flash, redirect, session, url_for
+from flask_session import Session
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -113,18 +115,18 @@ def connectdbforum():
     cursor = dbf.cursor()
     return dbf, cursor
 
-def fct_creersujet(sujet,message):
-    query = """INSERT INTO forum (Sujet,Message) VALUES (?,?);"""
-    args = [sujet,message]
+def fct_creersujet(sujet,message,pseudo,date):
+    query = """INSERT INTO forum (Sujet,Message,pseudo,date) VALUES (?,?,?,?);"""
+    args = [sujet,message,pseudo,date]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
     dbf.commit()
     dbf.close()
     return redirect ("/forum")
 
-def fct_creerreponse(sujet,reponse):
-    query = """INSERT INTO reponse (Sujet,Reponse) VALUES (?,?);"""
-    args = [sujet,reponse]
+def fct_creerreponse(sujet,reponse,pseudo,date):
+    query = """INSERT INTO reponse (Sujet,Reponse,pseudo,date) VALUES (?,?,?,?);"""
+    args = [sujet,reponse,pseudo,date]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
     dbf.commit()
@@ -132,13 +134,19 @@ def fct_creerreponse(sujet,reponse):
     return redirect(url_for('reponsesujet',sujet=sujet))
 
 def affichertableforum():
-    query="""SELECT Sujet,Message FROM forum;"""
+    query="""SELECT Sujet,Message,pseudo,date FROM forum;"""
     dbf,cursor=connectdbforum()
     cursor.execute(query)
     data=cursor.fetchall()
     dbf.close()
 
     return render_template("forum.html", listdb=data)
+
+#def initdbforum():
+#    CREATE TABLE forum( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Message TEXT, pseudo TEXT,date TEXT);
+#def initdbreponseforum():
+#    CREATE TABLE reponse( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Reponse TEXT, pseudo TEXT,date TEXT);
+#Au cas ou
 
 
 
