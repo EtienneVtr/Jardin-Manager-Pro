@@ -11,12 +11,10 @@
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <form class="form-detail" action="/creersujet" method="post">
                 <h2>Jardin Copain</h2>
-                <div class="form-row-last">
-                    <div class="Créerunsujet"> 
-                        <a href='creersujet'target ="_blank">Créer un sujet</a>
-                    </div>
-                </div>
             </form>
+            <div class="Créerunsujet"> 
+                <a href='creersujet'target ="_blank">Créer un sujet</a>
+            </div>
             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un sujet..">
             <table id = "myTable" class="container">
                 <thead>
@@ -30,10 +28,9 @@
                 <tbody>
                     {% for row in listdb %}
                         <tr> 
-                            <td><a href='reponsesujet?sujet={{ row[0] }}' target='_blank'>{{ row[0] }}</a></td>
-
-                            <td>{{ row[1] }}</td>
-                            <td>{{ row[2] }}</td>
+                            <td style="max-width: 240px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='reponsesujet?sujet={{ row[0] }}' target='_blank'>{{ row[0] }}</a></td>
+                            <td style="max-width: 500px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[1] }}</td>
+                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[2] }}</td>
                             <td>{{ row[3] }}</td>
                         </tr>
                     {% endfor %}
