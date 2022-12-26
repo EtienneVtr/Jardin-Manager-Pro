@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="./../static/css/style_inscription.css">
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div style="color:white;">Pseudo</div>
+                </td>
+                <td>
+                    <div style="color:white;">{{ pseudo }}</div>
+                </td>
+                <tr>
+                    <td>
+                        <div style="color:white;">Ville</div>
+                    </td>
+                    <td>
+                        <div style="color:white;">{{ items[0][0] }}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+{% endblock %}
