@@ -17,8 +17,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
-
 #def des routes:
 
 #/home (max)
@@ -145,18 +143,25 @@ def maj(donnee : str):
     if request.method == "GET" :
         return render_template(f"maj_{ donnee }.html")
     if request.method == "POST" :
+        pseudo = session.get("name")
         if donnee == "pseudo" :
             new_pseudo = request.form.get("new_pseudo")
-            return maj_db({ session.name }, new_pseudo)
+            session["name"] = new_pseudo
+            return maj_db(pseudo, new_pseudo, "Pseudo")
         elif donnee == "mail" :
             new_mail = request.form.get("new_mail")
-            return maj_db({ session.name }, new_mail)
+            return maj_db(pseudo, new_mail, "Mail")
         elif donnee == "mdp" :
             new_mdp = request.form.get("new_mdp")
-            return maj_db({ session.name }, new_mdp)
+            return maj_db(pseudo, new_mdp, "Mdp")
         else :
             new_ville = request.form.get("new_ville")
-            return maj_db({ session.name }, new_ville)
+            return maj_db(pseudo, new_ville, "Ville")
+        
+#profil public
+@app.route("/user/<string:donnee>")
+def user(donnee : str):
+    return fct_profil_public(donnee)
 
 #main
 if __name__ == "__main__":
