@@ -42,13 +42,14 @@ def creersujet():
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
-        if  session['name']== None :
-            return render_template("connection.html")      
-        else :
+        if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creersujet(sujet,message,pseudo,date)
+        else :
+            return render_template("connection.html")
+            
 
 @app.route("/creerreponse", methods = ["GET","POST"])
 def creerreponse():
@@ -58,13 +59,14 @@ def creerreponse():
     if request.method == "POST" :
         sujet=request.form.get('sujet')
         reponse=request.form.get("reponse")
-        if  session['name']== None :
-            return render_template("connection.html")
-        else :
+        if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creerreponse(sujet,reponse,pseudo,date)
+        else :
+            return render_template("connection.html")
+            
 
 @app.route("/reponsesujet", methods = ["GET","POST"])
 def reponsesujet():
