@@ -102,7 +102,7 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
         cursor.execute(query, args)
         db.commit()
         db.close()
-        flash("Inscription réussie !")
+        flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !")
         return redirect("/connection")
     else :
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
