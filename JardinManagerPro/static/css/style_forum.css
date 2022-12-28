@@ -1,13 +1,4 @@
-@charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
 .Créerunsujet{
   width:100%;
   max-width:201px;
@@ -103,6 +94,10 @@ h2 a {
   -webkit-box-shadow: 0 2px 2px -2px #0E1119;
 	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
 	        box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+#myTable tbody tr:hover {
+  background-color: #795f5f;
 }
 
 .container {
