@@ -40,7 +40,15 @@ def initDB():
     db.commit()
     cursor.close()
     db.close()
-    
+
+#fonction qui cherche les pseudos dans la liste de pseudo
+def verif_pseudo(pseudo,liste):
+    for i in range(len(liste)):
+        print(liste[i][0])
+        if pseudo == liste[i][0]:
+            return True
+    return False
+
 #fonction gérant la connection
 def fct_connection(pseudo, mdp):
     query = """SELECT Pseudo FROM profils"""
@@ -55,15 +63,17 @@ def fct_connection(pseudo, mdp):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    
+    print(pseudo)
+    print(liste_pseudo[0][0])
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
-    elif pseudo not in str(liste_pseudo) :
+    elif verif_pseudo(pseudo,liste_pseudo) == False :
         return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
     elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
     else :
         session["name"] = pseudo
+        flash("Connexion réussie !")
         return render_template("profil.html", items = data, pseudo = pseudo)
 
 #fonction gérant affichage profil une fois connecté
@@ -93,6 +103,7 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
         cursor.execute(query, args)
         db.commit()
         db.close()
+        flash("Inscription réussie !")
         return redirect("/connection")
     else :
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
