@@ -11,27 +11,29 @@
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <form class="form-detail" action="/creerreponse" method="post">
                 <h2>Jardin Copain</h2>
-                <div class="form-row-last">
-                    <div class="Créerunsujet"> 
-                        <a href='creerreponse?sujet={{ sujet }}'target ="_blank">Répondre</a>
-                    </div>
-                </div>
             </form>
+            <div class="Créerunsujet" style="max-width:150px;"> 
+                <a href='creerreponse?sujet={{ sujet }}'target ="_blank">Répondre</a>
+            </div>
             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
-            <div class="form-v9-vontent">
+            <div class="form-v9-vontent" style="margin-bottom:10px;">
                 Sujet : {{ sujet }}
             </div>
             <table id = "myTable" class="container">
                 <thead>
                     <tr>
                         <th><h1>Réponses</h1></th>
+                        <th><h1>Auteur</h1></th>
+                        <th><h1>Date</h1></th>
                         
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in listdb %}
                         <tr> 
-                            <td>{{ row[0] }}</td>
+                            <td style="color:white; max-width: 740px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[0] }}</td>
+                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}' target='_blank'>{{ row[1] }}</a></td>
+                            <td>{{ row[2] }}</td>
 
                             
                         </tr>
