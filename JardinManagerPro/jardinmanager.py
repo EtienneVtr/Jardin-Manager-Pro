@@ -26,8 +26,6 @@ def home():
 
 
 
-
-
 #route forum (flo)
 @app.route('/forum',methods=['GET','POST'])
 def forum():     
