@@ -209,3 +209,84 @@ def affichertableforum():
 
 
 
+
+#Base de donné mon jardin: (thomas)
+def connectdbjardin():
+    """
+        Function that returns db connection and the cursor to interact with the database.db file
+
+        Parameters :
+            None
+
+        Returns :
+            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
+    """
+    dbj = sqlite3.connect('jardin.db')
+    cursor = dbj.cursor()
+    return dbj, cursor
+
+def initDBjardin():
+    query = '''
+    DROP TABLE IF EXISTS jardin;
+    
+    CREATE TABLE jardin
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        culture TEXT,
+        largeur INTEGER,
+        longueur INTEGER,
+        dernier_arrosage DATETIME,
+        futur_arrosage DATETIME
+        
+    );
+    
+    '''
+    dbj, cursor = connectdbjardin()
+    cursor.executescript(query)
+    dbj.commit()
+    cursor.close()
+    dbj.close()
+    
+#base de données de légume et fruit
+def connectdblegume():
+    """
+        
+        Function that returns db connection and the cursor to interact with the database.db file
+
+        Parameters :
+            None
+
+        Returns :
+            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
+    """
+    dbl = sqlite3.connect('legume.db')
+    cursor = dbl.cursor()
+    return dbl, cursor
+
+def initDBlegume():
+    """
+        Stocke la liste des fruits et légumes ainsi que des informations sur chacun
+    """
+    
+    query = '''
+    DROP TABLE IF EXISTS legume;
+    
+    CREATE TABLE legume
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nom_vegetal TEXT,
+        type_vegetal TEXT,
+        photo TEXT,
+        eau TEXT,
+        conservation TEXT
+        
+    );
+    
+    '''
+    dbl, cursor = connectdblegume()
+    cursor.executescript(query)
+    dbl.commit()
+    cursor.close()
+    dbl.close()
+
+
