@@ -44,7 +44,6 @@ def initDB():
 #fonction qui cherche les pseudos dans la liste de pseudo
 def verif_pseudo(pseudo,liste):
     for i in range(len(liste)):
-        print(liste[i][0])
         if pseudo == liste[i][0]:
             return True
     return False
@@ -63,8 +62,6 @@ def fct_connection(pseudo, mdp):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    print(pseudo)
-    print(liste_pseudo[0][0])
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
     elif verif_pseudo(pseudo,liste_pseudo) == False :
