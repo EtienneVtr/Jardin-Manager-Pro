@@ -9,29 +9,33 @@
 <body class="form-v9">
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-            <form class="form-detail" action="/creersujet" method="post">
+            <form class="form-detail" action="/creerreponse" method="post">
                 <h2>Jardin Copain</h2>
             </form>
-            <div class="Créerunsujet"> 
-                <a href='creersujet'target ="_blank">Créer un sujet</a>
+            <div class="Créerunsujet" style="max-width:150px;"> 
+                <a href='creerreponse?sujet={{ sujet }}'target ="_blank">Répondre</a>
             </div>
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un sujet..">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
+            <div class="form-v9-vontent" style="margin-bottom:10px;">
+                Sujet : {{ sujet }}
+            </div>
             <table id = "myTable" class="container">
                 <thead>
                     <tr>
-                        <th><h1>Sujet</h1></th>
-                        <th><h1>Message</h1></th>
+                        <th><h1>Réponses</h1></th>
                         <th><h1>Auteur</h1></th>
                         <th><h1>Date</h1></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in listdb %}
                         <tr> 
-                            <td style="max-width: 240px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='reponsesujet?sujet={{ row[0] }}' target='_blank'>{{ row[0] }}</a></td>
-                            <td style="max-width: 450px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[1] }}</td>
-                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[2] }}' target='_blank'>{{ row[2] }}</a></td>
-                            <td>{{ row[3] }}</td>
+                            <td style="color:white; max-width: 740px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[0] }}</td>
+                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}' target='_blank'>{{ row[1] }}</a></td>
+                            <td>{{ row[2] }}</td>
+
+                            
                         </tr>
                     {% endfor %}
                 </tbody>

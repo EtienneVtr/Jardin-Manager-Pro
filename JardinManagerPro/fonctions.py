@@ -1,7 +1,9 @@
 # imports
 import string
 import random
-from flask import Flask, request, render_template, flash, redirect
+import datetime
+from flask import Flask, request, render_template, flash, redirect, session, url_for
+from flask_session import Session
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -63,8 +65,19 @@ def fct_connection(pseudo, mdp):
     elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
     else :
-        print(data)
-        return render_template("profil.html", pseudo=pseudo, items=data)
+        session["name"] = pseudo
+        return render_template("profil.html", items = data, pseudo = pseudo)
+
+#fonction gérant affichage profil une fois connecté
+def fct_profil(pseudo):
+    query = """SELECT Mail, Mdp, Photo, Ville FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = cursor.fetchall()
+    db.close()
+    
+    return render_template("profil.html", items = data, pseudo = pseudo)
     
 #fonction gérant l'inscription
 def fct_inscritpion(pseudo, mail, mdp, ville):
@@ -86,6 +99,57 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
     else :
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
     
+# fonction pour changer de pseudo,...
+def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
+    if donnee_a_changer == "Pseudo":
+        query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    elif donnee_a_changer == "Mail":
+        query = """UPDATE profils SET Mail = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    elif donnee_a_changer == "Mdp":
+        query = """UPDATE profils SET Mdp = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    else :
+        query = """UPDATE profils SET Ville = ? WHERE Pseudo LIKE ?;"""
+        args = [nouvelle_donnee,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        
+        return redirect("/profil")
+    return redirect("/profil")
+    
+# fonction gérant affichage profil public
+def fct_profil_public(pseudo):
+    query = """SELECT Ville FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = cursor.fetchall()
+    db.close()
+    
+    return render_template("profil_public.html", items = data, pseudo = pseudo)
+    
 #base de donnéé forum
 
 def connectdbforum():
@@ -100,41 +164,40 @@ def connectdbforum():
     """
     dbf = sqlite3.connect('forum.db')
     cursor = dbf.cursor()
-    cursor.execute("SELECT * from forum")
     return dbf, cursor
 
-def initDBforum():
-    query = '''
-    DROP TABLE IF EXISTS forum;
-    
-    CREATE TABLE forum
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Sujet TEXT,
-        Message TEXT,
-    );
-    
-    '''
-    dbf, cursor = connectdbforum()
-    cursor.execute(query)
-    dbf.commit()
-    cursor.close()
-    dbf.close()
-
-def fct_creersujet(sujet,message):
-    query = """SELECT * FROM forum;"""
-    args = [sujet,message]
+def fct_creersujet(sujet,message,pseudo,date):
+    query = """INSERT INTO forum (Sujet,Message,pseudo,date) VALUES (?,?,?,?);"""
+    args = [sujet,message,pseudo,date]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
-    data = cursor.fetchall()
+    dbf.commit()
     dbf.close()
-    
-    if data == [] :
-        query = """INSERT INTO forum (Sujet,Message) VALUES (?, ?);"""
-        args = (sujet,message)
-        dbf, cursor = connectdbforum()
-        cursor.execute(query, args)
-        dbf.commit()
-        dbf.close()
-        return redirect("/forum")
+    return redirect ("/forum")
+
+def fct_creerreponse(sujet,reponse,pseudo,date):
+    query = """INSERT INTO reponse (Sujet,Reponse,pseudo,date) VALUES (?,?,?,?);"""
+    args = [sujet,reponse,pseudo,date]
+    dbf, cursor = connectdbforum()
+    cursor.execute(query,args)
+    dbf.commit()
+    dbf.close()
+    return redirect(url_for('reponsesujet',sujet=sujet))
+
+def affichertableforum():
+    query="""SELECT Sujet,Message,pseudo,date FROM forum;"""
+    dbf,cursor=connectdbforum()
+    cursor.execute(query)
+    data=cursor.fetchall()
+    dbf.close()
+
+    return render_template("forum.html", listdb=data)
+
+#def initdbforum():
+#    CREATE TABLE forum( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Message TEXT, pseudo TEXT,date TEXT);
+#def initdbreponseforum():
+#    CREATE TABLE reponse( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Reponse TEXT, pseudo TEXT,date TEXT);
+#Au cas ou
+
+
 
