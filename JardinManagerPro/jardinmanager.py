@@ -113,6 +113,7 @@ def connection():
 @app.route("/deconnexion")
 def deconnexion():
     session["name"] = None
+    flash("Déconnexion réussie !")
     return redirect("/")
 
 #profil
