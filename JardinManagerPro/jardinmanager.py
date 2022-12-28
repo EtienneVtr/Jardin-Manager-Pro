@@ -175,6 +175,11 @@ if __name__ == "__main__":
     if (False):
         initDB()
     if (False):
-        initDBforum()    
+        initDBforum()   
+    if (False):
+        initDBjardin()
+    if (True):
+        initDBlegume()
+ 
     
     app.run(debug=1, host='0.0.0.0', port='5454')
