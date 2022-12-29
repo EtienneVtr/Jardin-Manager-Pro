@@ -1,5 +1,8 @@
-<link rel="stylesheet" href="./../static/css/style_inscription.css">
 {% extends "layout.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="./../static/css/style_inscription.css">
+{%endblock head %}
 
 {% block body %}
 
@@ -8,11 +11,11 @@
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <form class="form-detail" action="/maj/ville" method="post">
                 <h2>Changer votre ville</h2>
-                <div class="form-row-total">
-                    <div class="form-row">
-                        <input autocomplete="off" autofocus type="text" name="new_ville" id="new_ville" class="input-text" placeholder="Nouvelle ville" required>
-                    </div>
+                
+                <div class="form-row-maj">
+                    <input autocomplete="off" autofocus type="text" name="new_ville" id="new_ville" class="input-text" placeholder="Nouvelle ville" required>
                 </div>
+               
                 <div class="form-row-last">
                     <input type="submit" name="changer" class="register" value="Changer">
                 </div>
