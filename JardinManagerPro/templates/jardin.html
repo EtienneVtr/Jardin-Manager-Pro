@@ -5,14 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="stylesheet" href="../static/css/style_mon_jardin.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <!-- CSS Jardin 2D max-->
+  <link rel="stylesheet" type="text/css" href="../static/css/test.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Appel de la Feuille de style minifiée De La librairie Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Appel de la Feuille de style minifiée De l'extension Datepicker -->
   <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-  <!-- Activation du script calendrier-->
-  <script src="../static/JS/script_calendrier.js"></script>
+  
+
 
   <title>Mon Jardin</title>
   
@@ -26,9 +28,39 @@
     <br>
     <br>
     <br>
+
+
+
     <div class="jardin_2D">
-        Ici ajouter 
+        <!-- Formulaire pour sélectionner la taille de la grille -->
+        <form id="form">
+            Largeur : <input type="number" id="width"><br>
+            Hauteur : <input type="number" id="height"><br>
+            <button type="submit">Générer</button>
+            <button type="reset" id="reset">Réinitialiser</button>
+        </form>
+        
+        <!-- Menu déroulant pour sélectionner le légume à ajouter -->
+        <div id="button-container">
+            <select id="vegetable-select">
+            <option value="">Choisissez le légume à planter</option>
+            <option value="carrot">Carotte</option>
+            <option value="tomato">Tomate</option>
+            </select>
+        
+            <button class="delete">🗑️</button>
+            <button class="clear-all">Effacer tout</button>
+            <button id="delete-cell">Supprimer case</button>
+        
+        </div>
+            
+    
     </div>
+
+
+
+
+
 
     <br>
     <br>
@@ -93,5 +125,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>      
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+        <!-- Script jardin 2D max -->
+        <script src="../static/JS/garden.js"></script>
+        <!-- Activation du script calendrier-->
+        <script src="../static/JS/script_calendrier.js"></script>
+        
+        
 </body>
