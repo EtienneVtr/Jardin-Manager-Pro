@@ -43,12 +43,17 @@ def initDB():
     cursor.close()
     db.close()
 
+#LES DONNEES RECUPEREES DANS LA BASE DE DONNE SONT DE LA FORME SUIVANTE : data=[('donne1',),]
+#C'EST UNE LISTE DE LISTE !!!!!
+#ON A DONC data[0][0] = donne1
+
 #fonction qui vérifie qu'une donnée n'est pas déjà dans la liste donnée en entrée
 def verif_donnee(donnee,liste):
     for i in range(len(liste)):
         if donnee == liste[i][0]:
             return True
     return False
+
 
 #fonction qui vérifie si c'est le bon mot de passe
 def verif_mdp(pseudo,mdp):
@@ -64,33 +69,45 @@ def verif_mdp(pseudo,mdp):
     else :
         return False
 
+
 #fonction gérant la connection
 def fct_connection(pseudo, mdp):
+    #on récupère la liste de pseudo
     query = """SELECT Pseudo FROM profils"""
     db, cursor = connectDatabase()
     cursor.execute(query)
     liste_pseudo = cursor.fetchall()
     db.close()
     
+    #on récupère le mail, la ville, la photo et le mdp associés au pseudo donné en entrée
     query = """SELECT Mail, Mdp, Photo, Ville FROM profils WHERE Pseudo LIKE (?)"""
     args = [pseudo]
     db, cursor = connectDatabase()
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
+    
+    #on vérifie que les champs ne sont pas vides
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
+    
+    #on vérifie que le pseudo est déjà dans la base de donnée
     elif verif_donnee(pseudo,liste_pseudo) == False :
         return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
+    
+    #on vérifie que c'est le bon mot de passe
     elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
+    
     else :
         session["name"] = pseudo
         flash("Connexion réussie !")
         return render_template("profil.html", items = data, pseudo = pseudo)
 
+
 #fonction gérant affichage profil une fois connecté
 def fct_profil(pseudo):
+    #récupération des données liées au pseudo donné en entrée
     query = """SELECT Mail, Mdp, Photo, Ville FROM profils WHERE Pseudo LIKE (?)"""
     args = [pseudo]
     db, cursor = connectDatabase()
@@ -100,8 +117,10 @@ def fct_profil(pseudo):
     
     return render_template("profil.html", items = data, pseudo = pseudo)
     
+    
 #fonction gérant l'inscription
 def fct_inscritpion(pseudo, mail, mdp, ville):
+    #on récupère les pseudos pour vérifier si l'adresse mail ou le pseudo existent déjà dans la database
     query = """SELECT Pseudo FROM Profils WHERE (Pseudo LIKE (?) OR Mail LIKE (?));"""
     args = [pseudo,mail]
     db, cursor = connectDatabase()
@@ -109,7 +128,9 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
     data = cursor.fetchall()
     db.close()
     
+    #il ne faut pas qu'il y ait de pseudo lié au pseudo donné en entrée pour garantir l'unicité
     if data == [] :
+        #ici on insert une nouvelle ligne dans la base de donnée
         query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
         args = (pseudo, mail, mdp, ville)
         db, cursor = connectDatabase()
@@ -117,13 +138,19 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
         db.commit()
         db.close()
         flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !")
+        
         return redirect("/connection")
+    
     else :
+        
         return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
+    
     
 # fonction pour changer de pseudo,...
 def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
+    #on différencie les cas suivant s'il faut changer le mail,...
     if donnee_a_changer == "Pseudo":
+        #on récupère la liste des pseudos de la base de donnée afin de garantir l'unicité du nouveau pseudo
         query = """SELECT Pseudo FROM profils"""
         db, cursor = connectDatabase()
         cursor.execute(query)
@@ -131,17 +158,22 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         db.close()
         
         if verif_donnee(nouvelle_donnee,liste_pseudo)==False:
+            #mise à jour de la base de donnée
             query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
             args = [nouvelle_donnee,pseudo]
             db, cursor = connectDatabase()
             cursor.execute(query,args)
             db.commit()
             db.close()
+            
             return redirect("/profil")
+        
         else :
+            
             return render_template("error_maj_profil.html", message="Ce pseudo est déjà utilisé ! Veuillez en choisir un autre !")
     
     elif donnee_a_changer == "Mail":
+        #idem que pour la liste de pseudo
         query = """SELECT Mail FROM profils"""
         db, cursor = connectDatabase()
         cursor.execute(query)
@@ -149,26 +181,33 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         db.close()
         
         if verif_donnee(nouvelle_donnee,liste_mail) == False:
+            #mise a jour de la base de donnée
             query = """UPDATE profils SET Mail = ? WHERE Pseudo LIKE ?;"""
             args = [nouvelle_donnee,pseudo]
             db, cursor = connectDatabase()
             cursor.execute(query,args)
             db.commit()
             db.close()
+            
             return redirect("/profil")
+        
         else :
+            
             return render_template("error_maj_profil.html", message="Ce mail est déjà utilisé ! Veuillez en choisir une autre !")
         
     elif donnee_a_changer == "Mdp":
+        #mise a jour de la base de donnée
         query = """UPDATE profils SET Mdp = ? WHERE Pseudo LIKE ?;"""
         args = [nouvelle_donnee,pseudo]
         db, cursor = connectDatabase()
         cursor.execute(query,args)
         db.commit()
         db.close()
+        
         return redirect("/profil")
     
     else :
+        #mise a jour de la base de donnée
         query = """UPDATE profils SET Ville = ? WHERE Pseudo LIKE ?;"""
         args = [nouvelle_donnee,pseudo]
         db, cursor = connectDatabase()
@@ -180,6 +219,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
     
 # fonction gérant affichage profil public
 def fct_profil_public(pseudo):
+    #on récupère les données liées au pseudo
     query = """SELECT Ville FROM profils WHERE Pseudo LIKE (?)"""
     args = [pseudo]
     db, cursor = connectDatabase()
