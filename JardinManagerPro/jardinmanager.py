@@ -26,6 +26,8 @@ def home():
 
 
 
+
+
 #route forum (flo)
 @app.route('/forum',methods=['GET','POST'])
 def forum():     
@@ -40,14 +42,13 @@ def creersujet():
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
-        if  ('name' in session) and (session['name']!=None):
+        if  session['name']== None :
+            return render_template("connection.html")      
+        else :
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creersujet(sujet,message,pseudo,date)
-        else :
-            return render_template("connection.html")
-            
 
 @app.route("/creerreponse", methods = ["GET","POST"])
 def creerreponse():
@@ -57,14 +58,13 @@ def creerreponse():
     if request.method == "POST" :
         sujet=request.form.get('sujet')
         reponse=request.form.get("reponse")
-        if  ('name' in session) and (session['name']!=None):
+        if  session['name']== None :
+            return render_template("connection.html")
+        else :
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creerreponse(sujet,reponse,pseudo,date)
-        else :
-            return render_template("connection.html")
-            
 
 @app.route("/reponsesujet", methods = ["GET","POST"])
 def reponsesujet():
