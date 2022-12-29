@@ -159,8 +159,12 @@ def maj(donnee : str):
             new_mail = request.form.get("new_mail")
             return maj_db(pseudo, new_mail, "Mail")
         elif donnee == "mdp" :
-            new_mdp = request.form.get("new_mdp")
-            return maj_db(pseudo, new_mdp, "Mdp")
+            ancien_mdp = request.form.get("ancien_mdp")
+            if verif_mdp(pseudo,ancien_mdp):
+                new_mdp = request.form.get("new_mdp")
+                return maj_db(pseudo, new_mdp, "Mdp")
+            else :
+                return render_template("error_maj_profil.html", message="Vous vous êtes trompés dans votre ancien mot de passe !")
         else :
             new_ville = request.form.get("new_ville")
             return maj_db(pseudo, new_ville, "Ville")

@@ -43,12 +43,26 @@ def initDB():
     cursor.close()
     db.close()
 
-#fonction qui cherche les pseudos dans la liste de pseudo
-def verif_pseudo(pseudo,liste):
+#fonction qui vérifie qu'une donnée n'est pas déjà dans la liste donnée en entrée
+def verif_donnee(donnee,liste):
     for i in range(len(liste)):
-        if pseudo == liste[i][0]:
+        if donnee == liste[i][0]:
             return True
     return False
+
+#fonction qui vérifie si c'est le bon mot de passe
+def verif_mdp(pseudo,mdp):
+    query = """SELECT Mdp FROM profils WHERE Pseudo LIKE (?)"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query, args)
+    data = cursor.fetchall()
+    db.close()
+    
+    if data[0][0] == str(mdp):
+        return True
+    else :
+        return False
 
 #fonction gérant la connection
 def fct_connection(pseudo, mdp):
@@ -66,7 +80,7 @@ def fct_connection(pseudo, mdp):
     db.close()
     if pseudo == ("""""") or mdp == ("""""") :
         return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
-    elif verif_pseudo(pseudo,liste_pseudo) == False :
+    elif verif_donnee(pseudo,liste_pseudo) == False :
         return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
     elif str(mdp) != data[0][1] :
         return render_template("error_profil.html", message = "Mauvais mot de passe !")
@@ -110,23 +124,41 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
 # fonction pour changer de pseudo,...
 def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
     if donnee_a_changer == "Pseudo":
-        query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
-        args = [nouvelle_donnee,pseudo]
+        query = """SELECT Pseudo FROM profils"""
         db, cursor = connectDatabase()
-        cursor.execute(query,args)
-        db.commit()
+        cursor.execute(query)
+        liste_pseudo = cursor.fetchall()
         db.close()
         
-        return redirect("/profil")
+        if verif_donnee(nouvelle_donnee,liste_pseudo)==False:
+            query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
+            args = [nouvelle_donnee,pseudo]
+            db, cursor = connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
+            return redirect("/profil")
+        else :
+            return render_template("error_maj_profil.html", message="Ce pseudo est déjà utilisé ! Veuillez en choisir un autre !")
+    
     elif donnee_a_changer == "Mail":
-        query = """UPDATE profils SET Mail = ? WHERE Pseudo LIKE ?;"""
-        args = [nouvelle_donnee,pseudo]
+        query = """SELECT Mail FROM profils"""
         db, cursor = connectDatabase()
-        cursor.execute(query,args)
-        db.commit()
+        cursor.execute(query)
+        liste_mail = cursor.fetchall()
         db.close()
         
-        return redirect("/profil")
+        if verif_donnee(nouvelle_donnee,liste_mail) == False:
+            query = """UPDATE profils SET Mail = ? WHERE Pseudo LIKE ?;"""
+            args = [nouvelle_donnee,pseudo]
+            db, cursor = connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
+            return redirect("/profil")
+        else :
+            return render_template("error_maj_profil.html", message="Ce mail est déjà utilisé ! Veuillez en choisir une autre !")
+        
     elif donnee_a_changer == "Mdp":
         query = """UPDATE profils SET Mdp = ? WHERE Pseudo LIKE ?;"""
         args = [nouvelle_donnee,pseudo]
@@ -134,8 +166,8 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         cursor.execute(query,args)
         db.commit()
         db.close()
-        
         return redirect("/profil")
+    
     else :
         query = """UPDATE profils SET Ville = ? WHERE Pseudo LIKE ?;"""
         args = [nouvelle_donnee,pseudo]
@@ -145,7 +177,6 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         db.close()
         
         return redirect("/profil")
-    return redirect("/profil")
     
 # fonction gérant affichage profil public
 def fct_profil_public(pseudo):
