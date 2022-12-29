@@ -47,7 +47,7 @@ def initDB():
 #C'EST UNE LISTE DE LISTE !!!!!
 #ON A DONC data[0][0] = donne1
 
-#fonction qui vérifie qu'une donnée n'est pas déjà dans la liste donnée en entrée
+#fonction qui vérifie qu'une donnée est déjà dans la liste donnée en entrée
 def verif_donnee(donnee,liste):
     for i in range(len(liste)):
         if donnee == liste[i][0]:
