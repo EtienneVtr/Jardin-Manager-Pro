@@ -2,8 +2,11 @@
 import string
 import random
 import datetime
+import base64
+import os
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
+from sqlalchemy import bindparam
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -257,6 +260,18 @@ def fct_creerreponse(sujet,reponse,pseudo,date):
     dbf.close()
     return redirect(url_for('reponsesujet',sujet=sujet))
 
+def fct_creeroffre(annonce, prix, localisation, pseudo, date, image):
+    image_data = image.read()
+    image_b64 = base64.b64encode(image_data).decode('utf-8')
+    query = """INSERT INTO annonce (Annonce,Prix,Localisation,Pseudo,Date,Image) VALUES (?,?,?,?,?,?);"""
+    args = [annonce, prix, localisation, pseudo, date, image_b64]
+    dbf, cursor = connectdbforum()
+    cursor.execute(query, args)
+    dbf.commit()
+    dbf.close()
+    
+    return redirect(url_for('cabanon'))
+
 def affichertableforum():
     query="""SELECT Sujet,Message,pseudo,date FROM forum;"""
     dbf,cursor=connectdbforum()
@@ -266,10 +281,36 @@ def affichertableforum():
 
     return render_template("forum.html", listdb=data)
 
+def affichertableannonce():
+    query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce;"""
+    dbf,cursor=connectdbforum()
+    cursor.execute(query)
+    data=cursor.fetchall()
+    dbf.close()
+
+    return render_template("cabanon.html", listdb=data)
+
+def affichertableannoncefiltre(prix_min,prix_max):
+    query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce WHERE Prix > ? AND Prix < ?;"""
+    args=[prix_min,prix_max]
+    dbf,cursor=connectdbforum()
+    cursor.execute(query,args)
+    data=cursor.fetchall()
+    dbf.close()
+
+    return render_template("cabanon.html", listdb=data,prix_min=prix_min,prix_max=prix_max)
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 #def initdbforum():
 #    CREATE TABLE forum( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Message TEXT, pseudo TEXT,date TEXT);
 #def initdbreponseforum():
 #    CREATE TABLE reponse( id INTEGER PRIMARY KEY AUTOINCREMENT, Sujet TEXT,Reponse TEXT, pseudo TEXT,date TEXT);
+#def initdbannonceforum():
+#    CREATE TABLE annonce( id INTEGER PRIMARY KEY AUTOINCREMENT, Annonce TEXT,Prix FLOAT,Localisation TEXT, Pseudo TEXT,Date TEXT);
 #Au cas ou
 
 
