@@ -104,6 +104,7 @@ h2 a {
 	max-width: 90%;
 	margin: 0 auto;
   display: table;
+  min-width:1000px;
   padding: 0 0 8em 0;
 }
 
