@@ -1,52 +1,75 @@
 {% extends "layout.html" %}
 
-{% block head%}
-    <link rel="stylesheet" href="../static/css/style_cabanon.css">
-{% endblock head%}
+{% block head %}
+<link rel="stylesheet" href="../static/css/style_forum.css">
+<link rel="stylesheet" href="./../static/css/style_inscription.css">
+{% endblock head %}
 
-
-{% block body%}
-    <h1><center>Le Cabanon</center></h1>
-    <h2><center>Bienvenu sur le Cabanon, ici vous pouvez consulter toutes les annonces disponibles</center></h2>
-
-    <div class="annonce">
-        <img class="img_annonce" src="../static/image/photo_cabanon/pommes.jpg" />
-        <div class="text_annonce" style="line-height:15px;">
-            
-            <p class="titre_annonce">
-                Vends 3 kg de pommes
-            </p>
-            <p class="prix">
-                15€
-            </p>
-            <p class="adresse">
-                Nancy 54000
-            </p>
-            <p class="date">
-                Le 20/11/2022
-            </p>
+{% block body %}
+<body class="form-v9">
+    <div class="page-content">
+        <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <form class="form-detail" action="/creersujet" method="post">
+                <h2>Le Cabanon</h2>
+                <h2 style="font-size:20px;"> Vendez ou achetez vos produits locaux </h2>
+            </form>
+            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                <a href='creeroffre'>Créer une offre</a>
+            </div>
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un produit..">
+            <form method="post" action="/cabanon">
+                <label for="prix_min">Prix minimum :</label>
+                <input style="color:black" type="number" name="prix_min" id="prix_min" value="{{ prix_min }}">
+                <label for="prix_max">Prix maximum :</label>
+                <input style="color:black" type="number" name="prix_max" id="prix_max" value="{{ prix_max }}">
+                <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                    <input type="submit" value="Filtrer">
+                </div>
+            </form>
+              
+            <table id = "myTable" class="container">
+                <thead>
+                    <tr>
+                        <th><h1>Annonce</h1></th>
+                        <th><h1>Prix (en euros)</h1></th>
+                        <th><h1>Localisation</h1></th>
+                        <th><h1>Auteur</h1></th>
+                        <th><h1>Date</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in listdb %}
+                        <tr> 
+                            <td style="max-width: 240px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='annonce?annonce={{ row[0] }}&pseudo={{ row[3] }}'>{{ row[0][:50] }}</a></td>
+                            <td style="max-width: 150px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[1] }}</td>
+                            <td style="max-width: 150px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[2] }}</td>
+                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[3] }}'>{{ row[3] }}</a></td>
+                            <td>{{ row[4] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <script>
+                function myFunction() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("myInput");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("myTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";}
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                        }
+                    }
+                }
+            </script>
+            </div>
         </div>
-        
     </div>
-
-    <div class="annonce">
-        <img class="img_annonce" src="../static/image/photo_cabanon/bananes.jpg" />
-        <div class="text_annonce" style="line-height:15px;">
-            
-            <p class="titre_annonce">
-                Vends 10 kg de bananes
-            </p>
-            <p class="prix">
-                20€
-            </p>
-            <p class="adresse">
-                Guadeloupe 
-            </p>
-            <p class="date">
-                Le 18/11/2022
-            </p>
-        </div>
-        
-    </div>
-    
 {% endblock body %}
