@@ -4,12 +4,12 @@
 <link rel="stylesheet" href="./../static/css/style_inscription.css">
 {% endblock %}
 
-
 {% block body %}
 
 
     <div style="color:white;">{{ message }}</div>
-    <div style="color:white;"><a href="/connection">Retour</a></div>
+    <div style="color:white;"><button onclick="history.back()">Retour</button>
+    </div>
 
 
 {% endblock %}
