@@ -149,21 +149,38 @@ def inscription():
 def maj(donnee : str):
     if request.method == "GET" :
         return render_template(f"maj_{ donnee }.html")
+    
     if request.method == "POST" :
         pseudo = session.get("name")
+        
+        #changement pseudo
         if donnee == "pseudo" :
             new_pseudo = request.form.get("new_pseudo")
             session["name"] = new_pseudo
             return maj_db(pseudo, new_pseudo, "Pseudo")
+        
+        #changement mail
         elif donnee == "mail" :
             new_mail = request.form.get("new_mail")
             return maj_db(pseudo, new_mail, "Mail")
+        
+        #changement mdp
         elif donnee == "mdp" :
-            new_mdp = request.form.get("new_mdp")
-            return maj_db(pseudo, new_mdp, "Mdp")
+            ancien_mdp = request.form.get("ancien_mdp")
+            
+            #ici on vérifie que l'utilisateur a bien saisi son ancien mot de passe pour confirmer le changement
+            if verif_mdp(pseudo,ancien_mdp):
+                new_mdp = request.form.get("new_mdp")
+                return maj_db(pseudo, new_mdp, "Mdp")
+            
+            else :
+                return render_template("error_maj_profil.html", message="Vous vous êtes trompés dans votre ancien mot de passe !")
+
+        #changement ville
         else :
             new_ville = request.form.get("new_ville")
             return maj_db(pseudo, new_ville, "Ville")
+        
         
 #profil public
 @app.route("/user/<string:donnee>")
