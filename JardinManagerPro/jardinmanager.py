@@ -115,12 +115,14 @@ def connection():
         mdp = request.form.get("mdp")
         return fct_connection(pseudo, mdp)
 
+
 #deconnexion
 @app.route("/deconnexion")
 def deconnexion():
     session["name"] = None
     flash("Déconnexion réussie !")
     return redirect("/")
+
 
 #profil
 @app.route("/profil")
@@ -130,6 +132,7 @@ def profil():
     else :
         pseudo = session.get("name")
         return fct_profil(pseudo)
+
 
 #inscription
 @app.route("/inscription", methods = ["GET","POST"])
@@ -144,6 +147,7 @@ def inscription():
         
         return fct_inscritpion(pseudo, mail, mdp, ville)
 
+
 #mise a jour donnee profil
 @app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
 def maj(donnee : str):
@@ -156,7 +160,6 @@ def maj(donnee : str):
         #changement pseudo
         if donnee == "pseudo" :
             new_pseudo = request.form.get("new_pseudo")
-            session["name"] = new_pseudo
             return maj_db(pseudo, new_pseudo, "Pseudo")
         
         #changement mail
