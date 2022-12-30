@@ -103,7 +103,7 @@ def fct_connection(pseudo, mdp):
     else :
         session["name"] = pseudo
         flash("Connexion réussie !")
-        return render_template("profil.html", items = data, pseudo = pseudo)
+        return redirect("/profil")
 
 
 #fonction gérant affichage profil une fois connecté
@@ -157,6 +157,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
 
         if verif_donnee(nouvelle_donnee,liste_pseudo)==False:
             #mise à jour de la base de donnée
+            session["name"] = nouvelle_donnee
             query = """UPDATE profils SET Pseudo = ? WHERE Pseudo LIKE ?;"""
             args = [nouvelle_donnee,pseudo]
             db, cursor = connectDatabase()
