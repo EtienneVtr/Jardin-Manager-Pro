@@ -272,11 +272,11 @@ def fct_creerreponse(sujet,reponse,pseudo,date):
     dbf.close()
     return redirect(url_for('reponsesujet',sujet=sujet))
 
-def fct_creeroffre(annonce, prix, localisation, pseudo, date, image):
+def fct_creeroffre(annonce, prix, localisation, pseudo, date, image,description):
     image_data = image.read()
     image_b64 = base64.b64encode(image_data).decode('utf-8')
-    query = """INSERT INTO annonce (Annonce,Prix,Localisation,Pseudo,Date,Image) VALUES (?,?,?,?,?,?);"""
-    args = [annonce, prix, localisation, pseudo, date, image_b64]
+    query = """INSERT INTO annonce (Annonce,Prix,Localisation,Pseudo,Date,Image,Description) VALUES (?,?,?,?,?,?,?);"""
+    args = [annonce, prix, localisation, pseudo, date, image_b64,description]
     dbf, cursor = connectdbforum()
     cursor.execute(query, args)
     dbf.commit()
