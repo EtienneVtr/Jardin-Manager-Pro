@@ -75,11 +75,12 @@ def creeroffre():
         localisation=request.form.get("localisation")
         prix=request.form.get("prix")
         image=request.files.get('image')
+        description=request.form.get('description')
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
-            return fct_creeroffre(annonce,prix,localisation,pseudo,date,image)
+            return fct_creeroffre(annonce,prix,localisation,pseudo,date,image,description)
         else :
             return render_template("connection.html")
             
@@ -101,7 +102,7 @@ def annonce():
     if request.method == "GET" :
         annonce = request.args.get('annonce')
         pseudo= request.args.get('pseudo')
-        query="""SELECT Annonce,Prix,Localisation,Pseudo,Date,Image FROM annonce WHERE Annonce=?"""
+        query="""SELECT Annonce,Prix,Localisation,Pseudo,Date,Image,Description FROM annonce WHERE Annonce=?"""
         args=[annonce]
         dbf,cursor=connectdbforum()
         cursor.execute(query,args)
@@ -109,11 +110,6 @@ def annonce():
         dbf.close()
         return render_template("annonce.html", listdb=data,annonce=annonce,pseudo=pseudo)
 
-
-
-
-
-#le cabanon (thomas)
 @app.route('/cabanon',methods=['GET','POST'])
 def cabanon():     
     if request.method=='GET':
