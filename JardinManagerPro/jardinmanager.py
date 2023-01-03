@@ -180,9 +180,11 @@ def inscription():
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
         mdp=request.form.get("mdp")
+        #ici on vérifie que l'utilisateur ne s'est pas trompé lorsqu'il rentre son mot de passe pour l'inscription
+        conf_mdp=request.form.get("conf_mdp")
         ville=request.form.get("ville")
         
-        return fct_inscritpion(pseudo, mail, mdp, ville)
+        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville)
 
 
 #mise a jour donnee profil
@@ -214,7 +216,8 @@ def maj(donnee : str):
                 return maj_db(pseudo, new_mdp, "Mdp")
             
             else :
-                return render_template("error_maj_profil.html", message="Vous vous êtes trompés dans votre ancien mot de passe !")
+                flash("Vous vous êtes trompés dans votre ancien mot de passe !")
+                return redirect("/maj/mdp")
 
         #changement ville
         else :
