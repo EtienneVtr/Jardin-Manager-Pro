@@ -11,7 +11,6 @@
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <form class="form-detail" action="/creerreponse" method="post">
                 <h2>Le Cabanon</h2>
-                <h2 style="font-size:20px;"> Vendez ou achetez vos produits locaux </h2>
             </form>
             <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
                 Annonce : {{ annonce }}
@@ -20,11 +19,12 @@
                 <a href='user/{{ pseudo }}'>Contacter l'auteur</a>
             </div>
             
-            <table id = "myTable" class="container">
+            <table id = "myTable" class="container" style="min-width:1350px;">
                 <thead>
                     <tr>
                         <th><h1>Annonce</h1></th>
                         <th><h1>Prix (en euros)</h1></th>
+                        <th><h1>Description détaillée</h1></th>
                         <th><h1>Localisation</h1></th>
                         <th><h1>Auteur</h1></th>
                         <th><h1>Date</h1></th>
@@ -36,14 +36,15 @@
                     {% for row in listdb %}
                         <tr> 
                             <td style="color:white; max-width: 150px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[0] }}</td>
-                            <td style="color:white; max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[1] }}</td>
+                            <td style="color:white; max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[1] }} €</td>
+                            <td style="color:white; max-width: 300px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[6] }}</td>
                             <td style="color:white; max-width: 150px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[2] }}</td>
                             <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[3] }}'>{{ row[3] }}</a></td>
                             <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[4] }}</td>
                             <td style="margin-right: 10px; max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><img src="data:image/jpg;base64, {{ row[5] }}"></td>
 
 
-                            
+             
                         </tr>
                     {% endfor %}
                 </tbody>
