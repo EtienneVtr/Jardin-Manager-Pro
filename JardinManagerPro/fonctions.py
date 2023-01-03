@@ -6,7 +6,7 @@ import base64
 import os
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
-from sqlalchemy import bindparam
+#from sqlalchemy import bindparam
 import sqlite3
 
 #fonction permettant de se connecter à la base de donnée
@@ -93,15 +93,18 @@ def fct_connection(pseudo, mdp):
     
     #on vérifie que les champs ne sont pas vides
     if pseudo == ("""""") or mdp == ("""""") :
-        return render_template("error_profil.html", message = "Veuillez compléter tous les champs !")
+        flash("Veuillez compléter tous les champs !")
+        return redirect("/connection")
     
     #on vérifie que le pseudo est déjà dans la base de donnée
     elif verif_donnee(pseudo,liste_pseudo) == False :
-        return render_template("error_profil.html", message = "Vous n'êtes pas inscrit !")
+        flash("Vous n'êtes pas encore inscrit !")
+        return redirect("/connection")
     
     #on vérifie que c'est le bon mot de passe
     elif str(mdp) != data[0][1] :
-        return render_template("error_profil.html", message = "Mauvais mot de passe !")
+        flash("Mauvais mot de passe !")
+        return redirect("/connection")
     
     else :
         session["name"] = pseudo
@@ -122,7 +125,7 @@ def fct_profil(pseudo):
     
     
 #fonction gérant l'inscription
-def fct_inscritpion(pseudo, mail, mdp, ville):
+def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
     #on récupère les pseudos pour vérifier si l'adresse mail ou le pseudo existent déjà dans la database
     query = """SELECT Pseudo FROM Profils WHERE (Pseudo LIKE (?) OR Mail LIKE (?));"""
     args = [pseudo,mail]
@@ -133,18 +136,25 @@ def fct_inscritpion(pseudo, mail, mdp, ville):
     
     #il ne faut pas qu'il y ait de pseudo lié au pseudo donné en entrée pour garantir l'unicité
     if data == [] :
-        #ici on insert une nouvelle ligne dans la base de donnée
-        query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
-        args = (pseudo, mail, mdp, ville)
-        db, cursor = connectDatabase()
-        cursor.execute(query, args)
-        db.commit()
-        db.close()
-        flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !")
-        return redirect("/connection")
+        #il faut être sûr que l'utilisateur ne s'est pas trompé lorsqu'il a rentré son mot de passe
+        if conf_mdp == mdp:
+            #ici on insert une nouvelle ligne dans la base de donnée
+            query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
+            args = (pseudo, mail, mdp, ville)
+            db, cursor = connectDatabase()
+            cursor.execute(query, args)
+            db.commit()
+            db.close()
+            flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !")
+            return redirect("/connection")
+        
+        else :
+            flash("Les deux mots de passe que vous avez rentrés ne sont pas identiques. Veuillez recommencer !")
+            return redirect("/inscription")
     
     else :
-        return render_template("error_profil.html", message = "Pseudo ou mail déjà pris !")
+        flash("Le pseudo ou le mail que vous avez choisi est déjà utilisé par un autre utilisateur. Veuillez en choisir un nouveau !")
+        return redirect("/inscription")
     
     
 # fonction pour changer de pseudo,...
@@ -170,7 +180,8 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             return redirect("/profil")
         
         else :
-            return render_template("error_maj_profil.html", message="Ce pseudo est déjà utilisé ! Veuillez en choisir un autre !")
+            flash("Ce pseudo est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !")
+            return redirect("/maj/pseudo")
 
     elif donnee_a_changer == "Mail":
         #idem que pour la liste de pseudo
@@ -191,7 +202,8 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             return redirect("/profil")
         
         else :
-            return render_template("error_maj_profil.html", message="Ce mail est déjà utilisé ! Veuillez en choisir une autre !")
+            flash("Ce mail est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !")
+            return redirect("/maj/mail")
 
     elif donnee_a_changer == "Mdp":
         #mise a jour de la base de donnée
@@ -217,7 +229,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
 # fonction gérant affichage profil public
 def fct_profil_public(pseudo):
     #on récupère les données liées au pseudo
-    query = """SELECT Ville FROM profils WHERE Pseudo LIKE (?)"""
+    query = """SELECT Mail, Ville FROM profils WHERE Pseudo LIKE (?)"""
     args = [pseudo]
     db, cursor = connectDatabase()
     cursor.execute(query, args)
