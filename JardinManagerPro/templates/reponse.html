@@ -6,20 +6,31 @@
 {% endblock head %}
 
 {% block body %}
-<body class="form-v9">
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-            <form class="form-detail" action="/creerreponse" method="post">
+            <form class="form-detail" action="/creersujet" method="post">
                 <h2>Jardin Copain</h2>
-                <h2 style="font-size:20px;">Ici, échangez vos idées et astuces de jardinage</h2>
+                
+                
             </form>
-            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+            
+            <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
+                <h1>Sujet : </h1>
+                <br>
+
+                <p>{{ sujet }}</p>
+            </div>
+            <br>
+            <br>
+            <br>
+
+            <div style="margin-bottom:10px; float:right" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
                 <a href='creerreponse?sujet={{ sujet }}'>Répondre</a>
             </div>
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
-            <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
-                Sujet : {{ sujet }}
-            </div>
+            <input style="margin:20px" type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
+
+            <br>
+            <br>
             <table id = "myTable" class="container">
                 <thead>
                     <tr>
@@ -41,6 +52,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            
             <script>
                 function myFunction() {
                     var input, filter, table, tr, td, i, txtValue;
@@ -61,7 +73,6 @@
                     }
                 }
             </script>
-            </div>
         </div>
     </div>
 {% endblock body %}

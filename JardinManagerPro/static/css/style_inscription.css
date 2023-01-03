@@ -175,7 +175,7 @@ input:-moz-placeholder { /* Firefox 18- */
 /* Responsive */
 @media screen and (max-width: 1199px) {
 	.form-v9-content {
-	    margin: 185px 20px;
+	    margin: 100px 20px;
 	}
 }
 @media screen and (max-width: 767px) {
