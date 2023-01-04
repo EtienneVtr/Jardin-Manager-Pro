@@ -234,7 +234,7 @@ if __name__ == "__main__":
         initDBforum()   
     if (False):
         initDBjardin()
-    if (True):
+    if (False):
         initDBlegume()
  
     

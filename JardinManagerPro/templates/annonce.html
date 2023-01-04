@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="../static/css/style_forum.css">
-<link rel="stylesheet" href="./../static/css/style_inscription.css">
+    <link rel="stylesheet" href="../static/css/style_forum.css">
+    <link rel="stylesheet" href="./../static/css/style_inscription.css">
 {% endblock head %}
 
 {% block body %}
-<body class="form-v9">
+
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <form class="form-detail" action="/creerreponse" method="post">
@@ -14,9 +14,6 @@
             </form>
             <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
                 Annonce : {{ annonce }}
-            </div>
-            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
-                <a href='user/{{ pseudo }}'>Contacter l'auteur</a>
             </div>
             
             <table id = "myTable" class="container" style="min-width:1350px;">
@@ -49,7 +46,11 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <center>
+            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                <a href='user/{{ pseudo }}'>Contacter l'auteur</a>
             </div>
+            </center>
         </div>
     </div>
 {% endblock body %}
