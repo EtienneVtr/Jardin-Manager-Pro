@@ -153,7 +153,7 @@ def connection():
 @app.route("/deconnexion")
 def deconnexion():
     session["name"] = None
-    flash("Déconnexion réussie !")
+    flash("Déconnexion réussie !", "success")
     return redirect("/")
 
 
@@ -212,7 +212,7 @@ def maj(donnee : str):
                 return maj_db(pseudo, new_mdp, "Mdp")
             
             else :
-                flash("Vous vous êtes trompés dans votre ancien mot de passe !")
+                flash("Vous vous êtes trompés dans votre ancien mot de passe !", "error")
                 return redirect("/maj/mdp")
 
         #changement ville
