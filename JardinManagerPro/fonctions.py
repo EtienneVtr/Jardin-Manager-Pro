@@ -93,22 +93,22 @@ def fct_connection(pseudo, mdp):
     
     #on vérifie que les champs ne sont pas vides
     if pseudo == ("""""") or mdp == ("""""") :
-        flash("Veuillez compléter tous les champs !")
+        flash("Veuillez compléter tous les champs !", "error")
         return redirect("/connection")
     
     #on vérifie que le pseudo est déjà dans la base de donnée
     elif verif_donnee(pseudo,liste_pseudo) == False :
-        flash("Vous n'êtes pas encore inscrit !")
+        flash("Vous n'êtes pas encore inscrit ! Vérifiez votre pseudo ou inscrivez vous ci-dessous !", "error")
         return redirect("/connection")
     
     #on vérifie que c'est le bon mot de passe
     elif str(mdp) != data[0][1] :
-        flash("Mauvais mot de passe !")
+        flash("Mauvais mot de passe !", "error")
         return redirect("/connection")
     
     else :
         session["name"] = pseudo
-        flash("Connexion réussie !")
+        flash("Connexion réussie !", "success")
         return redirect("/profil")
 
 
@@ -145,15 +145,15 @@ def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
             cursor.execute(query, args)
             db.commit()
             db.close()
-            flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !")
+            flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !", "success")
             return redirect("/connection")
         
         else :
-            flash("Les deux mots de passe que vous avez rentrés ne sont pas identiques. Veuillez recommencer !")
+            flash("Les deux mots de passe que vous avez rentrés ne sont pas identiques. Veuillez recommencer !", "error")
             return redirect("/inscription")
     
     else :
-        flash("Le pseudo ou le mail que vous avez choisi est déjà utilisé par un autre utilisateur. Veuillez en choisir un nouveau !")
+        flash("Le pseudo ou le mail que vous avez choisi est déjà utilisé par un autre utilisateur. Veuillez en choisir un nouveau !", "error")
         return redirect("/inscription")
     
     
@@ -177,10 +177,11 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             cursor.execute(query,args)
             db.commit()
             db.close()
+            flash("Changement de pseudo réussi !", "success")
             return redirect("/profil")
         
         else :
-            flash("Ce pseudo est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !")
+            flash("Ce pseudo est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !", "error")
             return redirect("/maj/pseudo")
 
     elif donnee_a_changer == "Mail":
@@ -199,10 +200,11 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             cursor.execute(query,args)
             db.commit()
             db.close()
+            flash("Changement de mail réussi !", "success")
             return redirect("/profil")
         
         else :
-            flash("Ce mail est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !")
+            flash("Ce mail est déjà utilisé par un autre utilisateur. Veuillez en choisir un autre !","error")
             return redirect("/maj/mail")
 
     elif donnee_a_changer == "Mdp":
@@ -213,6 +215,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         cursor.execute(query,args)
         db.commit()
         db.close()
+        flash("Changement de mot de passe réussi !", "success")
         return redirect("/profil")
     
     else :
@@ -223,6 +226,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         cursor.execute(query,args)
         db.commit()
         db.close()
+        flash("Changement de ville réussi !", "success")
         return redirect("/profil")
     
     
