@@ -11,6 +11,14 @@ document.getElementById('form').addEventListener('submit', function(event) {
     alert('Veuillez remplir tous les champs !'); // Affichage d'un message d'erreur
     return; // Arrêt de la fonction
   }
+  if (width < 0 || height < 0) {
+    alert('Veuillez rentrer des valeurs positives'); // Affichage d'un message d'erreur
+    return; // Arrêt de la fonction
+  }
+  if (width == 0 || height == 0) {
+    alert('Veuillez rentrer des valeurs non nulles'); // Affichage d'un message d'erreur
+    return; // Arrêt de la fonction
+  }
   if (width > 25 || height > 25) {
     alert('La grille ne peut pas dépasser 25 par 25 !'); // Affichage d'un message d'erreur
     return; // Arrêt de la fonction
@@ -178,11 +186,13 @@ document.querySelector('.clear-all').addEventListener('click', function() {
   currentVegetable = null;
     // Remise à zéro du menu déroulant
     document.getElementById('vegetable-select').selectedIndex = 0;
-  // Suppression de toutes les classes "carrot" et "tomato" des cellules
+  // Suppression de toutes les classes "carrot","tomato",etc des cellules
   var cells = document.querySelectorAll('td');
   cells.forEach(function(cell) {
-    cell.classList.remove('carrot');
-    cell.classList.remove('tomato');
+    cell.classList.remove('carrot','tomato','cerises', 'fraise', 'kiwi', 'melon',
+     'peche', 'poire', 'pomme', 'raisin','ail', 'aubergine', 'avocat',
+      'broccoli', 'cacahuetes', 'chataigne','concombre', 'mais', 
+      'salade', 'oignon', 'patate');
     cell.style.background = "";
   });
 });
@@ -340,3 +350,91 @@ document.getElementById('load-form').addEventListener('submit', function(event) 
   };
   reader.readAsText(file);
 });
+
+
+//LIGNE ENTIERE
+
+// Gestionnaire d'événement pour le bouton "Ligne entière"
+document.querySelector('.line-button').addEventListener('click', function() {
+  // Vérification de la valeur du bouton
+  if (this.innerHTML === 'Ligne entière') {
+    // Changement de la valeur du bouton et activation du mode "Ligne entière"
+    this.innerHTML = 'Annuler';
+    document.lineMode = true;
+
+    // Ajout d'un gestionnaire d'événement à chaque ligne du tableau
+    var rows = document.querySelectorAll('tr');
+    rows.forEach(function(row) {
+      row.addEventListener('click', fillRow);
+    });
+  } else {
+    // Changement de la valeur du bouton et désactivation du mode "Ligne entière"
+    this.innerHTML = 'Ligne entière';
+    document.lineMode = false;
+
+    // Suppression des gestionnaires d'événements ajoutés à chaque ligne du tableau
+    var rows = document.querySelectorAll('tr');
+    rows.forEach(function(row) {
+      row.removeEventListener('click', fillRow);
+    });
+  }
+});
+
+// Fonction pour remplir une ligne avec le légume sélectionné
+function fillRow() {
+  // Récupération de la valeur du menu déroulant
+  var vegetable = document.getElementById('vegetable-select').value;
+
+  // Remplissage de chaque cellule de la ligne avec le légume sélectionné
+  var cells = this.querySelectorAll('td');
+  cells.forEach(function(cell) {
+    cell.classList.add(vegetable);
+    addVegetableBackground(cell);
+        });
+      }
+
+
+//COLONNE ENTIERE
+
+// Gestionnaire d'événement pour le bouton "Colonne entière"
+document.querySelector('.colonne-button').addEventListener('click', function() {
+  // Vérification de la valeur du bouton
+  if (this.innerHTML === 'Colonne entière') {
+    // Changement de la valeur du bouton et activation du mode "Colonne entière"
+    this.innerHTML = 'Annuler';
+    document.columnMode = true;
+
+    // Ajout d'un gestionnaire d'événement à chaque cellule du tableau
+    var cells = document.querySelectorAll('td');
+    cells.forEach(function(cell) {
+      cell.addEventListener('click', fillColumn);
+    });
+  } else {
+    // Changement de la valeur du bouton et désactivation du mode "Colonne entière"
+    this.innerHTML = 'Colonne entière';
+    document.columnMode = false;
+
+    // Suppression des gestionnaires d'événements ajoutés à chaque cellule du tableau
+    var cells = document.querySelectorAll('td');
+    cells.forEach(function(cell) {
+      cell.removeEventListener('click', fillColumn);
+    });
+  }
+});
+
+// Fonction pour remplir une colonne avec le légume sélectionné
+function fillColumn() {
+  // Récupération de la valeur du menu déroulant
+  var vegetable = document.getElementById('vegetable-select').value;
+
+  // Récupération de toutes les cellules de la colonne
+  var index = this.cellIndex; // récupère l'index de la colonne (0 = première colonne)
+  var cells = document.querySelectorAll('td:nth-of-type(' + (index + 1) + ')');
+
+  // Remplissage de chaque cellule de la colonne avec le légume sélectionné
+  cells.forEach(function(cell) {
+    cell.classList.add(vegetable);
+    addVegetableBackground(cell);
+  });
+}
+
