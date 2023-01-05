@@ -282,3 +282,61 @@ document.getElementById('save-file').addEventListener('click', function() {
   // Appelez une fonction pour sauvegarder la configuration actuelle du tableau
   saveFile();
 });
+
+
+//CHARGER
+
+// Gestionnaire d'événement pour la soumission du formulaire de chargement de fichier
+document.getElementById('load-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Empêche le formulaire de soumettre les données (recharge de la page)
+
+  // Récupération du fichier sélectionné
+  var fileInput = document.getElementById('load-file');
+  var file = fileInput.files[0];
+
+  // Lecture du contenu du fichier
+  var reader = new FileReader();
+  reader.onload = function() {
+    // Le fichier a été lu, vous pouvez traiter son contenu ici
+    var fileContent = reader.result;
+
+    // Parsing du contenu du fichier
+    var data = JSON.parse(fileContent);
+    var width = data.width;
+    var height = data.height;
+    var vegetables = data.vegetables;
+
+    // Suppression du tableau précédemment généré
+    var table = document.querySelector('table');
+    if (table) {
+      table.parentNode.removeChild(table);
+    }
+
+    // Création d'un tableau HTML vide
+    table = document.createElement('table');
+
+    // Création des lignes et des colonnes du tableau
+    for (var i = 0; i < height; i++) {
+      var row = document.createElement('tr');
+      for (var j = 0; j < width; j++) {
+        var cell = document.createElement('td');
+        cell.innerHTML = ""; // Case vide par défaut
+        row.appendChild(cell);
+      }
+      table.appendChild(row);
+    }
+
+    // Remplissage de la grille avec les légumes enregistrés
+    for (var i = 0; i < vegetables.length; i++) {
+      var vegetable = vegetables[i];
+      var row = vegetable.row;
+      var col = vegetable.col;
+      var content = vegetable.content;
+      table.rows[row].cells[col].innerHTML = content;
+    }
+
+    // Ajout du tableau à la page HTML
+    document.body.appendChild(table);
+  };
+  reader.readAsText(file);
+});

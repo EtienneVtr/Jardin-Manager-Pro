@@ -1,29 +1,36 @@
 table {
-    border-collapse: collapse;
-  }
-  
-  td {
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-    text-align: center;
-    vertical-align: middle;
-  }
+  border-collapse: collapse;
+}
+
+td {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  text-align: center;
+  vertical-align: middle;
+}
 
 .carrot:before {
-  content: "🥕";
+content: "🥕";
 }
 
 .tomato:before {
-  content: "🍅";
+content: "🍅";
 }
 
 #button-container {
-  display: none;
+display: none;
 }
 
-.planted {
-  /* Code pour le dégradé de couleur vert */
-  background: linear-gradient(to bottom, #00FF00, #008800);
+.planted-vegetable {
+/* Code pour le dégradé de couleur vert */
+background-color: linear-gradient(to bottom, #00FF00, #008800);
 }
 
+.chemin_fond {
+width: 50px;
+height: 50px;
+background-color: #804000; /* couleur brun terre */
+border-bottom: 2px solid #663300; /* bordure inférieure foncée pour simuler une ornière */
+box-shadow: inset 0 0 5px #663300; /* ombre interne pour simuler de l'épaisseur */
+}
