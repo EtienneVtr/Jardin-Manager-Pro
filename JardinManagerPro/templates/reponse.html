@@ -2,7 +2,6 @@
 
 {% block head %}
     <link rel="stylesheet" href="../static/css/style_forum.css">
-    <link rel="stylesheet" href="./../static/css/style_inscription.css">
 {% endblock head %}
 
 {% block body %}
@@ -16,20 +15,18 @@
             
             <!--Affichage du sujet-->
             <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
-                <h1>Sujet : </h1>
-                <br>
-                <p>{{ sujet }}</p>
+                <h1 style="color: #FB667A;">Sujet : </h1>
+                <p  style="color: #FB667A;">{{ sujet }}</p>
+                <h1>Message : </h1>
+                <p>{{ message }}</p>
             </div>
-
-            <br><br><br>
-
 
             <!--Bouton réponse-->
             <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
-                <a href='creerreponse?sujet={{ sujet }}'>Répondre</a>
+                <a href='creerreponse?sujet={{ sujet }}&message={{ message }}'>Répondre</a>
             </div>
             <!--Barre de recherche-->
-            <input style="margin:20px" type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse">
+            <input style="margin:20px; margin-bottom:10px;" type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse">
             <br><br>
 
             <!--Tableau des réponses-->
@@ -46,8 +43,8 @@
                     {% for row in listdb %}
                         <tr> 
                             <td style="color:white; max-width: 740px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[0] }}</td>
-                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}'>{{ row[1] }}</a></td>
-                            <td>{{ row[2] }}</td>
+                            <td style="width: 200px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}'>{{ row[1] }}</a></td>
+                            <td style="max-width:100px;">{{ row[2] }}</td>
 
                             
                         </tr>
