@@ -36,8 +36,11 @@ document.getElementById('form').addEventListener('submit', function(event) {
     table.appendChild(row);
   }
 
-  // Ajout du tableau à la page HTML
-  document.body.appendChild(table);
+  // Récupération du div affichage_jardin
+  var affichageJardin = document.querySelector('.affichage_jardin');
+
+  // Ajout du tableau dans la div affichage_jardin
+  affichageJardin.appendChild(table);
 
   //affichage button
   document.getElementById('button-container').style.display = 'block';
