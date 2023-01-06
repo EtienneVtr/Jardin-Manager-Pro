@@ -84,7 +84,7 @@ h2 a {
 	  font-weight: bold;
 	  font-size: 1em;
   text-align: left;
-  color: #185875;
+  color: #967be0;
 }
 
 .container td {
@@ -100,6 +100,7 @@ h2 a {
 }
 
 .container {
+  border: 1px solid rgb(219, 216, 216);
 	text-align: left;
 	max-width: 90%;
 	margin: 0 auto;

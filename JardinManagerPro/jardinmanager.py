@@ -38,7 +38,10 @@ def forum():
 @app.route("/creersujet", methods = ["GET","POST"])
 def creersujet():
     if request.method == "GET" :
-        return render_template("creersujet.html")
+        if  ('name' in session) and (session['name']!=None):
+            return render_template("creersujet.html")
+        else :
+            return render_template("connection.html")
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
@@ -53,23 +56,31 @@ def creersujet():
 @app.route("/creerreponse", methods = ["GET","POST"])
 def creerreponse():
     if request.method == "GET" :
-        sujet=request.args.get('sujet')
-        return render_template("creerreponse.html", sujet=sujet)
+        if  ('name' in session) and (session['name']!=None):
+            sujet=request.args.get('sujet')
+            message=request.args.get('message')
+            return render_template("creerreponse.html", sujet=sujet,message=message)
+        else :
+            return render_template("connection.html")
     if request.method == "POST" :
         sujet=request.form.get('sujet')
         reponse=request.form.get("reponse")
+        message=request.form.get('message')
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
-            return fct_creerreponse(sujet,reponse,pseudo,date)
+            return fct_creerreponse(sujet,reponse,pseudo,date,message)
         else :
             return render_template("connection.html")
 
 @app.route("/creeroffre", methods = ["GET","POST"])
 def creeroffre():
     if request.method == "GET" :
-        return render_template("creeroffre.html")
+        if  ('name' in session) and (session['name']!=None):
+            return render_template("creeroffre.html")
+        else :
+            return render_template("connection.html")
     if request.method == "POST" :
         annonce=request.form.get("annonce")
         localisation=request.form.get("localisation")
@@ -89,13 +100,14 @@ def creeroffre():
 def reponsesujet():
     if request.method == "GET" :
         sujet = request.args.get('sujet')
+        message = request.args.get('message')
         query="""SELECT Reponse,pseudo,date FROM reponse WHERE Sujet=?"""
         args=[sujet]
         dbf,cursor=connectdbforum()
         cursor.execute(query,args)
         data=cursor.fetchall()
         dbf.close()
-        return render_template("reponse.html", listdb=data,sujet=sujet)
+        return render_template("reponse.html", listdb=data,sujet=sujet,message=message)
 
 @app.route("/annonce", methods = ["GET","POST"])
 def annonce():
