@@ -267,14 +267,14 @@ def fct_creersujet(sujet,message,pseudo,date):
     dbf.close()
     return redirect ("/forum")
 
-def fct_creerreponse(sujet,reponse,pseudo,date):
+def fct_creerreponse(sujet,reponse,pseudo,date,message):
     query = """INSERT INTO reponse (Sujet,Reponse,pseudo,date) VALUES (?,?,?,?);"""
     args = [sujet,reponse,pseudo,date]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
     dbf.commit()
     dbf.close()
-    return redirect(url_for('reponsesujet',sujet=sujet))
+    return redirect(url_for('reponsesujet',sujet=sujet,message=message))
 
 def fct_creeroffre(annonce, prix, localisation, pseudo, date, image,description):
     image_data = image.read()
