@@ -186,7 +186,6 @@ document.querySelector('.clear-all').addEventListener('click', function() {
   currentVegetable = null;
     // Remise à zéro du menu déroulant
     document.getElementById('vegetable-select').selectedIndex = 0;
-<<<<<<< HEAD
   // Suppression de toutes les classes "carrot","tomato",etc des cellules
   var cells = document.querySelectorAll('td');
   cells.forEach(function(cell) {
@@ -194,13 +193,6 @@ document.querySelector('.clear-all').addEventListener('click', function() {
      'peche', 'poire', 'pomme', 'raisin','ail', 'aubergine', 'avocat',
       'broccoli', 'cacahuetes', 'chataigne','concombre', 'mais', 
       'salade', 'oignon', 'patate');
-=======
-  // Suppression de toutes les classes "carrot" et "tomato" des cellules
-  var cells = document.querySelectorAll('td');
-  cells.forEach(function(cell) {
-    cell.classList.remove('carrot');
-    cell.classList.remove('tomato');
->>>>>>> master
     cell.style.background = "";
   });
 });
@@ -357,7 +349,6 @@ document.getElementById('load-form').addEventListener('submit', function(event) 
     document.body.appendChild(table);
   };
   reader.readAsText(file);
-<<<<<<< HEAD
 });
 
 
@@ -447,6 +438,3 @@ function fillColumn() {
   });
 }
 
-=======
-});
->>>>>>> master
