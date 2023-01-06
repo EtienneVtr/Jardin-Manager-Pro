@@ -1,177 +1,132 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="../static/css/style_mon_jardin.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <!-- CSS Jardin 2D max-->
-  <link rel="stylesheet" type="text/css" href="../static/css/test.css">
+{% extends "layout.html" %}
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Appel de la Feuille de style minifiée De La librairie Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Appel de la Feuille de style minifiée De l'extension Datepicker -->
-  <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-  
+{% block head %}
+    <link rel="stylesheet" href="../static/css/style_mon_jardin.css">
+    <!-- CSS Jardin 2D max-->
+    <link rel="stylesheet" type="text/css" href="../static/css/test.css">
 
+    <title>Mon Jardin</title>
 
-  <title>Mon Jardin</title>
-  
+{% endblock head %}
 
-</head>
-<body>
+{% block body %}
 
-    <h1><center>Mon Jardin</center></h1>
-    <h2><center>Bienvenu sur le Jardin, ici vous pouvez créer votre jardin partagée et consulter les infos</center></h2>
-
-    <br>
-    <br>
-    <br>
-
-    
-    <div class="jardin_2D">
-        <!-- Formulaire pour sélectionner la taille de la grille -->
-        <h4>Chaque bloc représente 1 mètre carré</h4>
-        <h4>Une plantation de légume ou fruit s'effectue sur 1 mètre carré</h4>
-        <form id="form">
-            Largeur : <input type="number" id="width"><br>
-            Hauteur : <input type="number" id="height"><br>
-            <button type="submit">Générer</button>
-            
-        </form>
-
-        <!-- Menu déroulant pour sélectionner le légume/fruit à ajouter -->
-        <div id="button-container">
-            <select id="vegetable-select">
-                <option value="">Choisissez le légume à planter</option>
-                <option value="carrot">🥕 Carotte</option>
-                <option class="ail" value="ail">🧄 Ail</option>
-                <option class="aubergine" value="aubergine">🍆 Aubergine</option>
-                <option class="avocat" value="avocat">🥑 Avocat</option>
-                <option class="broccoli" value="broccoli">🥦 Broccoli</option>
-                <option class="cacahuetes" value="cacahuetes">🥜 Cacahuètes</option>
-                <option class="chataigne" value="chataigne">🌰 Châtaignes</option>
-                <option class="concombre" value="concombre">🥒 Concombres</option>
-                <option class="mais" value="mais">🌽 Maïs</option>
-                <option class="salade" value="salade">🥬 Salade</option>
-                <option class="oignon" value="oignon">🧅 Oignon</option>
-                <option class="patate" value="patate">🥔 Patate</option>
-                <option value="tomato">🍅 Tomate</option>
-                <option class="cerises" value="cerises">🍒 Cerises</option>
-                <option class="fraise" value="fraise">🍓 Fraises</option>
-                <option class="kiwi" value="kiwi">🥝 Kiwis</option>
-                <option class="melon" value="melon">🍈 Melons</option>
-                <option class="peche" value="peche">🍑 Pêches</option>
-                <option class="poire" value="poire">🍐 Poires</option>
-                <option class="pomme" value="pomme">🍎 Pommes</option>
-                <option class="raisin" value="raisin">🍇 Raisins</option>
-            </select>
-
-            <button class="line-button">Ligne entière</button>
-            <button class="colonne-button">Colonne entière</button>
-            <button class="delete">🗑️</button>
-            <button class="porte">Entrée du jardin</button>
-            <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
-
-            <button class="chemin">Chemin</button>
-            <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
-
-            <button class="clear-all">Effacer tout</button>
-            <button id="delete-cell">Supprimer case</button>
-            <button type="reset" id="reset">Réinitialiser Structure</button>
-
-
-            
-
-            
-            <!-- Bouton pour sauvegarder le fichier -->
-            <button id="save-file">Sauvegarder</button>
-        <!-- Formulaire pour sélectionner un fichier à charger -->
-        <form id="load-form">
-            <input type="file" id="load-file">
-            <button type="submit">Charger</button>
-        </form>
-  
-        </div>          
-    
-    </div>
-
-
-
-
-
-
-    <br>
-    <br>
-    <br>
-    <div class="container jardin">
-        <h2> Voici les infos sur le jardin sélectionné:</h2>
-        <br>
-        <ul class="nav nav-tabs">
-            <!-- Onglets de notre tableau-->
-            <li class="active"><a href="#tab1" data-toggle="tab">Informations</a></li>
-                <li><a href="#tab2" data-toggle="tab">Calendrier</a></li>
-                <li><a href="#tab3" data-toggle="tab">Propriétaires</a></li>
-        
-            </ul>
-            <!-- Contenu du tableau-->
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                    <ul>
-                        <li>Culture: Tomate</li>
-                        <li>Privé</li>
-
-                    </ul>
-                </div>
+    <div class="page-content">
+        <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <div class="form-detail" >
+                <h2>Mon Jardin</h2>
+                <h2 style="font-size:20px;">Ici vous pouvez créer votre jardin partagée et consulter les infos</h2>
                 
-                <div class="tab-pane" id="tab2">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 mx-auto">
-                                <div class="form-group">
-                              <div class="form-group">
-                                  <div class="datepicker date input-group">
-                                    <input type="text" placeholder="Choisir une date" class="form-control" id="reservationDate">
-                                    <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
-                                    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%230B8043&ctz=Europe%2FParis&src=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23616161" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-                                    <div>Ajoutez un évènement <a href="https://calendar.google.com/calendar/u/0?cid=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20">ici !</a></div>
-                                  </div>
-                              </div>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
+            </div>
+            
+          
+            <br><br><br>
+            <!-- Création de votre jardin-->
+            <h1 style="padding-bottom: 20px; font-size:20px; " >Création de votre jardin:</h1>
+            <div class="jardin_2D">
+                <!-- Formulaire pour sélectionner la taille de la grille -->
+                <form id="form" >
+                    <p style="padding-bottom: 30px; display: flex; align-items: center; justify-content: center">
+                        Largeur : <input type="number" id="width" style="margin: 0px 20px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        Hauteur : <input type="number" id="height" style="margin: 0px 50px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        <span class="relative z-0 inline-flex shadow-sm rounded-md" >
+                            <button type="submit" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Générer</button>
+                            <button type="reset" id="reset" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Réinitialiser</button>
+                        </span>
+                    </p>
+  
+                </form>
+                
+                <!-- Menu déroulant pour sélectionner le légume à ajouter -->
+                <div id="button-container">
+                    <select id="vegetable-select" style="margin: 20px" class="text-black mt-1  pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option selected>Choisissez le légume à planter</option>
+                        <option value="carrot">Carotte</option>
+                        <option value="tomato">Tomate</option><option value="carrot">🥕 Carotte</option>
+                        <option class="ail" value="ail">🧄 Ail</option>
+                        <option class="aubergine" value="aubergine">🍆 Aubergine</option>
+                        <option class="avocat" value="avocat">🥑 Avocat</option>
+                        <option class="broccoli" value="broccoli">🥦 Broccoli</option>
+                        <option class="cacahuetes" value="cacahuetes">🥜 Cacahuètes</option>
+                        <option class="chataigne" value="chataigne">🌰 Châtaignes</option>
+                        <option class="concombre" value="concombre">🥒 Concombres</option>
+                        <option class="mais" value="mais">🌽 Maïs</option>
+                        <option class="salade" value="salade">🥬 Salade</option>
+                        <option class="oignon" value="oignon">🧅 Oignon</option>
+                        <option class="patate" value="patate">🥔 Patate</option>
+                        <option value="tomato">🍅 Tomate</option>
+                        <option class="cerises" value="cerises">🍒 Cerises</option>
+                        <option class="fraise" value="fraise">🍓 Fraises</option>
+                        <option class="kiwi" value="kiwi">🥝 Kiwis</option>
+                        <option class="melon" value="melon">🍈 Melons</option>
+                        <option class="peche" value="peche">🍑 Pêches</option>
+                        <option class="poire" value="poire">🍐 Poires</option>
+                        <option class="pomme" value="pomme">🍎 Pommes</option>
+                        <option class="raisin" value="raisin">🍇 Raisins</option>
+                    </select>
+                
+
+                    <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                        <button class="delete relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">🗑️</button>
+                        <button class="line-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Ligne entière</button>
+                        <button class="colonne-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Colonne entière</button>
+                        
+                        <!--A réparer les boutons suivant-->
+                        <button class="porte">Entrée du jardin</button>
+                        <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
+
+                        <button class="chemin">Chemin</button>
+                        <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
+
+
+
+                        <button class="clear-all -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer tout</button>
+                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
+                        
+                        <!-- Bouton pour sauvegarder le fichier -->
+                        <button id="save-file">Sauvegarder</button>
+                        <!-- Formulaire pour sélectionner un fichier à charger -->
+                        <form id="load-form">
+                            <input type="file" id="load-file">
+                            <button type="submit">Charger</button>
+                        </form>
+
+                    </span>
+                    
                 </div>
 
-                <div class="tab-pane" id="tab3">Vous pouvez consulter le détail des objectifs pédagogiques</div>
-
-                <div class="tab-pane" id="tab4">Vous pouvez consulter le détail des compléments</div>
+                <!-- Affichage du tableau-->
+                <div class="affichage_jardin">
+    
+                </div>
+                    
+            
             </div>
 
-        
 
+            <br><br><br>
+
+            <div class="container jardin">
+                <h2> Voici le calendrier sur le jardin sélectionné:</h2>
+                <br>
+                
+                    
             
+                <div class="form-group">
+                    <div class="datepicker date input-group">
+                        <iframe src="https://calendar.google.com/calendar/embed?height=500&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FParis&showTz=0&showNav=1&showCalendars=1&showPrint=0&showTabs=1&src=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23616161" style="border:solid 1px #777" width="900" height="500" frameborder="0" scrolling="no"></iframe>
+                        <div style="padding:20px; display: flex; align-items: center; justify-content: center"><a href="https://calendar.google.com/calendar/u/0?cid=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20" target="_blank">Ajoutez un évènement ici !</a></div>
+                    </div>
+                </div>    
+            </div>
+            <br><br><br>
         </div>
     </div>
-    <br><br><br>
+     <!-- Script jardin 2D max -->
+     <script src="../static/JS/garden.js"></script>
+        
+        
     
         
-        
-        <!-- Extension jquery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-        <!-- Extension DATEPICKER -->
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-        <!-- Noyau JavaScript de Bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-        <!-- Script jardin 2D max -->
-        <script src="../static/JS/garden.js"></script>
-        <!-- Activation du script calendrier-->
-        <script src="../static/JS/script_calendrier.js"></script>
-        
-        
-</body>
+{% endblock body %}
