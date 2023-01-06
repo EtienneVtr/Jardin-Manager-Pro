@@ -1,25 +1,35 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="../static/css/style_forum.css">
-<link rel="stylesheet" href="./../static/css/style_inscription.css">
+    <link rel="stylesheet" href="../static/css/style_forum.css">
 {% endblock head %}
 
 {% block body %}
-<body class="form-v9">
+
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <!--Entete-->
             <form class="form-detail" action="/creerreponse" method="post">
                 <h2>Jardin Copain</h2>
-                <h2 style="font-size:20px;">Ici, échangez vos idées et astuces de jardinage</h2>
             </form>
-            <div class="Créerunsujet" style="max-width:150px;"> 
-                <a href='creerreponse?sujet={{ sujet }}'>Répondre</a>
-            </div>
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse..">
+            
+            <!--Affichage du sujet-->
             <div class="form-v9-vontent" style="margin-bottom:10px; word-wrap: break-word;">
-                Sujet : {{ sujet }}
+                <h1 style="color: #FB667A;">Sujet : </h1>
+                <p  style="color: #FB667A;">{{ sujet }}</p>
+                <h1>Message : </h1>
+                <p>{{ message }}</p>
             </div>
+
+            <!--Bouton réponse-->
+            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                <a href='creerreponse?sujet={{ sujet }}&message={{ message }}'>Répondre</a>
+            </div>
+            <!--Barre de recherche-->
+            <input style="margin:20px; margin-bottom:10px;" type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher une réponse">
+            <br><br>
+
+            <!--Tableau des réponses-->
             <table id = "myTable" class="container">
                 <thead>
                     <tr>
@@ -33,14 +43,15 @@
                     {% for row in listdb %}
                         <tr> 
                             <td style="color:white; max-width: 740px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis">{{ row[0] }}</td>
-                            <td style="max-width: 100px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}'>{{ row[1] }}</a></td>
-                            <td>{{ row[2] }}</td>
+                            <td style="width: 200px; overflow: auto; word-wrap: break-word; text-overflow: ellipsis"><a href='user/{{ row[1] }}'>{{ row[1] }}</a></td>
+                            <td style="max-width:100px;">{{ row[2] }}</td>
 
                             
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
             <script>
                 function myFunction() {
                     var input, filter, table, tr, td, i, txtValue;
@@ -61,7 +72,7 @@
                     }
                 }
             </script>
-            </div>
         </div>
     </div>
+
 {% endblock body %}

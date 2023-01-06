@@ -84,7 +84,7 @@ h2 a {
 	  font-weight: bold;
 	  font-size: 1em;
   text-align: left;
-  color: #185875;
+  color: #967be0;
 }
 
 .container td {
@@ -100,10 +100,12 @@ h2 a {
 }
 
 .container {
+  border: 1px solid rgb(219, 216, 216);
 	text-align: left;
 	max-width: 90%;
 	margin: 0 auto;
   display: table;
+  min-width:1000px;
   padding: 0 0 8em 0;
 }
 
@@ -178,7 +180,7 @@ body {
 	-ms-border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
-	margin: 185px 0;
+	margin: 80px 0;
 	font-family: 'Nunito', sans-serif;
 	color: #fff;
 	font-weight: 700;

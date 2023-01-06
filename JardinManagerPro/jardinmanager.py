@@ -38,53 +38,98 @@ def forum():
 @app.route("/creersujet", methods = ["GET","POST"])
 def creersujet():
     if request.method == "GET" :
-        return render_template("creersujet.html")
+        if  ('name' in session) and (session['name']!=None):
+            return render_template("creersujet.html")
+        else :
+            return render_template("connection.html")
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
-        if  session['name']== None :
-            return render_template("connection.html")      
-        else :
+        if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creersujet(sujet,message,pseudo,date)
+        else :
+            return render_template("connection.html")
 
 @app.route("/creerreponse", methods = ["GET","POST"])
 def creerreponse():
     if request.method == "GET" :
-        sujet=request.args.get('sujet')
-        return render_template("creerreponse.html", sujet=sujet)
+        if  ('name' in session) and (session['name']!=None):
+            sujet=request.args.get('sujet')
+            message=request.args.get('message')
+            return render_template("creerreponse.html", sujet=sujet,message=message)
+        else :
+            return render_template("connection.html")
     if request.method == "POST" :
         sujet=request.form.get('sujet')
         reponse=request.form.get("reponse")
-        if  session['name']== None :
-            return render_template("connection.html")
-        else :
+        message=request.form.get('message')
+        if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
-            return fct_creerreponse(sujet,reponse,pseudo,date)
+            return fct_creerreponse(sujet,reponse,pseudo,date,message)
+        else :
+            return render_template("connection.html")
+
+@app.route("/creeroffre", methods = ["GET","POST"])
+def creeroffre():
+    if request.method == "GET" :
+        if  ('name' in session) and (session['name']!=None):
+            return render_template("creeroffre.html")
+        else :
+            return render_template("connection.html")
+    if request.method == "POST" :
+        annonce=request.form.get("annonce")
+        localisation=request.form.get("localisation")
+        prix=request.form.get("prix")
+        image=request.files.get('image')
+        description=request.form.get('description')
+        if  ('name' in session) and (session['name']!=None):
+            pseudo = session['name']
+            date= datetime.datetime.now()
+            date= date.strftime("%d/%m/%Y %H:%M")
+            return fct_creeroffre(annonce,prix,localisation,pseudo,date,image,description)
+        else :
+            return render_template("connection.html")
+            
 
 @app.route("/reponsesujet", methods = ["GET","POST"])
 def reponsesujet():
     if request.method == "GET" :
         sujet = request.args.get('sujet')
+        message = request.args.get('message')
         query="""SELECT Reponse,pseudo,date FROM reponse WHERE Sujet=?"""
         args=[sujet]
         dbf,cursor=connectdbforum()
         cursor.execute(query,args)
         data=cursor.fetchall()
         dbf.close()
-        return render_template("reponse.html", listdb=data,sujet=sujet)
+        return render_template("reponse.html", listdb=data,sujet=sujet,message=message)
 
+@app.route("/annonce", methods = ["GET","POST"])
+def annonce():
+    if request.method == "GET" :
+        annonce = request.args.get('annonce')
+        pseudo= request.args.get('pseudo')
+        query="""SELECT Annonce,Prix,Localisation,Pseudo,Date,Image,Description FROM annonce WHERE Annonce=?"""
+        args=[annonce]
+        dbf,cursor=connectdbforum()
+        cursor.execute(query,args)
+        data=cursor.fetchall()
+        dbf.close()
+        return render_template("annonce.html", listdb=data,annonce=annonce,pseudo=pseudo)
 
-
-
-#le cabanon (thomas)
-@app.route('/cabanon')
-def cabanon():
-    return render_template('cabanon.html')
+@app.route('/cabanon',methods=['GET','POST'])
+def cabanon():     
+    if request.method=='GET':
+        return affichertableannonce()
+    if request.method=='POST':
+        prix_min=request.form.get('prix_min')
+        prix_max=request.form.get('prix_max')
+        return affichertableannoncefiltre(prix_min,prix_max)
 
 
 
@@ -115,12 +160,14 @@ def connection():
         mdp = request.form.get("mdp")
         return fct_connection(pseudo, mdp)
 
+
 #deconnexion
 @app.route("/deconnexion")
 def deconnexion():
     session["name"] = None
-    flash("Déconnexion réussie !")
+    flash("Déconnexion réussie !", "success")
     return redirect("/")
+
 
 #profil
 @app.route("/profil")
@@ -131,6 +178,7 @@ def profil():
         pseudo = session.get("name")
         return fct_profil(pseudo)
 
+
 #inscription
 @app.route("/inscription", methods = ["GET","POST"])
 def inscription():
@@ -140,30 +188,50 @@ def inscription():
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
         mdp=request.form.get("mdp")
+        #ici on vérifie que l'utilisateur ne s'est pas trompé lorsqu'il rentre son mot de passe pour l'inscription
+        conf_mdp=request.form.get("conf_mdp")
         ville=request.form.get("ville")
         
-        return fct_inscritpion(pseudo, mail, mdp, ville)
+        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville)
+
 
 #mise a jour donnee profil
 @app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
 def maj(donnee : str):
     if request.method == "GET" :
         return render_template(f"maj_{ donnee }.html")
+    
     if request.method == "POST" :
         pseudo = session.get("name")
+        
+        #changement pseudo
         if donnee == "pseudo" :
             new_pseudo = request.form.get("new_pseudo")
-            session["name"] = new_pseudo
             return maj_db(pseudo, new_pseudo, "Pseudo")
+        
+        #changement mail
         elif donnee == "mail" :
             new_mail = request.form.get("new_mail")
             return maj_db(pseudo, new_mail, "Mail")
+        
+        #changement mdp
         elif donnee == "mdp" :
-            new_mdp = request.form.get("new_mdp")
-            return maj_db(pseudo, new_mdp, "Mdp")
+            ancien_mdp = request.form.get("ancien_mdp")
+            
+            #ici on vérifie que l'utilisateur a bien saisi son ancien mot de passe pour confirmer le changement
+            if verif_mdp(pseudo,ancien_mdp):
+                new_mdp = request.form.get("new_mdp")
+                return maj_db(pseudo, new_mdp, "Mdp")
+            
+            else :
+                flash("Vous vous êtes trompés dans votre ancien mot de passe !", "error")
+                return redirect("/maj/mdp")
+
+        #changement ville
         else :
             new_ville = request.form.get("new_ville")
             return maj_db(pseudo, new_ville, "Ville")
+        
         
 #profil public
 @app.route("/user/<string:donnee>")
@@ -178,7 +246,7 @@ if __name__ == "__main__":
         initDBforum()   
     if (False):
         initDBjardin()
-    if (True):
+    if (False):
         initDBlegume()
  
     

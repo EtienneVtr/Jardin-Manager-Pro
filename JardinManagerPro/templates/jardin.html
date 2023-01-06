@@ -29,8 +29,7 @@
     <br>
     <br>
 
-
-
+    
     <div class="jardin_2D">
         <!-- Formulaire pour sélectionner la taille de la grille -->
         <h4>Chaque bloc représente 1 mètre carré</h4>
@@ -42,7 +41,11 @@
             
         </form>
 
+<<<<<<< HEAD
         <!-- Menu déroulant pour sélectionner le légume/fruit à ajouter -->
+=======
+        <!-- Menu déroulant pour sélectionner le légume à ajouter -->
+>>>>>>> master
         <div id="button-container">
             <select id="vegetable-select">
                 <option value="">Choisissez le légume à planter</option>
@@ -68,14 +71,19 @@
                 <option class="pomme" value="pomme">🍎 Pommes</option>
                 <option class="raisin" value="raisin">🍇 Raisins</option>
             </select>
+<<<<<<< HEAD
 
             <button class="line-button">Ligne entière</button>
             <button class="colonne-button">Colonne entière</button>
+=======
+            <button class="line-button">Ligne entière</button>
+>>>>>>> master
             <button class="delete">🗑️</button>
             <button class="porte">Entrée du jardin</button>
             <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
 
             <button class="chemin">Chemin</button>
+<<<<<<< HEAD
             <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
 
             <button class="clear-all">Effacer tout</button>
@@ -83,6 +91,20 @@
             <button type="reset" id="reset">Réinitialiser Structure</button>
 
 
+=======
+            <button class="clear-all">Effacer tout</button>
+            <button id="delete-cell">Supprimer case</button>
+            <button type="reset" id="reset">Réinitialiser Structure</button>
+            <!-- Bouton pour sauvegarder le fichier -->
+            <button id="save-file">Sauvegarder</button>
+        <!-- Formulaire pour sélectionner un fichier à charger -->
+        <form id="load-form">
+            <input type="file" id="load-file">
+            <button type="submit">Charger</button>
+        </form>
+  
+        </div>
+>>>>>>> master
             
 
             
@@ -133,8 +155,10 @@
                                 <div class="form-group">
                               <div class="form-group">
                                   <div class="datepicker date input-group">
-                                      <input type="text" placeholder="Choisir une date" class="form-control" id="reservationDate">
-                                      <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
+                                    <input type="text" placeholder="Choisir une date" class="form-control" id="reservationDate">
+                                    <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
+                                    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%230B8043&ctz=Europe%2FParis&src=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23616161" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                                    <div>Ajoutez un évènement <a href="https://calendar.google.com/calendar/u/0?cid=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20">ici !</a></div>
                                   </div>
                               </div>
                                 </div>
