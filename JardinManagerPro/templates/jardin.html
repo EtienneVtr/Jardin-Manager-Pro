@@ -41,8 +41,8 @@
                 <div id="button-container">
                     <select id="vegetable-select" style="margin: 20px" class="text-black mt-1  pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                         <option selected>Choisissez le légume à planter</option>
-                        <option value="carrot">Carotte</option>
-                        <option value="tomato">Tomate</option><option value="carrot">🥕 Carotte</option>
+        
+                        <option value="carrot">🥕 Carotte</option>
                         <option class="ail" value="ail">🧄 Ail</option>
                         <option class="aubergine" value="aubergine">🍆 Aubergine</option>
                         <option class="avocat" value="avocat">🥑 Avocat</option>
@@ -64,34 +64,32 @@
                         <option class="pomme" value="pomme">🍎 Pommes</option>
                         <option class="raisin" value="raisin">🍇 Raisins</option>
                     </select>
+                    <!-- Bouton pour sauvegarder le fichier -->
+                    <button id="save-file" style="margin: 0px 0px 0px 415px" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sauvegarder</button>
+
+
                 
 
-                    <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                    <span class="relative z-0 inline-flex shadow-sm rounded-md" style="padding-bottom: 30px; display: flex; align-items: center; justify-content: center">
                         <button class="delete relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">🗑️</button>
                         <button class="line-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Ligne entière</button>
                         <button class="colonne-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Colonne entière</button>
-                        
-                        <!--A réparer les boutons suivant-->
-                        <button class="porte">Entrée du jardin</button>
-                        <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
-
-                        <button class="chemin">Chemin</button>
-                        <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
-
 
 
                         <button class="clear-all -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer tout</button>
-                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
+                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
                         
-                        <!-- Bouton pour sauvegarder le fichier -->
-                        <button id="save-file">Sauvegarder</button>
-                        <!-- Formulaire pour sélectionner un fichier à charger -->
-                        <form id="load-form">
-                            <input type="file" id="load-file">
-                            <button type="submit">Charger</button>
-                        </form>
+
+                        <!--A réparer les boutons suivant-->
+                        <button class="porte -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Entrée du jardin</button>
+                        <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
+
+                        <button class="chemin -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Chemin</button>
+                        <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
+
 
                     </span>
+                
                     
                 </div>
 
@@ -99,6 +97,17 @@
                 <div class="affichage_jardin">
     
                 </div>
+
+                <!-- Formulaire pour sélectionner un fichier à charger -->
+                <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
+                <form id="load-form">
+                    <input type="file" id="load-file">
+                    <button type="submit" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
+
+                </form>
+                
+
+                
                     
             
             </div>
