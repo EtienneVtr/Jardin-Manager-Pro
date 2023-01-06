@@ -32,6 +32,8 @@
     
     <div class="jardin_2D">
         <!-- Formulaire pour sélectionner la taille de la grille -->
+        <h4>Chaque bloc représente 1 mètre carré</h4>
+        <h4>Une plantation de légume ou fruit s'effectue sur 1 mètre carré</h4>
         <form id="form">
             Largeur : <input type="number" id="width"><br>
             Hauteur : <input type="number" id="height"><br>
@@ -39,19 +41,57 @@
             
         </form>
 
+<<<<<<< HEAD
+        <!-- Menu déroulant pour sélectionner le légume/fruit à ajouter -->
+=======
         <!-- Menu déroulant pour sélectionner le légume à ajouter -->
+>>>>>>> master
         <div id="button-container">
             <select id="vegetable-select">
-            <option value="">Choisissez le légume à planter</option>
-            <option value="carrot">Carotte</option>
-            <option value="tomato">Tomate</option>
+                <option value="">Choisissez le légume à planter</option>
+                <option value="carrot">🥕 Carotte</option>
+                <option class="ail" value="ail">🧄 Ail</option>
+                <option class="aubergine" value="aubergine">🍆 Aubergine</option>
+                <option class="avocat" value="avocat">🥑 Avocat</option>
+                <option class="broccoli" value="broccoli">🥦 Broccoli</option>
+                <option class="cacahuetes" value="cacahuetes">🥜 Cacahuètes</option>
+                <option class="chataigne" value="chataigne">🌰 Châtaignes</option>
+                <option class="concombre" value="concombre">🥒 Concombres</option>
+                <option class="mais" value="mais">🌽 Maïs</option>
+                <option class="salade" value="salade">🥬 Salade</option>
+                <option class="oignon" value="oignon">🧅 Oignon</option>
+                <option class="patate" value="patate">🥔 Patate</option>
+                <option value="tomato">🍅 Tomate</option>
+                <option class="cerises" value="cerises">🍒 Cerises</option>
+                <option class="fraise" value="fraise">🍓 Fraises</option>
+                <option class="kiwi" value="kiwi">🥝 Kiwis</option>
+                <option class="melon" value="melon">🍈 Melons</option>
+                <option class="peche" value="peche">🍑 Pêches</option>
+                <option class="poire" value="poire">🍐 Poires</option>
+                <option class="pomme" value="pomme">🍎 Pommes</option>
+                <option class="raisin" value="raisin">🍇 Raisins</option>
             </select>
+<<<<<<< HEAD
+
             <button class="line-button">Ligne entière</button>
+            <button class="colonne-button">Colonne entière</button>
+=======
+            <button class="line-button">Ligne entière</button>
+>>>>>>> master
             <button class="delete">🗑️</button>
             <button class="porte">Entrée du jardin</button>
             <img src="../static/image/photo_jardin/porte.png" id="gate" style="display:none;">
 
             <button class="chemin">Chemin</button>
+<<<<<<< HEAD
+            <img src="../static/image/photo_jardin/dirt.png" id="sand" style="display:none;">
+
+            <button class="clear-all">Effacer tout</button>
+            <button id="delete-cell">Supprimer case</button>
+            <button type="reset" id="reset">Réinitialiser Structure</button>
+
+
+=======
             <button class="clear-all">Effacer tout</button>
             <button id="delete-cell">Supprimer case</button>
             <button type="reset" id="reset">Réinitialiser Structure</button>
@@ -64,7 +104,19 @@
         </form>
   
         </div>
+>>>>>>> master
             
+
+            
+            <!-- Bouton pour sauvegarder le fichier -->
+            <button id="save-file">Sauvegarder</button>
+        <!-- Formulaire pour sélectionner un fichier à charger -->
+        <form id="load-form">
+            <input type="file" id="load-file">
+            <button type="submit">Charger</button>
+        </form>
+  
+        </div>          
     
     </div>
 
