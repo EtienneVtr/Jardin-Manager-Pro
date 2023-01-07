@@ -10,6 +10,14 @@ from PIL import Image
 #from sqlalchemy import bindparam
 import sqlite3
 
+
+#fonction permettant de se connecter à la base de donnée jardinnage
+def connectdbjardin():
+
+    db = sqlite3.connect('jardin.db')
+    cursor = db.cursor()
+    return db, cursor
+
 #fonction permettant de se connecter à la base de donnée
 def connectDatabase():
     """
