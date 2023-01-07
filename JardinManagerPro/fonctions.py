@@ -75,6 +75,21 @@ def verif_mdp(pseudo,mdp):
         return False
 
 
+#fonction qui vérifie si l'utilisateur a une photo de profil
+def verif_photo(pseudo):
+    query = """SELECT Photo FROM Profils WHERE Pseudo LIKE ?;"""
+    args = [pseudo]
+    db, cursor = connectDatabase()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    db.close()
+    
+    if data[0][0] == True :
+        return True
+    else :
+        return False
+    
+    
 #fonction gérant la connection
 def fct_connection(pseudo, mdp):
     #on récupère la liste de pseudo
@@ -122,7 +137,9 @@ def fct_profil(pseudo):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    return render_template("profil.html", items = data, pseudo = pseudo, title="Profil")
+    #on regarde si l'utilisateur possède une photo de profil
+    photo = verif_photo(pseudo)
+    return render_template("profil.html", items = data, pseudo = pseudo, title="Profil", photo=photo)
     
     
 #fonction gérant l'inscription
@@ -234,9 +251,12 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         return redirect("/profil")
     
     else :
-        #on supprime l'ancienne photo
-        image_path = f"./static/image/photo_profil/{ pseudo }"
-        os.remove(image_path)
+        #on regarde si l'utilisateur possède déjà une photo
+        photo = verif_photo(pseudo)
+        if photo == True :
+            #on supprime l'ancienne photo
+            image_path = f"./static/image/photo_profil/{ pseudo }"
+            os.remove(image_path)
         #on ajoute la nouvelle photo à la place
         nouvelle_donnee.save(os.path.join('static/image/photo_profil', pseudo))
         return redirect("/profil")

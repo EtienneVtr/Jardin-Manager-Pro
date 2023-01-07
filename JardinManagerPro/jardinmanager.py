@@ -201,7 +201,12 @@ def inscription():
 @app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
 def maj(donnee : str):
     if request.method == "GET" :
-        return render_template(f"maj_{ donnee }.html", title = f"Mise à jour de votre { donnee }")
+        #on vérifie si l'utilisateur a déjà une photo ou non pour l'affichage de "maj_photo.html"
+        photo = verif_photo(session.name)
+        if photo == True:
+            return render_template(f"maj_{ donnee }.html", title = f"Mise à jour de votre { donnee }", photo=photo)
+        else :
+            return render_template(f"maj_{ donnee }.html", title = f"Ajouter une { donnee }", photo=photo)
     
     if request.method == "POST" :
         pseudo = session.get("name")
