@@ -138,7 +138,7 @@ document.getElementById('save-file').addEventListener('click', function() {
 
 
 
-  CHARGER : 
+  //CHARGER : 
   // Gestionnaire d'événements "submit" pour le formulaire de chargement de fichier
 document.getElementById('load-form').addEventListener('submit', function(event) {
   event.preventDefault(); // Empêche le formulaire de soumettre les données (recharge de la page)
@@ -218,3 +218,4 @@ function loadFile() {
   reader.readAsText(file);
 }
 
+//CHEMIN

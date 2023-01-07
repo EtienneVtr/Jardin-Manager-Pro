@@ -70,11 +70,11 @@ cells.forEach(function(cell) {
       // Ajoute la classe correspondante à la cellule
       cell.classList.add(vegetable);
       // Ajoute le dégradé de vert à la cellule
-      addVegetableBackground(cell);
+      cell.classList.add("vegetable-background")
     }else {
       // Supprime toutes les classes et le background de la cellule cliquée
       cell.className = "";
-      cell.style.background = "";
+      cell.classList.remove("vegetable-background");
     }
   });
 });
@@ -167,6 +167,7 @@ function addVegetableClass(event) {
 
   // Ajout de la classe CSS correspondant à currentVegetable
   cell.classList.add(currentVegetable);
+  
 }
 
 // Gestionnaire d'événement pour le bouton "Poubelle"
@@ -179,9 +180,9 @@ document.querySelector('.delete').addEventListener('click', function() {
   cells.forEach(function(cell) {
     cell.removeEventListener('click', addVegetableClass);
     cell.addEventListener('click', removeVegetableClass);
-    
   });
 });
+
 
 
 // Gestionnaire d'événement pour le bouton "Effacer tout"
@@ -197,7 +198,7 @@ document.querySelector('.clear-all').addEventListener('click', function() {
      'peche', 'poire', 'pomme', 'raisin','ail', 'aubergine', 'avocat',
       'broccoli', 'cacahuetes', 'chataigne','concombre', 'mais', 
       'salade', 'oignon', 'patate');
-    cell.style.background = "";
+    cell.classList.remove("vegetable-background");
   });
 });
 
@@ -206,11 +207,14 @@ document.querySelector('.clear-all').addEventListener('click', function() {
 // Fonction pour ajouter une classe à la case sur laquelle l'utilisateur clique
 function addVegetableClass() {
   this.classList.add(currentVegetable); // Ajout de la classe à la cellule sur laquelle l'utilisateur a cliqué
+
 }
 
 // Fonction pour effacer la classe de la case sur laquelle l'utilisateur clique
 function removeVegetableClass() {
   this.className = ""; // Effacement de la classe de la cellule sur laquelle l'utilisateur a cliqué
+  
+
 }
 
 //Fonction pour ajouter un fond de sable
@@ -218,10 +222,13 @@ function addPathBackground(cell) {
   cell.style.background = '#F4D35E';
 }
 
-  // Fonction qui ajoute un dégradé de vert à une cellule
-  function addVegetableBackground(cell) {
-    cell.style.background = 'linear-gradient(90deg, #9bcc50, #8bac40)';
-  }
+function addVegetableBackground(cell) {
+  // Ajoute la classe "vegetable-background" à la cellule
+  cell.classList.add("vegetable-background");
+}
+
+
+
 
 
 
