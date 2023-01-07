@@ -13,15 +13,21 @@
             <form class="form-detail" action="/maj/photo" method="post" enctype="multipart/form-data">
                 {% if photo == True %}
                     <h2>Changer votre photo de profil</h2>
+                    <div class="form-row-maj">
+                        <input type="file" name="new_photo" id="new_photo">
+                    </div>
+                    <div class="form-row-last">
+                        <input type="submit" name="changer" class="register" value="Modifier">
+                    </div>
                 {% else %}
                     <h2>Ajouter une photo de profil</h2>
+                    <div class="form-row-maj">
+                        <input type="file" name="new_photo" id="new_photo">
+                    </div>
+                    <div class="form-row-last">
+                        <input type="submit" name="changer" class="register" value="Ajouter">
+                    </div>
                 {% endif %}
-                <div class="form-row-maj">
-                    <input type="file" name="new_photo" id="new_photo">
-                </div>
-                <div class="form-row-last">
-                    <input type="submit" name="changer" class="register" value="Modifier">
-                </div>
             </form>
         </div>
     </div>
