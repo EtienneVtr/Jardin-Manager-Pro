@@ -84,7 +84,7 @@ def verif_photo(pseudo):
     data = cursor.fetchall()
     db.close()
     
-    if data[0][0] == True :
+    if data[0][0] == "1" :
         return True
     else :
         return False
@@ -143,7 +143,7 @@ def fct_profil(pseudo):
     
     
 #fonction gérant l'inscription
-def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville, photo):
+def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
     #on récupère les pseudos pour vérifier si l'adresse mail ou le pseudo existent déjà dans la database
     query = """SELECT Pseudo FROM Profils WHERE (Pseudo LIKE (?) OR Mail LIKE (?));"""
     args = [pseudo,mail]
@@ -156,19 +156,16 @@ def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville, photo):
     if data == [] :
         #il faut être sûr que l'utilisateur ne s'est pas trompé lorsqu'il a rentré son mot de passe
         if conf_mdp == mdp:
-            #on commence par récupérer la photo de profil et à l'enregistrer au bon endroit :
-            photo.save(os.path.join("static/image/photo_profil",pseudo))
-            
             #ici on insert une nouvelle ligne dans la base de donnée
-            query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
-            args = (pseudo, mail, mdp, ville)
+            query = """INSERT INTO profils (Pseudo, Mail, Mdp, Photo, Ville) VALUES (?, ?, ?, ?, ?);"""
+            args = (pseudo, mail, mdp, False, ville)
             db, cursor = connectDatabase()
             cursor.execute(query, args)
             db.commit()
             db.close()
             flash("Inscription réussie ! Veuillez vous connecter pour accéder à votre profil !", "success")
             return redirect("/connection")
-        
+            
         else :
             flash("Les deux mots de passe que vous avez rentrés ne sont pas identiques. Veuillez recommencer !", "error")
             return redirect("/inscription")
@@ -259,6 +256,16 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             os.remove(image_path)
         #on ajoute la nouvelle photo à la place
         nouvelle_donnee.save(os.path.join('static/image/photo_profil', pseudo))
+        query = """UPDATE profils SET Photo = ? WHERE PSeudo LIKE ?;"""
+        args = [True,pseudo]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+        if photo == True :
+            flash("Changement de photo de profil réussi !", "success")
+        else :
+            flash("Ajout d'une photo de profil réussi !", "success")
         return redirect("/profil")
     
     
@@ -271,7 +278,9 @@ def fct_profil_public(pseudo):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }")
+    photo = verif_photo(pseudo)
+    
+    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo)
     
     
 #base de donnéé forum

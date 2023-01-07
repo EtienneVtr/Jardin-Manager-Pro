@@ -33,12 +33,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <div style="color:white;">Photo</div>
-                    </td>
-                    <td>
-                        <img src="../static/image/photo_profil/{{ pseudo }}">
-                    </td>
+                    {% if photo == True %}
+                        <td>
+                            <div style="color:white;">Photo</div>
+                        </td>
+                        <td>
+                            <img src="../static/image/photo_profil/{{ pseudo }}">
+                        </td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>
