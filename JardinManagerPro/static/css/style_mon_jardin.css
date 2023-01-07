@@ -14,12 +14,11 @@ table {
 td {
 	background-color: white;
 	border-color: white;
-    width: 50px;
-    height: 50px;
-    border: 1px solid;
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
     text-align: center;
     vertical-align: middle;
-    padding: 25px;
   }
 input[type="number"] {
 	font-size: 16px;
@@ -139,10 +138,11 @@ input[type="number"] {
   display: none;
   }
 
-  .planted-vegetable {
-  /* Code pour le dégradé de couleur vert */
-  background-color: linear-gradient(to bottom, #00FF00, #008800);
-}
+  .vegetable-background {
+    background: linear-gradient(to bottom,  #9bcc50, #8bac40);
+    
+  }
+  
 
 .chemin_fond {
   width: 50px;
@@ -220,6 +220,7 @@ input[type="number"] {
     -moz-justify-content: space-between;
     -webkit-justify-content: space-between;
 }
+
 
 
 
