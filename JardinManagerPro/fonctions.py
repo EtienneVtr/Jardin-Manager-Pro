@@ -6,6 +6,7 @@ import base64
 import os
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
+from PIL import Image
 #from sqlalchemy import bindparam
 import sqlite3
 
@@ -121,11 +122,11 @@ def fct_profil(pseudo):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    return render_template("profil.html", items = data, pseudo = pseudo)
+    return render_template("profil.html", items = data, pseudo = pseudo, title="Profil")
     
     
 #fonction gérant l'inscription
-def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
+def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville, photo):
     #on récupère les pseudos pour vérifier si l'adresse mail ou le pseudo existent déjà dans la database
     query = """SELECT Pseudo FROM Profils WHERE (Pseudo LIKE (?) OR Mail LIKE (?));"""
     args = [pseudo,mail]
@@ -138,6 +139,9 @@ def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
     if data == [] :
         #il faut être sûr que l'utilisateur ne s'est pas trompé lorsqu'il a rentré son mot de passe
         if conf_mdp == mdp:
+            #on commence par récupérer la photo de profil et à l'enregistrer au bon endroit :
+            photo.save(os.path.join("static/image/photo_profil",pseudo))
+            
             #ici on insert une nouvelle ligne dans la base de donnée
             query = """INSERT INTO profils (Pseudo, Mail, Mdp, Ville) VALUES (?, ?, ?, ?);"""
             args = (pseudo, mail, mdp, ville)
@@ -218,7 +222,7 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         flash("Changement de mot de passe réussi !", "success")
         return redirect("/profil")
     
-    else :
+    elif donnee_a_changer == "Ville" :
         #mise a jour de la base de donnée
         query = """UPDATE profils SET Ville = ? WHERE Pseudo LIKE ?;"""
         args = [nouvelle_donnee,pseudo]
@@ -227,6 +231,14 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
         db.commit()
         db.close()
         flash("Changement de ville réussi !", "success")
+        return redirect("/profil")
+    
+    else :
+        #on supprime l'ancienne photo
+        image_path = f"./static/image/photo_profil/{ pseudo }"
+        os.remove(image_path)
+        #on ajoute la nouvelle photo à la place
+        nouvelle_donnee.save(os.path.join('static/image/photo_profil', pseudo))
         return redirect("/profil")
     
     
@@ -239,7 +251,7 @@ def fct_profil_public(pseudo):
     cursor.execute(query, args)
     data = cursor.fetchall()
     db.close()
-    return render_template("profil_public.html", items = data, pseudo = pseudo)
+    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }")
     
     
 #base de donnéé forum
@@ -295,7 +307,7 @@ def affichertableforum():
     data=cursor.fetchall()
     dbf.close()
 
-    return render_template("forum.html", listdb=data)
+    return render_template("forum.html", listdb=data, title="Jardin Copain")
 
 def affichertableannonce():
     query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce;"""
@@ -304,7 +316,7 @@ def affichertableannonce():
     data=cursor.fetchall()
     dbf.close()
 
-    return render_template("cabanon.html", listdb=data)
+    return render_template("cabanon.html", listdb=data, title = "Cabanon")
 
 def affichertableannoncefiltre(prix_min,prix_max):
     query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce WHERE Prix > ? AND Prix < ?;"""
@@ -314,7 +326,7 @@ def affichertableannoncefiltre(prix_min,prix_max):
     data=cursor.fetchall()
     dbf.close()
 
-    return render_template("cabanon.html", listdb=data,prix_min=prix_min,prix_max=prix_max)
+    return render_template("cabanon.html", listdb=data,prix_min=prix_min,prix_max=prix_max, title = "Cabanon")
 
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}

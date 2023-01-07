@@ -5,6 +5,7 @@ import datetime
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
 import sqlite3
+import os
 
 
 #importation des fonctions créée:
@@ -22,7 +23,7 @@ Session(app)
 #/home (max)
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", title = "JardinManagerPro")
 
 
 
@@ -39,7 +40,7 @@ def forum():
 def creersujet():
     if request.method == "GET" :
         if  ('name' in session) and (session['name']!=None):
-            return render_template("creersujet.html")
+            return render_template("creersujet.html", title = "Créer un sujet")
         else :
             return render_template("connection.html")
     if request.method == "POST" :
@@ -51,7 +52,7 @@ def creersujet():
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creersujet(sujet,message,pseudo,date)
         else :
-            return render_template("connection.html")
+            return render_template("connection.html", title = "Connexion")
 
 @app.route("/creerreponse", methods = ["GET","POST"])
 def creerreponse():
@@ -59,9 +60,9 @@ def creerreponse():
         if  ('name' in session) and (session['name']!=None):
             sujet=request.args.get('sujet')
             message=request.args.get('message')
-            return render_template("creerreponse.html", sujet=sujet,message=message)
+            return render_template("creerreponse.html", sujet=sujet,message=message,title="Créer une réponse")
         else :
-            return render_template("connection.html")
+            return render_template("connection.html",title = "Connexion")
     if request.method == "POST" :
         sujet=request.form.get('sujet')
         reponse=request.form.get("reponse")
@@ -72,15 +73,15 @@ def creerreponse():
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creerreponse(sujet,reponse,pseudo,date,message)
         else :
-            return render_template("connection.html")
+            return render_template("connection.html", title = "Connexion")
 
 @app.route("/creeroffre", methods = ["GET","POST"])
 def creeroffre():
     if request.method == "GET" :
         if  ('name' in session) and (session['name']!=None):
-            return render_template("creeroffre.html")
+            return render_template("creeroffre.html", title = "Créer une offre")
         else :
-            return render_template("connection.html")
+            return render_template("connection.html", title = "Connexion")
     if request.method == "POST" :
         annonce=request.form.get("annonce")
         localisation=request.form.get("localisation")
@@ -93,7 +94,7 @@ def creeroffre():
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creeroffre(annonce,prix,localisation,pseudo,date,image,description)
         else :
-            return render_template("connection.html")
+            return render_template("connection.html", title = "Connexion")
             
 
 @app.route("/reponsesujet", methods = ["GET","POST"])
@@ -107,7 +108,7 @@ def reponsesujet():
         cursor.execute(query,args)
         data=cursor.fetchall()
         dbf.close()
-        return render_template("reponse.html", listdb=data,sujet=sujet,message=message)
+        return render_template("reponse.html", listdb=data,sujet=sujet,message=message, title = "Réponse")
 
 @app.route("/annonce", methods = ["GET","POST"])
 def annonce():
@@ -120,7 +121,7 @@ def annonce():
         cursor.execute(query,args)
         data=cursor.fetchall()
         dbf.close()
-        return render_template("annonce.html", listdb=data,annonce=annonce,pseudo=pseudo)
+        return render_template("annonce.html", listdb=data,annonce=annonce,pseudo=pseudo,title="Annonce")
 
 @app.route('/cabanon',methods=['GET','POST'])
 def cabanon():     
@@ -136,12 +137,12 @@ def cabanon():
 #Jardin (max et thomas)
 @app.route('/jardin')
 def jardin():
-    return render_template('jardin.html')
+    return render_template('jardin.html',title="Jardin")
 
 
 @app.route('/info')
 def info():
-    return render_template('info.html')
+    return render_template('info.html',title="Infos")
 
 
 
@@ -154,7 +155,7 @@ def info():
 @app.route("/connection", methods=["GET","POST"])
 def connection():
     if request.method == "GET":
-        return render_template("connection.html")
+        return render_template("connection.html", title = "Connexion")
     if request.method == "POST":
         pseudo = request.form.get("pseudo")
         mdp = request.form.get("mdp")
@@ -183,7 +184,7 @@ def profil():
 @app.route("/inscription", methods = ["GET","POST"])
 def inscription():
     if request.method == "GET" :
-        return render_template("inscription_profil.html")
+        return render_template("inscription_profil.html", title="Inscription")
     if request.method == "POST" :
         pseudo=request.form.get("pseudo")
         mail=request.form.get("mail")
@@ -191,15 +192,16 @@ def inscription():
         #ici on vérifie que l'utilisateur ne s'est pas trompé lorsqu'il rentre son mot de passe pour l'inscription
         conf_mdp=request.form.get("conf_mdp")
         ville=request.form.get("ville")
+        photo_profil = request.files.get("photo_profil")
         
-        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville)
+        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville, photo_profil)
 
 
 #mise a jour donnee profil
 @app.route("/maj/<string:donnee>", methods = ["GET", "POST"])
 def maj(donnee : str):
     if request.method == "GET" :
-        return render_template(f"maj_{ donnee }.html")
+        return render_template(f"maj_{ donnee }.html", title = f"Mise à jour de votre { donnee }")
     
     if request.method == "POST" :
         pseudo = session.get("name")
@@ -228,9 +230,14 @@ def maj(donnee : str):
                 return redirect("/maj/mdp")
 
         #changement ville
-        else :
+        elif donnee == "ville" :
             new_ville = request.form.get("new_ville")
             return maj_db(pseudo, new_ville, "Ville")
+        
+        #changement photo
+        else:
+            new_photo = request.files.get("new_photo")
+            return maj_db(pseudo, new_photo, "Photo")
         
         
 #profil public
