@@ -132,8 +132,34 @@ def cabanon():
         prix_max=request.form.get('prix_max')
         return affichertableannoncefiltre(prix_min,prix_max)
 
+#Route du save de jardin
+@app.post('/save')
+def save():
+    try:
 
+        body = request.json
+        garden = body["garden"]
+        data = ','.join(str(data) for data in garden)
+        print(data)
 
+        query="""INSERT INTO jardin(configuration) VALUES (?)"""
+        args=[data]
+        db,cursor=connectdbjardin()
+        cursor.execute(query,args)
+        db.commit()
+        db.close()
+
+        return {'message':'succesfull'}
+    except Exception as e:
+        return {'message':'e'}
+        
+@app.get('/load')
+def load():
+    query="""SELECT configuration FROM jardin"""
+    db,cursor=connectdbjardin()
+    cursor.execute(query,args)
+    db.commit()
+    db.close
 #Jardin (max et thomas)
 @app.route('/jardin')
 def jardin():
@@ -143,9 +169,6 @@ def jardin():
 @app.route('/info')
 def info():
     return render_template('info.html',title="Infos")
-
-
-
 
 
 
