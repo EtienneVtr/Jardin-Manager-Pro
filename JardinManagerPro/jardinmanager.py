@@ -192,9 +192,8 @@ def inscription():
         #ici on vérifie que l'utilisateur ne s'est pas trompé lorsqu'il rentre son mot de passe pour l'inscription
         conf_mdp=request.form.get("conf_mdp")
         ville=request.form.get("ville")
-        photo_profil = request.files.get("photo_profil")
         
-        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville, photo_profil)
+        return fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville)
 
 
 #mise a jour donnee profil
@@ -202,7 +201,7 @@ def inscription():
 def maj(donnee : str):
     if request.method == "GET" :
         #on vérifie si l'utilisateur a déjà une photo ou non pour l'affichage de "maj_photo.html"
-        photo = verif_photo(session.name)
+        photo = verif_photo(session["name"])
         if photo == True:
             return render_template(f"maj_{ donnee }.html", title = f"Mise à jour de votre { donnee }", photo=photo)
         else :
