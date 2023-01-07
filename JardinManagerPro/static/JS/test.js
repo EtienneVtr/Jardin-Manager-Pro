@@ -218,4 +218,54 @@ function loadFile() {
   reader.readAsText(file);
 }
 
-//CHEMIN
+
+
+
+
+//SAUVEGARDER
+
+function saveFile() {
+  // Récupérez les données de configuration du tableau ici
+  var data = getTableData();
+
+  // Convertissez vos données de configuration en chaîne de caractères pour écrire dans le fichier
+  var dataString = JSON.stringify(data);
+
+  // Création d'un objet Blob à partir de la chaîne de caractères
+  var file = new Blob([dataString], {type: 'text/plain'});
+
+  // Création d'une URL qui pointe vers le fichier
+  var fileUrl = URL.createObjectURL(file);
+
+  // Création d'un lien HTML qui déclenchera le téléchargement du fichier lorsqu'il sera cliqué
+  var link = document.createElement('a');
+  link.setAttribute('download', 'jardin.txt'); // Nom du fichier
+  link.setAttribute('href', fileUrl);
+  link.click(); // Déclenchement du téléchargement
+
+  // Suppression de la référence au fichier pour libérer de la mémoire
+  URL.revokeObjectURL(fileUrl);
+}
+
+
+
+
+
+//FONCTION DONNE PAR NOE
+//SAVE
+
+//SAUVEGARDER
+// Gestionnaire d'événement pour le bouton "Sauvegarder"
+document.getElementById('save-file').addEventListener('click', async()=> {
+  // Récupère les données du tableau
+  var garden = getTableData();
+  const html = body;
+const data = { html: JSON.stringify(html) };
+const data1 = JSON.parse(json);
+document.body.innerHTML = data1.html;
+console.log(JSON.stringify(data));
+// {"html":"<p>Hello, world!</p>"}
+  const response = await fetch("192.168.203.1:5454/save",{method:"POST",headers:{"Accept":"application/json"},body:JSON.stringify(garden)})
+  const message = await response.json()
+  window.alert(message.message)
+});
