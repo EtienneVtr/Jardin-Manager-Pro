@@ -269,3 +269,57 @@ console.log(JSON.stringify(data));
   const message = await response.json()
   window.alert(message.message)
 });
+
+
+
+
+
+
+/*/charger
+
+const vegetableClasses = {
+  "None": "",
+  "carrot": "carrot",
+  "tomato": "tomato",
+  "cerises": "cerises",
+  "fraise": "fraise",
+  "kiwi": "kiwi",
+  "melon": "melon",
+  "peche": "peche",
+  "poire": "poire",
+  "pomme": "pomme",
+  "raisin": "raisin",
+  "ail": "ail",
+  "aubergine": "aubergine",
+  "avocat": "avocat",
+  "broccoli": "broccoli",
+  "cacahuetes": "cacahuetes",
+  "chataigne": "chataigne",
+  "concombre": "concombre",
+  "mais": "mais",
+  "salade": "salade",
+  "patate": "patate",
+  "oignon": "oignon",  }
+
+const garden = data.configuration;
+// Supprime le contenu actuel du tableau
+var table = document.querySelector('table');
+if (table) {
+  table.parentNode.removeChild(table);
+}
+
+//Création d'un tableau HTML vide
+table = document.createElement('table');
+
+for (let i = 0; i < garden.length; i++) {
+  const vegetable = garden[i];
+  const className = vegetableClasses[vegetable];
+  const cell = document.createElement("td");
+  cell.classList.add(className);
+  table.appendChild(cell);
+}
+});
+var table = document.querySelector('table');
+if (table) {
+table.parentNode.removeChild(table);
+}*/

@@ -141,10 +141,11 @@ def save():
         garden = body["garden"]
         data = ','.join(str(data) for data in garden) #transforme list en chaine de caractère séparé d'une virgule
         print(data)
-
-        query="""INSERT INTO jardin(configuration) VALUES (?)"""
-        args=[data]
-        db,cursor=connectdbjardin()
+        largeur = body["largeur"]
+        hauteur = body["hauteur"]
+        query="""INSERT INTO jardin(configuration, largeur, hauteur) VALUES (?, ?, ?)"""
+        args=[data, largeur, hauteur]
+        db,cursor=connectDatabase()
         cursor.execute(query,args)
         db.commit()
         db.close()
@@ -152,28 +153,23 @@ def save():
         return {'message':'succesfull'}
     except Exception as e:
         return {'message':'e'}
-        
-@app.get('/load')
-def load():
-    query="""SELECT configuration FROM jardin WHERE id LIKE (?)"""
-    args=[id]
-    db,cursor=connectdbjardin()
-    cursor.execute(query,args)
-    data = cursor.fetchall()
-    data1 = data[0][0]
-    data1 = data1.split(',') #transforme chaine de caractère en liste
-    db.commit()
-    db.close
+
 
 @app.get("/configuration")
 def get_configuration():
     try:
-        db, cursor = connectdbjardin()
-        cursor.execute("SELECT configuration FROM jardin")
-        configuration = cursor.fetchall()[1][0]
+        id = 3
+        query = f"""SELECT configuration, largeur, hauteur FROM jardin WHERE id = {id}"""
+        db, cursor = connectDatabase()
+        cursor.execute(query)
+        result = cursor.fetchone()
+        configuration = result[0]
+        largeur = result[1]
+        hauteur = result[2]
+        print(largeur,hauteur)
         configuration = configuration.split(',')
         db.close()
-        return {"configuration": configuration}
+        return {"configuration": configuration, "largeur": largeur, "hauteur": hauteur}
     except Exception as e:
         return {"message": str(e)}
 

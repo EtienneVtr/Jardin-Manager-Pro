@@ -46,9 +46,9 @@ def initDB():
         Mdp TEXT,
         Photo TEXT,
         Ville TEXT,
-        Jardin_configuration VARCHAR(255)
+
     );
-    
+
     '''
     db, cursor = connectDatabase()
     cursor.execute(query)

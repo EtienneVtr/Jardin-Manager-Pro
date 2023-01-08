@@ -230,9 +230,17 @@ function addVegetableBackground(cell) {
 //SAUVEGARDER
 // Gestionnaire d'événement pour le bouton "Sauvegarder"
 document.getElementById('save-file').addEventListener('click', async () => {
+  //Nb colonnes et lignes
+  const largeur = document.querySelector('tr').children.length
+  const hauteur = document.querySelectorAll('tr').length
   // Récupère les données du tableau
-  console.log({ garden });
-  const response = await fetch("/save", { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ garden: garden }) })
+  const data = {
+    garden: garden,
+    largeur: largeur,
+    hauteur: hauteur,
+  }
+  console.log(data);
+  const response = await fetch("/save", { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
   const message = await response.json()
   window.alert(message.message)
 });
@@ -242,11 +250,73 @@ document.getElementById('save-file').addEventListener('click', async () => {
 
 document.getElementById('load').addEventListener('click', async () => {
   // Récupère les données du tableau
-  console.log({ garden });
   const response = await fetch("/configuration", { method: "GET"})
   const data = await response.json()
-  console.log(data)
+  console.log(data);
+  const configuration = data.configuration
+  const hauteur = data.hauteur
+  const largeur = data.largeur
+  const rebuildTable = () => {
+    const table = document.createElement('table')
+    for (let i = 0; i < hauteur; i++) {
+      const row = document.createElement('tr')
+      for (let j = 0; j < largeur; j++) {
+        const cell = document.createElement('td')
+        const index = i * largeur + j
+        if (configuration[index] !== 'None') {
+          cell.classList.add(configuration[index])
+          cell.classList.add('vegetable-background')
+        }
+        row.appendChild(cell)
+      }
+      table.appendChild(row)
+    }
+    return table
+  }
+
+  const rebuiltTable = rebuildTable()
+
+  // Récupération du div affichage_jardin
+  var affichageJardin = document.querySelector('.affichage_jardin');
+
+  // Suppression du tableau précédemment généré
+  var table = document.querySelector('table');
+  if (table) {
+    table.parentNode.removeChild(table);
+  }
+
+  // Ajout du tableau reconstruit dans la div affichage_jardin
+  affichageJardin.appendChild(rebuiltTable);
 });
+ // Ajout d'un gestionnaire d'événement "click" à chaque cellule du tableau reconstruit
+  var cells = document.querySelectorAll('td');
+  cells.forEach(function (cell, index) {
+    cell.index = index;
+    cell.addEventListener('click', function (event) {
+      // Récupère le légume sélectionné
+      var vegetable = document.getElementById('vegetable-select').value;
+      if (vegetable) {
+        // Ajoute la classe correspondante à la cellule
+        cell.classList.add(vegetable);
+        // Ajoute le dégradé de vert à la cellule
+        cell.classList.add("vegetable-background")
+        garden[index] = vegetable
+
+      } else {
+        // Supprime toutes les classes et le background de la cellule cliquée
+        cell.className = "";
+        cell.classList.remove("vegetable-background");
+      }
+    });
+  });
+
+
+
+
+
+
+
+
 
 
 //LIGNE ENTIERE
