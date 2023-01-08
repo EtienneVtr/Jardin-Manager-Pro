@@ -18,10 +18,11 @@
                 
             </div>
             
-          
+            
             <br><br><br>
             <!-- Création de votre jardin-->
             <h1 style="padding-bottom: 20px; font-size:20px; " >Création de votre jardin:</h1>
+            {% if session.name %}
             <div class="jardin_2D">
                 <!-- Formulaire pour sélectionner la taille de la grille -->
                 <form id="form" >
@@ -102,8 +103,12 @@
                     
             
             </div>
-
-
+            {% else %}
+            <div class="hidden md:flex md:items-center md:space-x-6">
+                Veuillez vous connecter pour créer et/ou accéder à votre jardin
+                <a href="/connection" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Connexion </a>
+            </div>
+            {% endif %}
             <br><br><br>
 
             <div class="container jardin">

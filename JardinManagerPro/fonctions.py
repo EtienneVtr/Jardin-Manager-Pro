@@ -45,7 +45,8 @@ def initDB():
         Mail TEXT,
         Mdp TEXT,
         Photo TEXT,
-        Ville TEXT
+        Ville TEXT,
+        Jardin_configuration VARCHAR(255)
     );
     
     '''
