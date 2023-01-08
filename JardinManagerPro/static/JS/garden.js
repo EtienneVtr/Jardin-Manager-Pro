@@ -243,11 +243,11 @@ document.getElementById('save-file').addEventListener('click', async () => {
 document.getElementById('load').addEventListener('click', async () => {
   // Récupère les données du tableau
   console.log({ garden });
-  const response = await fetch("/save", { method: "GET", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ garden: garden }) })
-  const message = await response.json()
-  window.alert(message.message)
+  const response = await fetch("/configuration", { method: "GET"})
+  const data = await response.json()
+  console.log(data)
 });
-g
+
 
 //LIGNE ENTIERE
 
