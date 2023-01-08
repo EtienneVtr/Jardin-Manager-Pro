@@ -63,12 +63,12 @@ def initDB():
 #fonction qui récupère l'id
 def id_user(pseudo):
     query="""SELECT id FROM profils WHERE Pseudo LIKE ?;"""
-    args = (pseudo)
+    args = [pseudo]
     db, cursor = connectDatabase()
     cursor.execute(query,args)
     data = cursor.fetchall()
     db.close
-    return data[0][0]
+    return int(data[0][0])
 
 #fonction qui vérifie qu'une donnée est déjà dans la liste donnée en entrée
 def verif_donnee(donnee,liste):

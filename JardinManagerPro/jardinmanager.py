@@ -136,15 +136,15 @@ def cabanon():
 @app.post('/save')
 def save():
     try:
-
+        id = id_user(session["name"])
         body = request.json
         garden = body["garden"]
         data = ','.join(str(data) for data in garden) #transforme list en chaine de caractère séparé d'une virgule
         print(data)
         largeur = body["largeur"]
         hauteur = body["hauteur"]
-        query="""INSERT INTO jardin(configuration, largeur, hauteur) VALUES (?, ?, ?)"""
-        args=[data, largeur, hauteur]
+        query="""INSERT INTO jardin(configuration, largeur, hauteur, id_user) VALUES (?, ?, ?, ?);"""
+        args=[data, largeur, hauteur, id]
         db,cursor=connectDatabase()
         cursor.execute(query,args)
         db.commit()
