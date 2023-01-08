@@ -139,7 +139,7 @@ def save():
 
         body = request.json
         garden = body["garden"]
-        data = ','.join(str(data) for data in garden)
+        data = ','.join(str(data) for data in garden) #transforme list en chaine de caractère séparé d'une virgule
         print(data)
 
         query="""INSERT INTO jardin(configuration) VALUES (?)"""
@@ -155,11 +155,28 @@ def save():
         
 @app.get('/load')
 def load():
-    query="""SELECT configuration FROM jardin"""
+    query="""SELECT configuration FROM jardin WHERE id LIKE (?)"""
+    args=[id]
     db,cursor=connectdbjardin()
     cursor.execute(query,args)
+    data = cursor.fetchall()
+    data1 = data[0][0]
+    data1 = data1.split(',') #transforme chaine de caractère en liste
     db.commit()
     db.close
+
+@app.get("/configuration")
+def get_configuration():
+    try:
+        db, cursor = connectdbjardin()
+        cursor.execute("SELECT configuration FROM jardin")
+        configuration = cursor.fetchall()[1][0]
+        configuration = configuration.split(',')
+        db.close()
+        return {"configuration": configuration}
+    except Exception as e:
+        return {"message": str(e)}
+
 #Jardin (max et thomas)
 @app.route('/jardin')
 def jardin():
