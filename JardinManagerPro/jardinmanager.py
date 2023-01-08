@@ -158,7 +158,7 @@ def save():
 @app.get("/configuration")
 def get_configuration():
     try:
-        id = 3
+        id = 5
         query = f"""SELECT configuration, largeur, hauteur FROM jardin WHERE id = {id}"""
         db, cursor = connectDatabase()
         cursor.execute(query)
