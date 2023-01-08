@@ -188,7 +188,6 @@ def info():
     return render_template('info.html',title="Infos")
 
 
-
 #gestion  de profil (étienne)
 
 #connexion
