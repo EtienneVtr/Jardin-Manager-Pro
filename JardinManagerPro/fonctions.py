@@ -2,8 +2,10 @@
 import string
 import random
 import datetime
+import math
 import base64
 import os
+from geopy.geocoders import Nominatim
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
 from PIL import Image
@@ -299,14 +301,14 @@ def fct_creersujet(sujet,message,pseudo,date):
     dbf.close()
     return redirect ("/forum")
 
-def fct_creerreponse(sujet,reponse,pseudo,date,message):
-    query = """INSERT INTO reponse (Sujet,Reponse,pseudo,date) VALUES (?,?,?,?);"""
-    args = [sujet,reponse,pseudo,date]
+def fct_creerreponse(sujet,reponse,pseudo,date,message,pseudo1):
+    query = """INSERT INTO reponse (Sujet,Reponse,pseudo,date,pseudo1) VALUES (?,?,?,?,?);"""
+    args = [sujet,reponse,pseudo,date,pseudo1]
     dbf, cursor = connectdbforum()
     cursor.execute(query,args)
     dbf.commit()
     dbf.close()
-    return redirect(url_for('reponsesujet',sujet=sujet,message=message))
+    return redirect(url_for('reponsesujet',sujet=sujet,message=message,pseudo1=pseudo1,pseudo=pseudo))
 
 def fct_creeroffre(annonce, prix, localisation, pseudo, date, image,description):
     image_data = image.read()
@@ -329,21 +331,113 @@ def affichertableforum():
 
     return render_template("forum.html", listdb=data, title="Jardin Copain")
 
-def affichertableannonce():
-    query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce;"""
+def affichertableannonce(pseudo):
+    query = "SELECT Ville FROM profils WHERE Pseudo = ?"
+    args=[pseudo]
+    db,cursor=connectDatabase()
+    cursor.execute(query,args)
+    ville_utilisateur = cursor.fetchone()[0]
+    db.close()
+
+    # Récupération des coordonnées de la ville de l'utilisateur
+    geolocator = Nominatim(user_agent="my_app")
+    localisation = geolocator.geocode(ville_utilisateur)
+    lat1, lon1 = localisation.latitude, localisation.longitude
+
+    query = """ SELECT Localisation FROM annonce """
     dbf,cursor=connectdbforum()
     cursor.execute(query)
-    data=cursor.fetchall()
+    data = cursor.fetchall()
     dbf.close()
 
+    def distance_haversine(lat1, lon1, lat2, lon2):
+        # Convertir les coordonnées en radians
+        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+        # Calculer la différence entre les latitudes et longitudes
+        dlat, dlon = lat2 - lat1, lon2 - lon1
+        # Appliquer la formule de Haversine
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        c = 2 * math.asin(math.sqrt(a))
+        # Rayon de la Terre en kilomètres
+        r = 6371
+        return c * r
+
+    distances = []
+    for ville in data:
+        ville_coords = geolocator.geocode(ville[0])
+        distance = distance_haversine(localisation.latitude, localisation.longitude, ville_coords.latitude, ville_coords.longitude)
+        distances.append(distance)
+
+    #Mettre à jour la table annonce en insérant la distance associée à chaque annonce:
+    for i in range(len(distances)):
+        query = """ UPDATE annonce SET Distance = ? WHERE id = ?"""
+        args = [distances[i], i+15]
+        dbf,cursor=connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+
+    # Calcul de la distance entre la ville de l'utilisateur et chaque annonce
+    query = """ SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce ORDER BY Distance ASC """
+    dbf,cursor=connectdbforum()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    dbf.close()
     return render_template("cabanon.html", listdb=data, title = "Cabanon")
 
-def affichertableannoncefiltre(prix_min,prix_max):
-    query="""SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce WHERE Prix > ? AND Prix < ?;"""
+
+def affichertableannoncefiltre(prix_min,prix_max,pseudo):
+    query = "SELECT Ville FROM profils WHERE Pseudo = ?"
+    args=[pseudo]
+    db,cursor=connectDatabase()
+    cursor.execute(query,args)
+    ville_utilisateur = cursor.fetchone()[0]
+    db.close()
+
+    # Récupération des coordonnées de la ville de l'utilisateur
+    geolocator = Nominatim(user_agent="my_app")
+    localisation = geolocator.geocode(ville_utilisateur)
+    lat1, lon1 = localisation.latitude, localisation.longitude
+
+    query = """ SELECT Localisation FROM annonce """
+    dbf,cursor=connectdbforum()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    dbf.close()
+
+    def distance_haversine(lat1, lon1, lat2, lon2):
+        # Convertir les coordonnées en radians
+        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+        # Calculer la différence entre les latitudes et longitudes
+        dlat, dlon = lat2 - lat1, lon2 - lon1
+        # Appliquer la formule de Haversine
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        c = 2 * math.asin(math.sqrt(a))
+        # Rayon de la Terre en kilomètres
+        r = 6371
+        return c * r
+
+    distances = []
+    for ville in data:
+        ville_coords = geolocator.geocode(ville[0])
+        distance = distance_haversine(localisation.latitude, localisation.longitude, ville_coords.latitude, ville_coords.longitude)
+        distances.append(distance)
+
+    #Mettre à jour la table annonce en insérant la distance associée à chaque annonce:
+    for i in range(len(distances)):
+        query = """ UPDATE annonce SET Distance = ? WHERE id = ?"""
+        args = [distances[i], i+15]
+        dbf,cursor=connectdbforum()
+        cursor.execute(query, args)
+        dbf.commit()
+        dbf.close()
+
+    # Calcul de la distance entre la ville de l'utilisateur et chaque annonce
+    query = """ SELECT Annonce,Prix,Localisation,Pseudo,Date FROM annonce WHERE Prix > ? AND Prix < ? ORDER BY Distance ASC """
     args=[prix_min,prix_max]
     dbf,cursor=connectdbforum()
     cursor.execute(query,args)
-    data=cursor.fetchall()
+    data = cursor.fetchall()
     dbf.close()
 
     return render_template("cabanon.html", listdb=data,prix_min=prix_min,prix_max=prix_max, title = "Cabanon")

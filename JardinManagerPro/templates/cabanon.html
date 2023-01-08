@@ -10,12 +10,12 @@
 <!--Entete-->
     <div class="page-content">
         <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-            <form class="form-detail" action="/creersujet" method="post">
+            <div class="form-detail">
                 <h2>Le Cabanon</h2>
                 <h2 style="font-size:20px;"> Vendez ou achetez vos produits locaux </h2>
-            </form>
+            </div>
             <!--Bouton créer une offre-->
-            <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+            <div style="margin-bottom:20px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
                 <a href='creeroffre'>Créer une offre</a>
             </div>
             <!--Barre de recherche-->
@@ -40,7 +40,7 @@
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <span class="text-gray-500 sm:text-sm">€</span>
                         </div>
-                        <input value ="{{ prix_max }}"style="color:black; margin-bottom:10px;" type="number" name="prix_max" id="prix_max" class="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="0.00">
+                        <input value ="{{ prix_max }}"style="color:black; margin-bottom:20px;" type="number" name="prix_max" id="prix_max" class="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="0.00">
                             <div class="absolute inset-y-0 right-0 flex items-center">
                                 <label for="currency" class="sr-only">Currency</label>
                                     <select id="currency" name="currency" class="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -48,7 +48,7 @@
                                     </select>
                             </div>
                     </div>
-                <div style="margin-bottom:10px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                <div style="margin-bottom:20px;" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
                     <input type="submit" value="Filtrer">
                 </div>
             </form>

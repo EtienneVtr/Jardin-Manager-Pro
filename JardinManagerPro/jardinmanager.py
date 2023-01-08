@@ -7,7 +7,6 @@ from flask_session import Session
 import sqlite3
 import os
 
-
 #importation des fonctions créée:
 from fonctions import *
 
@@ -46,6 +45,7 @@ def creersujet():
     if request.method == "POST" :
         sujet=request.form.get("sujet")
         message=request.form.get("message")
+        message=message.replace("\n", "<br>")
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
@@ -58,20 +58,23 @@ def creersujet():
 def creerreponse():
     if request.method == "GET" :
         if  ('name' in session) and (session['name']!=None):
+            pseudo1=request.args.get('pseudo1')
             sujet=request.args.get('sujet')
             message=request.args.get('message')
-            return render_template("creerreponse.html", sujet=sujet,message=message,title="Créer une réponse")
+            return render_template("creerreponse.html", pseudo1=pseudo1,sujet=sujet,message=message,title="Créer une réponse")
         else :
             return render_template("connection.html",title = "Connexion")
     if request.method == "POST" :
         sujet=request.form.get('sujet')
-        reponse=request.form.get("reponse")
         message=request.form.get('message')
+        reponse=request.form.get("reponse")
+        reponse=reponse.replace("\n", "<br>")
+        pseudo1=request.form.get('pseudo1')
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
-            return fct_creerreponse(sujet,reponse,pseudo,date,message)
+            return fct_creerreponse(sujet,reponse,pseudo,date,message,pseudo1)
         else :
             return render_template("connection.html", title = "Connexion")
 
@@ -88,6 +91,7 @@ def creeroffre():
         prix=request.form.get("prix")
         image=request.files.get('image')
         description=request.form.get('description')
+        description=description.replace("\n", "<br>")
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
             date= datetime.datetime.now()
@@ -100,23 +104,24 @@ def creeroffre():
 @app.route("/reponsesujet", methods = ["GET","POST"])
 def reponsesujet():
     if request.method == "GET" :
+        pseudo1= request.args.get('pseudo')
         sujet = request.args.get('sujet')
-        message = request.args.get('message')
-        query="""SELECT Reponse,pseudo,date FROM reponse WHERE Sujet=?"""
-        args=[sujet]
+        message=request.args.get('message')
+        query="""SELECT Reponse,pseudo,date FROM reponse WHERE Sujet=? AND pseudo1=?"""
+        args=[sujet,pseudo1]
         dbf,cursor=connectdbforum()
         cursor.execute(query,args)
         data=cursor.fetchall()
         dbf.close()
-        return render_template("reponse.html", listdb=data,sujet=sujet,message=message, title = "Réponse")
+        return render_template("reponse.html", listdb=data,sujet=sujet,message=message,pseudo1=pseudo1, title = "Réponse")
 
 @app.route("/annonce", methods = ["GET","POST"])
 def annonce():
     if request.method == "GET" :
         annonce = request.args.get('annonce')
         pseudo= request.args.get('pseudo')
-        query="""SELECT Annonce,Prix,Localisation,Pseudo,Date,Image,Description FROM annonce WHERE Annonce=?"""
-        args=[annonce]
+        query="""SELECT Annonce,Prix,Localisation,Pseudo,Date,Image,Description FROM annonce WHERE Annonce=? AND Pseudo=?"""
+        args=[annonce,pseudo]
         dbf,cursor=connectdbforum()
         cursor.execute(query,args)
         data=cursor.fetchall()
@@ -125,19 +130,29 @@ def annonce():
 
 @app.route('/cabanon',methods=['GET','POST'])
 def cabanon():     
+
     if request.method=='GET':
-        return affichertableannonce()
+        if  ('name' in session) and (session['name']!=None):
+            pseudo=session['name']
+            return affichertableannonce(pseudo)
+        else :
+            return render_template('connection.html')
     if request.method=='POST':
-        prix_min=request.form.get('prix_min')
-        prix_max=request.form.get('prix_max')
-        return affichertableannoncefiltre(prix_min,prix_max)
+        if  ('name' in session) and (session['name']!=None):
+            pseudo=session['name']
+            prix_min=request.form.get('prix_min')
+            prix_max=request.form.get('prix_max')
+            return affichertableannoncefiltre(prix_min,prix_max,pseudo)
 
 
 
 #Jardin (max et thomas)
 @app.route('/jardin')
 def jardin():
-    return render_template('jardin.html',title="Jardin")
+    if  ('name' in session) and (session['name']!=None):
+        return render_template('jardin.html',title="Jardin")
+    else :
+        return render_template('connection.html')
 
 
 @app.route('/info')
