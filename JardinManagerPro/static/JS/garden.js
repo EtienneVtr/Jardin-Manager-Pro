@@ -287,7 +287,10 @@ document.getElementById('load').addEventListener('click', async () => {
 
   // Ajout du tableau reconstruit dans la div affichage_jardin
   affichageJardin.appendChild(rebuiltTable);
+   //affichage button
+  document.getElementById('button-container').style.display = 'block';
 });
+
  // Ajout d'un gestionnaire d'événement "click" à chaque cellule du tableau reconstruit
   var cells = document.querySelectorAll('td');
   cells.forEach(function (cell, index) {
