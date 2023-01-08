@@ -178,14 +178,31 @@ def get_configuration():
         return {"message": str(e)}
 
 #Jardin (max et thomas)
-@app.route('/jardin')
+@app.route('/jardin', methods=["GET", "POST"])
 def jardin():
-    return render_template('jardin.html',title="Jardin")
-
+    if request.method == "GET":
+        evenements = liste_evenements(session["name"])
+        return render_template('jardin.html',title="Jardin",evenements=evenements)
+    
+@app.route("/evenement", methods=["GET", "POST"])
+def evenement():
+    if request.method == "GET":
+        return render_template("creerevenement.html", title="Créer un évènement")
+    if request.method == "POST":
+        user = session["name"]
+        titre = request.form.get("titre")
+        debut = request.form.get("debut")
+        fin = request.form.get("fin")
+        description = request.form.get("description")
+        data = [user, titre, debut, fin, description]
+        return creer_evenement(data)
 
 @app.route('/info')
 def info():
     return render_template('info.html',title="Infos")
+
+
+
 
 
 #gestion  de profil (étienne)
@@ -298,6 +315,7 @@ if __name__ == "__main__":
         initDBjardin()
     if (False):
         initDBlegume()
- 
-    
+    if (False):
+        initDB_Calendrier()
+        
     app.run(debug=1, host='0.0.0.0', port='5454')
