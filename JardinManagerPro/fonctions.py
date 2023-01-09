@@ -140,7 +140,7 @@ def fct_connection(pseudo, mdp):
     else :
         session["name"] = pseudo
         flash("Connexion réussie !", "success")
-        return redirect("/profil")
+        return redirect(request.referrer)
 
 
 #fonction gérant affichage profil une fois connecté
