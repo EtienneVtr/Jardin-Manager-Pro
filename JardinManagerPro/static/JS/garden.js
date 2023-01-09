@@ -79,11 +79,12 @@ document.getElementById('form').addEventListener('submit', function (event) {
         // Ajoute le dégradé de vert à la cellule
         cell.classList.add("vegetable-background")
         garden[index] = vegetable
-
+        console.log(garden)
       } else {
         // Supprime toutes les classes et le background de la cellule cliquée
         cell.className = "";
         cell.classList.remove("vegetable-background");
+        garden[cell.index] = null;
       }
     });
   });
@@ -119,6 +120,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
       if (deleteMode) {
         // Supprime la cellule
         cell.parentNode.removeChild(cell);
+        
       }
     });
   });
@@ -175,23 +177,23 @@ function addVegetableClass(event) {
 
 }
 
-// Gestionnaire d'événement pour le bouton "Poubelle"
-document.querySelector('.delete').addEventListener('click', function () {
+// Gestionnaire d'événement pour le bouton "Effacer"
+document.querySelector('.delete').addEventListener('click', function() {
   currentVegetable = null; // Remise à null de currentVegetable pour désélectionner le légume actuel
-  // Remise à zéro du menu déroulant
-  document.getElementById('vegetable-select').selectedIndex = 0;
+
   // Mise à jour du gestionnaire d'événement "click" de chaque cellule
   var cells = document.querySelectorAll('td');
-  cells.forEach(function (cell, index) {
-    cell.index = index
+  cells.forEach(function(cell) {
     cell.removeEventListener('click', addVegetableClass);
-    cell.addEventListener('click', () => {
-      cell.className = "";
-      garden[index] = null;
-
-    });
+    cell.addEventListener('click', removeVegetableClass);
   });
+    // Remise à zéro du menu déroulant
+    document.getElementById('vegetable-select').selectedIndex = 0;
 });
+
+
+
+
 
 
 
@@ -219,8 +221,14 @@ document.querySelector('.clear-all').addEventListener('click', function () {
 // Fonction pour ajouter une classe à la case sur laquelle l'utilisateur clique
 function addVegetableClass() {
   this.classList.add(currentVegetable); // Ajout de la classe à la cellule sur laquelle l'utilisateur a cliqué
-
+  this.classList.add("vegetable-background")
 }
+
+// Fonction pour effacer la classe de la case sur laquelle l'utilisateur clique
+function removeVegetableClass() {
+  this.className = ""; // Effacement de la classe de la cellule sur laquelle l'utilisateur a cliqué
+}
+
 
 function addVegetableBackground(cell) {
   // Ajoute la classe "vegetable-background" à la cellule
@@ -311,6 +319,7 @@ document.getElementById('load').addEventListener('click', async () => {
         cell.classList.remove("vegetable-background");
       }
     });
+  
   });
 
 
@@ -344,18 +353,26 @@ document.querySelector('.line-button').addEventListener('click', function () {
   }
 });
 
-// Fonction pour remplir une ligne avec le légume sélectionné
 function fillRow() {
   // Récupération de la valeur du menu déroulant
   var vegetable = document.getElementById('vegetable-select').value;
-
+  // Récupération de la largeur de la grille
+  var width = document.getElementById('width').value;
+  // Récupération de l'index de la ligne dans la grille
+  var rowIndex = Array.prototype.indexOf.call(this.parentNode.children, this);
   // Remplissage de chaque cellule de la ligne avec le légume sélectionné
   var cells = this.querySelectorAll('td');
-  cells.forEach(function (cell) {
+  cells.forEach(function (cell, index) {
+    cell.index = index;
     cell.classList.add(vegetable);
     addVegetableBackground(cell);
-  });
+    // Mise à jour de la valeur de "garden" à l'index correspondant
+    garden[rowIndex * width + index] = vegetable;
+  }); 
+  console.log(garden)
 }
+
+
 
 
 //COLONNE ENTIERE
@@ -386,19 +403,25 @@ document.querySelector('.colonne-button').addEventListener('click', function () 
   }
 });
 
-// Fonction pour remplir une colonne avec le légume sélectionné
 function fillColumn() {
   // Récupération de la valeur du menu déroulant
   var vegetable = document.getElementById('vegetable-select').value;
-
+  // Récupération de la largeur de la grille
+  var width = document.getElementById('width').value;
+  // Récupération de l'index de la colonne dans le tableau garden
+  const columnIndex = this.cellIndex;
   // Récupération de toutes les cellules de la colonne
-  var index = this.cellIndex; // récupère l'index de la colonne (0 = première colonne)
-  var cells = document.querySelectorAll('td:nth-of-type(' + (index + 1) + ')');
-
-  // Remplissage de chaque cellule de la colonne avec le légume sélectionné
-  cells.forEach(function (cell) {
+  var cells = document.querySelectorAll('td:nth-of-type(' + (columnIndex + 1) + ')');
+  // Remplissage de chaque cellule de la colonne avec le légume sélectionné et mise à jour de "garden"
+  cells.forEach(function (cell, index) {
     cell.classList.add(vegetable);
     addVegetableBackground(cell);
+    // Mise à jour de la valeur de "garden" à l'index correspondant
+    garden[index * width + columnIndex] = vegetable;
   });
+  console.log(garden)
 }
+
+  
+
 
