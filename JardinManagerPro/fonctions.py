@@ -40,9 +40,10 @@ def connectDatabase():
 
 #fonctions initialisant la base de donnée
 def initDB():
-    query = '''
-    DROP TABLE IF EXISTS profils;
+    db, cursor = connectDatabase()
+    cursor.execute('DROP TABLE IF EXISTS profils')
     
+    query = '''
     CREATE TABLE profils 
     (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,7 +56,7 @@ def initDB():
     );
     
     '''
-    db, cursor = connectDatabase()
+    
     cursor.execute(query)
     db.commit()
     cursor.close()
