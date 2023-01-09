@@ -300,9 +300,10 @@ def fct_profil_public(pseudo):
     data = cursor.fetchall()
     db.close()
     photo = verif_photo(pseudo)
-    print(data)
     
-    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo)
+    evenements = liste_evenements(pseudo)
+    
+    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo,evenements=evenements)
     
     
 #base de donnéé forum
@@ -393,88 +394,6 @@ def allowed_file(filename):
 #Au cas ou
 
 
-
-
-#Base de donné mon jardin: (thomas)
-def connectdbjardin():
-    """
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    dbj = sqlite3.connect('jardin.db')
-    cursor = dbj.cursor()
-    return dbj, cursor
-
-def initDBjardin():
-    query = '''
-    DROP TABLE IF EXISTS jardin;
-    
-    CREATE TABLE jardin
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        culture TEXT,
-        largeur INTEGER,
-        longueur INTEGER,
-        dernier_arrosage DATETIME,
-        futur_arrosage DATETIME
-        
-    );
-    
-    '''
-    dbj, cursor = connectdbjardin()
-    cursor.executescript(query)
-    dbj.commit()
-    cursor.close()
-    dbj.close()
-    
-#base de données de légume et fruit
-def connectdblegume():
-    """
-        
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    dbl = sqlite3.connect('legume.db')
-    cursor = dbl.cursor()
-    return dbl, cursor
-
-def initDBlegume():
-    """
-        Stocke la liste des fruits et légumes ainsi que des informations sur chacun
-    """
-    
-    query = '''
-    DROP TABLE IF EXISTS legume;
-    
-    CREATE TABLE legume
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nom_vegetal TEXT,
-        type_vegetal TEXT,
-        photo TEXT,
-        eau TEXT,
-        conservation TEXT
-        
-    );
-    
-    '''
-    dbl, cursor = connectdblegume()
-    cursor.executescript(query)
-    dbl.commit()
-    cursor.close()
-    dbl.close()
-
-
 #Calendrier jardin 
 #Base de données calendrier
 def connectDatabaseCalendrier():
@@ -533,7 +452,7 @@ def creer_evenement(donnee):
 
 def liste_evenements(pseudo):
     #on récupère les évènements liés au compte :
-    query = """SELECT titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
+    query = """SELECT id, titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
     args = [pseudo]
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query, args)
@@ -546,16 +465,16 @@ def inserer(items,liste_triee):
         liste_triee.append(items)
     else :
         for j in range (len(liste_triee)) :
-                if datetime.strptime(items[1],"%d/%m/%Y") < datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                if datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y"):
                     liste_triee.insert(j,items)
                     return
-                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                elif (datetime.strptime(items[2],"%d/%m/%Y") == datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) and (datetime.strptime(items[3],"%d/%m/%Y") < datetime.strptime(liste_triee[j][3],"%d/%m/%Y")) :
                     liste_triee.insert(j,items)
                     return
-                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                elif (datetime.strptime(items[2],"%d/%m/%Y") == datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) and (datetime.strptime(items[3],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][3],"%d/%m/%Y")) :
                     liste_triee.insert(j+1,items)
                     return
-                elif datetime.strptime(items[1],"%d/%m/%Y") > datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                elif datetime.strptime(items[2],"%d/%m/%Y") > datetime.strptime(liste_triee[j][2],"%d/%m/%Y"):
                     liste_triee.append(items)
                     return
 
@@ -565,3 +484,29 @@ def liste_evenements_triee(liste):
         inserer(items,liste_triee)
     
     return liste_triee
+
+def supprimer_evenement(id):
+    query = """DELETE FROM calendrier WHERE id == ?;"""
+    args = [id]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query, args)
+    dbc.commit()
+    dbc.close()
+    
+    return redirect("/jardin")
+
+def modifier_evenement(liste):
+    id = liste[0]
+    titre = liste[1]
+    debut = liste[2]
+    fin = liste[3]
+    description = liste[4]
+    
+    query="""UPDATE calendrier SET titre=?,debut=?,fin=?,description=? WHERE id=?;"""
+    args=[titre,debut,fin,description,id]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    dbc.commit()
+    dbc.close
+    
+    return redirect("/jardin")

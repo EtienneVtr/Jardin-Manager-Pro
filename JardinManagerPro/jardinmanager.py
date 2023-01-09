@@ -197,6 +197,24 @@ def evenement():
         data = [user, titre, debut, fin, description]
         return creer_evenement(data)
 
+@app.route("/supprimerevenement/<int:id>")
+def supprimerevenement(id):
+    return supprimer_evenement(id)
+
+@app.route("/modifierevenement/<int:id>", methods=["GET", "POST"])
+def modifierevenement(id):
+    if request.method == "GET":
+        return render_template("modifierevenement.html", title="Modifier l'évènement", id=id)
+    if request.method == "POST":
+        id_user = id
+        titre = request.form.get("titre")
+        debut = request.form.get("debut")
+        fin = request.form.get("fin")
+        description = request.form.get("description")
+        data = [id_user, titre, debut, fin, description]
+        
+        return modifier_evenement(data)
+
 @app.route('/info')
 def info():
     return render_template('info.html',title="Infos")
@@ -310,11 +328,7 @@ if __name__ == "__main__":
     if (False):
         initDB()
     if (False):
-        initDBforum()   
-    if (False):
-        initDBjardin()
-    if (False):
-        initDBlegume()
+        initDBforum()
     if (False):
         initDB_Calendrier()
         

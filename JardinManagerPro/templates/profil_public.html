@@ -6,16 +6,16 @@
 
 
 {% block body %}
-
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <div style="color:white;">Pseudo</div>
-                </td>
-                <td>
-                    <div style="color:white;">{{ pseudo }}</div>
-                </td>
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="color:white;">Pseudo</div>
+                    </td>
+                    <td>
+                        <div style="color:white;">{{ pseudo }}</div>
+                    </td>
                 <tr>
                     <td>
                         <div style="color:white;">Mail</div>
@@ -42,7 +42,23 @@
                         </td>
                     {% endif %}
                 </tr>
+                <tr>
+                    <td>
+                        Evenements du jardin de {{ pseudo }}
+                    </td>
+                    <td>
+                        {% for items in evenements %}
+                            <div>------------------------------------------</div>
+                            <div>Titre : {{ items[1] }}</div>
+                            <div>Date de début : {{ items[2] }}</div>
+                            <div>Date de fin : {{ items[3] }}</div>
+                            <div>Description : {{ items[4] }}</div>
+                            <div>------------------------------------------</div>
+                        {% endfor %}
+                    </td>
+                </tr>
             </tbody>
         </table>
+    </div>
 
 {% endblock %}
