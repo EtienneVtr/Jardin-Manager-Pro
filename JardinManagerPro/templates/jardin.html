@@ -98,7 +98,16 @@
                 <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
                     <button type="submit" id="load" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
 
-
+                <h1><a href="/evenement">Créer un évènement</a></h1>
+                {% for items in evenements %}
+                    <div>-------------------------</div>
+                    <div>Titre : {{ items[0] }}</div>
+                    <div>Date de début : {{ items[1] }}</div>
+                    <div>Date de fin : {{ items[2] }}</div>
+                    <div>Description : {{ items[3] }}</div>
+                    <div>-------------------------</div>
+                {% endfor %}
+    
                 
                     
             
@@ -111,18 +120,6 @@
             {% endif %}
             <br><br><br>
 
-            <div class="container jardin">
-                <h2> Voici le calendrier sur le jardin sélectionné:</h2>
-                <br>
-                
-                    
-            
-                <div class="form-group">
-                    <div class="datepicker date input-group">
-                        <iframe src="https://calendar.google.com/calendar/embed?height=500&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FParis&showTz=0&showNav=1&showCalendars=1&showPrint=0&showTabs=1&src=Y184NjI2YWUyNDgxNzg3OTgzM2E1ZTE0YjgzYzliOTc2NDg2OTFkMDA2NTljOGIwMDAzNGVmNGU0Y2M5ZTBjNWFjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23616161" style="border:solid 1px #777" width="900" height="500" frameborder="0" scrolling="no"></iframe>
-                    </div>
-                </div>    
-            </div>
             <br><br><br>
         </div>
     </div>

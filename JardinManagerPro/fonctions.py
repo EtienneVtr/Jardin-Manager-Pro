@@ -9,6 +9,7 @@ from geopy.geocoders import Nominatim
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
 from PIL import Image
+from datetime import datetime
 #from sqlalchemy import bindparam
 import sqlite3
 
@@ -19,6 +20,8 @@ def connectdbjardin():
     db = sqlite3.connect('jardin.db')
     cursor = db.cursor()
     return db, cursor
+
+#Profil
 
 #fonction permettant de se connecter à la base de donnée
 def connectDatabase():
@@ -207,6 +210,12 @@ def maj_db(pseudo, nouvelle_donnee, donnee_a_changer):
             db.commit()
             db.close()
             flash("Changement de pseudo réussi !", "success")
+            #on renomme la photo de profil pour la garder associée au compte si l'utilisateur en possède une :
+            if verif_photo(nouvelle_donnee) == True :
+                path = f"./static/image/photo_profil/{ pseudo }"
+                new_name = f"./static/image/photo_profil/{ nouvelle_donnee }"
+                os.rename(path, new_name)
+
             return redirect("/profil")
         
         else :
@@ -290,6 +299,7 @@ def fct_profil_public(pseudo):
     data = cursor.fetchall()
     db.close()
     photo = verif_photo(pseudo)
+    print(data)
     
     return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo)
     
@@ -556,3 +566,93 @@ def initDBlegume():
     dbl.close()
 
 
+#Calendrier jardin 
+#Base de données calendrier
+def connectDatabaseCalendrier():
+    """
+        Function that returns db connection and the cursor to interact with the database.db file
+
+        Parameters :
+            None
+
+        Returns :
+            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
+    """
+    dbc = sqlite3.connect('calendrier.db')
+    cursor = dbc.cursor()
+    return dbc, cursor
+
+def initDB_Calendrier():
+    dbc, cursor = connectDatabaseCalendrier()
+    
+    cursor.execute('DROP TABLE IF EXISTS calendrier')
+    
+    query = '''
+    CREATE TABLE calendrier 
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user TEXT,
+        titre TEXT,
+        debut TEXT,
+        fin TEXT,
+        description TEXT,
+        participants TEXT
+    )
+    '''
+    cursor.execute(query)
+    
+    dbc.commit()
+    cursor.close()
+    dbc.close()
+
+def creer_evenement(donnee):
+    user = donnee[0]
+    titre = donnee[1]
+    debut = donnee[2]
+    fin = donnee[3]
+    description = donnee[4]
+    
+    query = """ INSERT INTO calendrier (user, titre, debut, fin, description) VALUES (?,?,?,?,?);"""
+    args = (user,titre,debut,fin,description)
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    dbc.commit()
+    cursor.close()
+    dbc.close()
+    
+    return redirect("/jardin")
+
+def liste_evenements(pseudo):
+    #on récupère les évènements liés au compte :
+    query = """SELECT titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
+    args = [pseudo]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query, args)
+    liste_evenements = cursor.fetchall()
+    dbc.close()
+    return liste_evenements_triee(liste_evenements)
+
+def inserer(items,liste_triee):
+    if liste_triee == []:
+        liste_triee.append(items)
+    else :
+        for j in range (len(liste_triee)) :
+                if datetime.strptime(items[1],"%d/%m/%Y") < datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                    liste_triee.insert(j,items)
+                    return
+                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                    liste_triee.insert(j,items)
+                    return
+                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                    liste_triee.insert(j+1,items)
+                    return
+                elif datetime.strptime(items[1],"%d/%m/%Y") > datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                    liste_triee.append(items)
+                    return
+
+def liste_evenements_triee(liste):
+    liste_triee = []
+    for items in liste :
+        inserer(items,liste_triee)
+    
+    return liste_triee
