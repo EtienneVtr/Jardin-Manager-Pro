@@ -316,12 +316,6 @@ document.getElementById('load').addEventListener('click', async () => {
 
 
 
-
-
-
-
-
-
 //LIGNE ENTIERE
 
 // Gestionnaire d'événement pour le bouton "Ligne entière"

@@ -297,4 +297,4 @@ if __name__ == "__main__":
         initDBlegume()
  
     
-    app.run(debug=1, host='0.0.0.0', port='5454')
+    app.run(debug=1, host='0.0.0.0', port='8484')

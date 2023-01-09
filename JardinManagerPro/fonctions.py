@@ -159,7 +159,7 @@ def fct_profil(pseudo):
     photo = verif_photo(pseudo)
     return render_template("profil.html", items = data, pseudo = pseudo, title="Profil", photo=photo)
     
-    
+   
 #fonction gérant l'inscription
 def fct_inscritpion(pseudo, mail, mdp, conf_mdp, ville):
     #on récupère les pseudos pour vérifier si l'adresse mail ou le pseudo existent déjà dans la database
