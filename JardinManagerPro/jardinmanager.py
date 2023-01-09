@@ -140,16 +140,27 @@ def save():
         body = request.json
         garden = body["garden"]
         data = ','.join(str(data) for data in garden) #transforme list en chaine de caractère séparé d'une virgule
-        print(data)
         largeur = body["largeur"]
         hauteur = body["hauteur"]
-        query="""INSERT INTO jardin(configuration, largeur, hauteur, id_user) VALUES (?, ?, ?, ?);"""
-        args=[data, largeur, hauteur, id]
-        db,cursor=connectDatabase()
-        cursor.execute(query,args)
-        db.commit()
-        db.close()
-
+        # Vérifie si une configuration, une largeur et une hauteur existent déjà pour l'id de l'utilisateur
+        query = f"""SELECT COUNT(*) FROM jardin WHERE id_user = {id}"""
+        db, cursor = connectDatabase()
+        cursor.execute(query)
+        result = cursor.fetchall()[0][0]
+        if result == 0:
+            query="""INSERT INTO jardin(configuration, largeur, hauteur, id_user) VALUES (?, ?, ?, ?);"""
+            args=[data, largeur, hauteur, id]
+            db,cursor=connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
+        else:
+            query = """UPDATE jardin SET configuration = ?, largeur = ?, hauteur = ? WHERE id_user = ?;"""
+            args=[data, largeur, hauteur, id]
+            db,cursor=connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
         return {'message':'succesfull'}
     except Exception as e:
         return {'message':'e'}
@@ -159,14 +170,15 @@ def save():
 def get_configuration():
     try:
         id = id_user(session["name"])
-        query = f"""SELECT configuration, largeur, hauteur FROM jardin WHERE id = {id}"""
+        query = """SELECT configuration, largeur, hauteur FROM jardin WHERE id_user = (?);"""
+        args = [id]
         db, cursor = connectDatabase()
-        cursor.execute(query)
-        result = cursor.fetchone()
-        configuration = result[0]
-        largeur = result[1]
-        hauteur = result[2]
-        print(largeur,hauteur)
+        cursor.execute(query,args)
+        result = cursor.fetchall()
+        configuration = result[0][0]
+        print(result)
+        largeur = result[0][1]
+        hauteur = result[0][2]
         configuration = configuration.split(',')
         db.close()
         return {"configuration": configuration, "largeur": largeur, "hauteur": hauteur}
