@@ -223,6 +223,7 @@ def info():
 @app.route("/connection", methods=["GET","POST"])
 def connection():
     if request.method == "GET":
+        session["previous_url"] = request.referrer
         return render_template("connection.html", title = "Connexion")
     if request.method == "POST":
         pseudo = request.form.get("pseudo")

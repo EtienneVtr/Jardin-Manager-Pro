@@ -140,7 +140,14 @@ def fct_connection(pseudo, mdp):
     else :
         session["name"] = pseudo
         flash("Connexion réussie !", "success")
-        return redirect(request.referrer)
+        if "previous_url" in session:
+            if session["previous_url"] != "http://127.0.0.1:5454/inscription" :
+                previous_url = session["previous_url"]
+                session.pop("previous_url", None)
+                return redirect(previous_url)
+            else :
+                session.pop("previous_url", None)
+                return redirect("/profil")
 
 
 #fonction gérant affichage profil une fois connecté
