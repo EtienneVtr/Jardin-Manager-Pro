@@ -8,20 +8,20 @@
 {% block body %}
     
     
-    <body class="form-v9">
-        <div class="page-content">
-            <center>
-            <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-                <form class="form-detail" >
-                    <h2>Votre profil</h2>
-                    
-                </form>
+    <div class="page-content">
+        <center>
+        <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <div class="form-detail" >
+                <h2>Votre profil</h2>
+                
+            </div>
+            <div class="encadrement-profil">
                 <table>
                     <tbody>
                         
                         <tr>
                             <td>
-                                <div style="color:white;">Pseudo</div>
+                                <div style="color:white;">Pseudo :</div>
                             </td>
                             <td>
                                 <div style="color:white;">{{ pseudo }}</div>
@@ -32,7 +32,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="color:white;">Mail</div>
+                                <div style="color:white;">Mail :</div>
                             </td>
                             <td>
                                 <div style="color:white;">{{ items[0][0] }}</div>
@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="color:white;">Mot de passe</div>
+                                <div style="color:white;">Mot de passe :</div>
                             </td>
                             <td>
                                 <div style="color:white;">
@@ -58,7 +58,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="color:white;">Ville</div>
+                                <div style="color:white;">Ville :</div>
                             </td>
                             <td>
                                 <div style="color:white;">{{ items[0][3] }}</div>
@@ -69,7 +69,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="color:white;">Photo</div>
+                                <div style="color:white;">Photo de profil :</div>
                             </td>
                             {% if photo == True %}
                                 <td>
@@ -87,9 +87,10 @@
                     </tbody>
                 </table>
             </div>
-            </center>
         </div>
-    </body>
+        </center>
+    </div>
+
     
 
     
