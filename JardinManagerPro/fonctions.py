@@ -504,7 +504,8 @@ def initDB_Calendrier():
         titre TEXT,
         debut TEXT,
         fin TEXT,
-        description TEXT
+        description TEXT,
+        participants TEXT
     )
     '''
     cursor.execute(query)
