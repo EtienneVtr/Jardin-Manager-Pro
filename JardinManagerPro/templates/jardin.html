@@ -20,15 +20,16 @@
             
             
             <br><br><br>
+
             <!-- Création de votre jardin-->
-            <h1 style="padding-bottom: 20px; font-size:20px; " >Création de votre jardin:</h1>
+            <h1 style="padding-bottom: 20px; font-size:25px; " >Création de votre jardin:</h1>
             {% if session.name %}
             <div class="jardin_2D">
                 <!-- Formulaire pour sélectionner la taille de la grille -->
                 <form id="form" >
                     <p style="padding-bottom: 30px; display: flex; align-items: center; justify-content: center">
-                        Largeur : <input type="number" id="width" style="margin: 0px 20px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
-                        Hauteur : <input type="number" id="height" style="margin: 0px 50px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        Largeur: <input type="number" id="width" style="margin: 0px 20px 0px 5px ; width:100px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        Hauteur: <input type="number" id="height" style="margin: 0px 30px 0px 5px; width:100px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
                         <span class="relative z-0 inline-flex shadow-sm rounded-md" >
                             <button type="submit" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Générer</button>
                             <button type="reset" id="reset" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Réinitialiser</button>
@@ -65,7 +66,7 @@
                         <option class="raisin" value="raisin">🍇 Raisins</option>
                     </select>
                     <!-- Bouton pour sauvegarder le fichier -->
-                    <button id="save-file" style="margin: 0px 0px 0px 415px" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sauvegarder</button>
+                    <button id="save-file" style="margin: 0px 0px 0px 100px" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sauvegarder</button>
 
                     
                 
@@ -77,7 +78,7 @@
 
 
                         <button class="clear-all -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer tout</button>
-                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
+                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
                         
 
                         <!--A réparer les boutons suivant-->
@@ -95,18 +96,28 @@
                 </div>
 
                 <!-- Formulaire pour sélectionner un fichier à charger -->
-                <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
-                    <button type="submit" id="load" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
-                
-                <h1><a href="/evenement">Créer un évènement</a></h1>
-                {% for items in evenements %}
-                    <div>-------------------------</div>
-                    <div>Titre : {{ items[0] }}</div>
-                    <div>Date de début : {{ items[1] }}</div>
-                    <div>Date de fin : {{ items[2] }}</div>
-                    <div>Description : {{ items[3] }}</div>
-                    <div>-------------------------</div>
-                {% endfor %}
+                <div style="text-align:center">
+                    <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:
+                    <button type="submit" style="margin:10px"id="load" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
+                    </h1>
+                </div>
+
+                <br><br><br><br><br><br>
+                <!-- Création et affichage de l'agenda du jardin-->
+                <div class="agenda">
+                    <h1 style="padding-bottom: 40px; font-size:25px; text-align:center " >Agenda du jardin:</h1>
+                    
+                    <h1 style="text-align:center; padding-bottom:40px"><a href="/evenement"><button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Ajouter un évènement</button></a></h1>
+                    {% for items in evenements %}
+                        <div>-------------------------</div>
+                        <div>Titre : {{ items[0] }}</div>
+                        <div>Date de début : {{ items[1] }}</div>
+                        <div>Date de fin : {{ items[2] }}</div>
+                        <div>Description : {{ items[3] }}</div>
+                        <div>-------------------------</div>
+                    {% endfor %}
+
+                </div>
                     
             
             </div>
@@ -120,6 +131,9 @@
             <br><br><br>
         </div>
     </div>
+
+
+
     <!-- Script jardin 2D max -->
     <script src="../static/JS/garden.js"></script>
         

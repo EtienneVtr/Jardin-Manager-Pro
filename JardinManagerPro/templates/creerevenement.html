@@ -5,28 +5,37 @@
 {% endblock head %}
 
 {% block body %}
-    <body class="form-v9">
-        <div class="page-content">
-            <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-                <h1>Enregistrer un évènement</h1>
-                <form class="form-detail" action="/evenement" method="post" enctype="multipart/form-data">
-                    <div class="form-row">
-                        <input autocomplete="off" autofocus type="text" name="titre" id="titre" class="input-text" placeholder="Donnez un titre à l'évènement" required>
-                    </div>
-                    <div class="form-row">
-                        <input autocomplete="off" autofocus type="text" name="debut" id="debut" class="input-text" placeholder="Date de début" required>
-                    </div>
-                    <div class="form-row">
-                        <input autocomplete="off" autofocus type="text" name="fin" id="fin" class="input-text" placeholder="Date de fin" required>
-                    </div>
-                    <div class="form-row">
-                        <input autocomplete="off" autofocus type="text" name="description" id="description" class="input-text" placeholder="Donnez une description" required>
-                    </div>
-                    <div>
-                        <input type="submit" name="enregistrer" class="register" value="Enregistrer l'évènement">
-                    </div>
-                </form>
+    <div class="page-content">
+        <div style="text-align:center"class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+            <div class="form-detail" >
+                <h2>Enregistrer un évènement</h2>  
             </div>
+        
+            <form class="form-detail" action="/evenement" method="post" enctype="multipart/form-data">
+                <label for="comment" >Titre de l'évènement</label>
+                <div class="form-row-maj">
+                    
+                    <input autocomplete="off" autofocus type="text" name="titre" id="titre" class="input-text" placeholder="Donnez un titre à l'évènement" required>
+                </div>
+
+                <label for="comment" >Date de début</label>
+                <div class="form-row-maj">
+                    <input autocomplete="off" autofocus type="date" name="debut" id="debut" class="input-text" placeholder="Date de début" required>
+                </div>
+                <label for="comment" >Date de fin</label>
+                <div class="form-row-maj">
+                    <input autocomplete="off" autofocus type="date" name="fin" id="fin" class="input-text" placeholder="Date de fin" required>
+                </div>
+                <div>
+                    <label for="comment" >Donnez une description</label>
+                    <div class="mt-1" style="padding-top:10px">
+                        <textarea rows="5" name="description" style="color:black" id="description" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                    </div>
+                    </div>
+                <div>
+                    <input type="submit" name="enregistrer" style="width:300px" class="register" value="Enregistrer l'évènement">
+                </div>
+            </form>
         </div>
-    </body>
-{% endblock %}
+    </div>
+{% endblock %}  
