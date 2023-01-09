@@ -217,7 +217,7 @@ def inscription():
 def maj(donnee : str):
     if request.method == "GET" :
         #on vérifie si l'utilisateur a déjà une photo ou non pour l'affichage de "maj_photo.html"
-        photo = verif_photo(session.name)
+        photo = verif_photo["name"]
         if photo == True:
             return render_template(f"maj_{ donnee }.html", title = f"Mise à jour de votre { donnee }", photo=photo)
         else :
