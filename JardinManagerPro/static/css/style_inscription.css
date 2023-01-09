@@ -1,6 +1,19 @@
 body {
 	margin:  0;
 }
+
+
+.encadrement-profil {
+	border-width: 3px;
+	border-style: solid;
+	border-color: white;
+	border-radius: 40px;
+	width: 700px;
+	padding: 20px;
+}
+
+
+
 .page-content {
 	width: 100%;
 	margin:  0 auto;
@@ -25,7 +38,7 @@ body {
 	-ms-border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
-	margin: 160px 0;
+	margin: 80px 0;
 	font-family: 'Nunito', sans-serif;
 	color: #fff;
 	font-weight: 700;
