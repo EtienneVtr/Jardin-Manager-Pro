@@ -98,7 +98,15 @@
                 <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
                     <button type="submit" id="load" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
                 
-                <h1><a href="/evenement">Créer un évènement</a></h1>    
+                <h1><a href="/evenement">Créer un évènement</a></h1>
+                {% for items in evenements %}
+                    <div>-------------------------</div>
+                    <div>Titre : {{ items[0] }}</div>
+                    <div>Date de début : {{ items[1] }}</div>
+                    <div>Date de fin : {{ items[2] }}</div>
+                    <div>Description : {{ items[3] }}</div>
+                    <div>-------------------------</div>
+                {% endfor %}
                     
             
             </div>

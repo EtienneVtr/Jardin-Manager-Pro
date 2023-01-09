@@ -7,6 +7,7 @@ import os
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
 from PIL import Image
+from datetime import datetime
 #from sqlalchemy import bindparam
 import sqlite3
 
@@ -532,10 +533,34 @@ def creer_evenement(donnee):
 def liste_evenements(pseudo):
     #on récupère les évènements liés au compte :
     query = """SELECT titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
-    args = (pseudo)
+    args = [pseudo]
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query, args)
     liste_evenements = cursor.fetchall()
     dbc.close()
+    return liste_evenements_triee(liste_evenements)
+
+def inserer(items,liste_triee):
+    if liste_triee == []:
+        liste_triee.append(items)
+    else :
+        for j in range (len(liste_triee)) :
+                if datetime.strptime(items[1],"%d/%m/%Y") < datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                    liste_triee.insert(j,items)
+                    return
+                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                    liste_triee.insert(j,items)
+                    return
+                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                    liste_triee.insert(j+1,items)
+                    return
+                elif datetime.strptime(items[1],"%d/%m/%Y") > datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                    liste_triee.append(items)
+                    return
+
+def liste_evenements_triee(liste):
+    liste_triee = []
+    for items in liste :
+        inserer(items,liste_triee)
     
-    return
+    return liste_triee
