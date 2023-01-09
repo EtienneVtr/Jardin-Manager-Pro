@@ -96,8 +96,10 @@ def verif_photo(pseudo):
     cursor.execute(query,args)
     data = cursor.fetchall()
     db.close()
-    
-    if data[0][0] == "1" :
+    print(data)
+    if data == []:
+        return False
+    elif data[0][0] == "1" :
         return True
     else :
         return False
@@ -440,8 +442,8 @@ def creer_evenement(donnee):
     fin = donnee[3]
     description = donnee[4]
     
-    query = """ INSERT INTO calendrier (user, titre, debut, fin, description) VALUES (?,?,?,?,?);"""
-    args = (user,titre,debut,fin,description)
+    query = """ INSERT INTO calendrier (user, titre, debut, fin, description, participants) VALUES (?,?,?,?,?,?);"""
+    args = (user,titre,debut,fin,description,"aucun")
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query,args)
     dbc.commit()
@@ -452,7 +454,7 @@ def creer_evenement(donnee):
 
 def liste_evenements(pseudo):
     #on récupère les évènements liés au compte :
-    query = """SELECT id, titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
+    query = """SELECT id, titre, debut, fin, description, participants FROM calendrier WHERE user LIKE ?;"""
     args = [pseudo]
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query, args)
@@ -510,3 +512,31 @@ def modifier_evenement(liste):
     dbc.close
     
     return redirect("/jardin")
+
+def participer_evenement(id_evenement, pseudo_particiant):
+    query="""SELECT participants FROM calendrier WHERE id=?;"""
+    args=[id_evenement]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbc.close()
+    
+    if data[0][0] == "aucun":
+        query="""UPDATE calendrier SET participants = ? WHERE id = ?;"""
+        args = [pseudo_particiant,id_evenement]
+        dbc, cursor = connectDatabaseCalendrier()
+        cursor.execute(query,args)
+        dbc.commit()
+        dbc.close()
+    else :
+        flash("Il y a déjà un participant !", "error")
+    
+    query="""SELECT user FROM calendrier WHERE id=?;"""
+    args=[id_evenement]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbc.close()
+    
+    return redirect(f"/user/{ data[0][0] }")
+        

@@ -44,16 +44,20 @@
                 </tr>
                 <tr>
                     <td>
-                        Evenements du jardin de {{ pseudo }}
+                        <div style="color:white;">Evenements du jardin de {{ pseudo }}</div>
                     </td>
                     <td>
                         {% for items in evenements %}
-                            <div>------------------------------------------</div>
-                            <div>Titre : {{ items[1] }}</div>
-                            <div>Date de début : {{ items[2] }}</div>
-                            <div>Date de fin : {{ items[3] }}</div>
-                            <div>Description : {{ items[4] }}</div>
-                            <div>------------------------------------------</div>
+                            <div style="color:white;">------------------------------------------</div>
+                            <div style="color:white;">Titre : {{ items[1] }}</div>
+                            <div style="color:white;">Date de début : {{ items[2] }}</div>
+                            <div style="color:white;">Date de fin : {{ items[3] }}</div>
+                            <div style="color:white;">Description : {{ items[4] }}</div>
+                            <div style="color:white;">Participant : {{ items[5] }}</div>
+                            <div style="color:white;">
+                                <a href="/participerevenement/{{ items[0] }}">S'inscrire comme participant</a>
+                            </div>
+                            <div style="color:white;">------------------------------------------</div>
                         {% endfor %}
                     </td>
                 </tr>

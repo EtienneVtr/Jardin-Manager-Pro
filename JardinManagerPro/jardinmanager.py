@@ -215,6 +215,12 @@ def modifierevenement(id):
         
         return modifier_evenement(data)
 
+@app.route("/participerevenement/<int:id>")
+def participerevenement(id):
+    pseudo_participant = session["name"]
+    id_evenements = id
+    return participer_evenement(id_evenements,pseudo_participant)
+
 @app.route('/info')
 def info():
     return render_template('info.html',title="Infos")
