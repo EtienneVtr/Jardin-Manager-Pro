@@ -27,8 +27,8 @@
                 <!-- Formulaire pour sélectionner la taille de la grille -->
                 <form id="form" >
                     <p style="padding-bottom: 30px; display: flex; align-items: center; justify-content: center">
-                        Largeur : <input type="number" id="width" style="margin: 0px 20px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
-                        Hauteur : <input type="number" id="height" style="margin: 0px 50px 0px 5px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        Largeur : <input type="number" id="width" style="margin: 0px 20px 0px 5px ; width: 80px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
+                        Hauteur : <input type="number" id="height" style="margin: 0px 50px 0px 5px; width: 80px" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm border-gray-300 rounded-md" >
                         <span class="relative z-0 inline-flex shadow-sm rounded-md" >
                             <button type="submit" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Générer</button>
                             <button type="reset" id="reset" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Réinitialiser</button>
@@ -65,19 +65,18 @@
                         <option class="raisin" value="raisin">🍇 Raisins</option>
                     </select>
                     <!-- Bouton pour sauvegarder le fichier -->
-                    <button id="save-file" style="margin: 0px 0px 0px 415px" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sauvegarder</button>
+                    <button id="save-file" style="margin: 0px 0px 0px 180px" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sauvegarder</button>
 
                     
                 
 
                     <span class="relative z-0 inline-flex shadow-sm rounded-md" style="padding-bottom: 30px; display: flex; align-items: center; justify-content: center">
-                        <button id="clear" class="delete relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer</button>
-                        <button class="line-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Ligne entière</button>
+                        <button class="line-button relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Ligne entière</button>
                         <button class="colonne-button -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Colonne entière</button>
 
-
+                        <button id="clear" class="delete -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer</button>
                         <button class="clear-all -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Effacer tout</button>
-                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
+                        <button id="delete-cell" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer une case</button>
                         
 
                         <!--A réparer les boutons suivant-->
@@ -95,8 +94,11 @@
                 </div>
 
                 <!-- Formulaire pour sélectionner un fichier à charger -->
-                <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
-                    <button type="submit" id="load" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
+                <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:
+                    <button type="submit" id="load" style="margin-left: 50px" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
+                </h1>
+
+                <br><br><br><br><br>
 
                 <!-- Création et affichage de l'agenda du jardin-->
                 <div class="agenda">
@@ -105,28 +107,32 @@
                     <h1 style="text-align:center; padding-bottom:40px"><a href="/evenement"><button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Ajouter un évènement</button></a></h1>
                     <table>
                         <tbody>
+                            <br><br>
+
                             {% for items in evenements %}
-                                <tr>
-                                    <td>
-                                        <div>------------------------------------------</div>
-                                        <div>Titre : {{ items[1] }}</div>
-                                        <div>Date de début : {{ items[2] }}</div>
-                                        <div>Date de fin : {{ items[3] }}</div>
-                                        <div>Description : {{ items[4] }}</div>
-                                        <div>Participant : {{ items[5] }}</div>
-                                        <div>------------------------------------------</div>
-                                    </td>
-                                    <td>
-                                        <div>------------------------------------------</div>
-                                        <a href="/modifierevenement/{{ items[0] }}">Modifier</a>
-                                        <div>------------------------------------------</div>
-                                    </td>
-                                    <td>
-                                        <div>------------------------------------------</div>
-                                        <a href="/supprimerevenement/{{ items[0] }}">Supprimer</a>
-                                        <div>------------------------------------------</div>
-                                    </td>
-                                </tr>
+                                <div class="evenement" style="margin-bottom: 50px; ">
+                                
+                                    <div>------------------------------------------</div>
+                                    <div>Titre : {{ items[1] }}</div>
+                                    <div>Date de début : {{ items[2] }}</div>
+                                    <div>Date de fin : {{ items[3] }}</div>
+                                    <div>Description : {{ items[4] }}</div>
+                                    <div>Participant : {{ items[5] }}</div>
+                                    <div>------------------------------------------</div>
+                            
+    
+                                    <div>
+                                        <a href="/modifierevenement/{{ items[0] }}">
+                                            <button class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Modifier</button>
+                                        </a>
+
+                                        <a href="/supprimerevenement/{{ items[0] }}">
+                                            <button href="/supprimerevenement/{{ items[0] }}" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">Supprimer</button>
+                                        </a>
+                                    </div>
+                                </div>
+                                        
+                                    
                             {% endfor %}
                         </tbody>
                     </table>
