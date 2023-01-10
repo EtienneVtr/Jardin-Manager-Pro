@@ -148,44 +148,51 @@ def cabanon():
 @app.post('/save')
 def save():
     try:
-
+        id = id_user(session["name"])
         body = request.json
         garden = body["garden"]
         data = ','.join(str(data) for data in garden) #transforme list en chaine de caractère séparé d'une virgule
-        print(data)
-
-        query="""INSERT INTO jardin(configuration) VALUES (?)"""
-        args=[data]
-        db,cursor=connectdbjardin()
-        cursor.execute(query,args)
-        db.commit()
-        db.close()
-
+        largeur = body["largeur"]
+        hauteur = body["hauteur"]
+        # Vérifie si une configuration, une largeur et une hauteur existent déjà pour l'id de l'utilisateur
+        query = f"""SELECT COUNT(*) FROM jardin WHERE id_user = {id}"""
+        db, cursor = connectDatabase()
+        cursor.execute(query)
+        result = cursor.fetchall()[0][0]
+        if result == 0:
+            query="""INSERT INTO jardin(configuration, largeur, hauteur, id_user) VALUES (?, ?, ?, ?);"""
+            args=[data, largeur, hauteur, id]
+            db,cursor=connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
+        else:
+            query = """UPDATE jardin SET configuration = ?, largeur = ?, hauteur = ? WHERE id_user = ?;"""
+            args=[data, largeur, hauteur, id]
+            db,cursor=connectDatabase()
+            cursor.execute(query,args)
+            db.commit()
+            db.close()
         return {'message':'succesfull'}
     except Exception as e:
         return {'message':'e'}
-        
-@app.get('/load')
-def load():
-    query="""SELECT configuration FROM jardin WHERE id LIKE (?)"""
-    args=[id]
-    db,cursor=connectdbjardin()
-    cursor.execute(query,args)
-    data = cursor.fetchall()
-    data1 = data[0][0]
-    data1 = data1.split(',') #transforme chaine de caractère en liste
-    db.commit()
-    db.close
 
 @app.get("/configuration")
 def get_configuration():
     try:
-        db, cursor = connectdbjardin()
-        cursor.execute("SELECT configuration FROM jardin")
-        configuration = cursor.fetchall()[1][0]
+        id = id_user(session["name"])
+        query = """SELECT configuration, largeur, hauteur FROM jardin WHERE id_user = (?);"""
+        args = [id]
+        db, cursor = connectDatabase()
+        cursor.execute(query,args)
+        result = cursor.fetchall()
+        configuration = result[0][0]
+        print(result)
+        largeur = result[0][1]
+        hauteur = result[0][2]
         configuration = configuration.split(',')
         db.close()
-        return {"configuration": configuration}
+        return {"configuration": configuration, "largeur": largeur, "hauteur": hauteur}
     except Exception as e:
         return {"message": str(e)}
 
