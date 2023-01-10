@@ -326,7 +326,7 @@ def user(donnee : str):
 
 #main
 if __name__ == "__main__":
-    if (True):
+    if (False):
         initDB()
     if (False):
         initDBforum()   
