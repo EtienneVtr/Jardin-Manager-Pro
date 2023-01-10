@@ -173,9 +173,9 @@ def save():
             cursor.execute(query,args)
             db.commit()
             db.close()
-        return {'message':'succesfull'}
+        return {'message':'Votre jardin a bien été sauvegardé'}
     except Exception as e:
-        return {'message':'e'}
+        return {'message':'erreur de'}
 
 @app.get("/configuration")
 def get_configuration():

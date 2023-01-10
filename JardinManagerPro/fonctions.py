@@ -51,7 +51,7 @@ def initDB():
         Mail TEXT,
         Mdp TEXT,
         Photo TEXT,
-        Ville TEXT,
+        Ville TEXT
     );
     
     '''
