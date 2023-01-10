@@ -107,7 +107,9 @@ def verif_photo(pseudo):
     data = cursor.fetchall()
     db.close()
     
-    if data[0][0] == "1" :
+    if data == []:
+        return False
+    elif data[0][0] == "1" :
         return True
     else :
         return False
@@ -308,9 +310,10 @@ def fct_profil_public(pseudo):
     data = cursor.fetchall()
     db.close()
     photo = verif_photo(pseudo)
-    print(data)
     
-    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo)
+    evenements = liste_evenements(pseudo)
+    
+    return render_template("profil_public.html", items = data, pseudo = pseudo, title=f"Profil de { pseudo }",photo=photo,evenements=evenements)
     
     
 #base de donnéé forum
@@ -494,87 +497,6 @@ def allowed_file(filename):
 
 
 
-
-#Base de donné mon jardin: (thomas)
-def connectdbjardin():
-    """
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    dbj = sqlite3.connect('jardin.db')
-    cursor = dbj.cursor()
-    return dbj, cursor
-
-def initDBjardin():
-    query = '''
-    DROP TABLE IF EXISTS jardin;
-    
-    CREATE TABLE jardin
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        culture TEXT,
-        largeur INTEGER,
-        longueur INTEGER,
-        dernier_arrosage DATETIME,
-        futur_arrosage DATETIME
-        
-    );
-    
-    '''
-    dbj, cursor = connectdbjardin()
-    cursor.executescript(query)
-    dbj.commit()
-    cursor.close()
-    dbj.close()
-    
-#base de données de légume et fruit
-def connectdblegume():
-    """
-        
-        Function that returns db connection and the cursor to interact with the database.db file
-
-        Parameters :
-            None
-
-        Returns :
-            - tuple [Connection, Cursor] : a tuple of the database connection and cursor
-    """
-    dbl = sqlite3.connect('legume.db')
-    cursor = dbl.cursor()
-    return dbl, cursor
-
-def initDBlegume():
-    """
-        Stocke la liste des fruits et légumes ainsi que des informations sur chacun
-    """
-    
-    query = '''
-    DROP TABLE IF EXISTS legume;
-    
-    CREATE TABLE legume
-    (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nom_vegetal TEXT,
-        type_vegetal TEXT,
-        photo TEXT,
-        eau TEXT,
-        conservation TEXT
-        
-    );
-    
-    '''
-    dbl, cursor = connectdblegume()
-    cursor.executescript(query)
-    dbl.commit()
-    cursor.close()
-    dbl.close()
-
-
 #Calendrier jardin 
 #Base de données calendrier
 def connectDatabaseCalendrier():
@@ -665,3 +587,57 @@ def liste_evenements_triee(liste):
         inserer(items,liste_triee)
     
     return liste_triee
+
+def supprimer_evenement(id):
+    query = """DELETE FROM calendrier WHERE id == ?;"""
+    args = [id]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query, args)
+    dbc.commit()
+    dbc.close()
+
+    return redirect("/jardin")
+
+
+def modifier_evenement(liste):
+    id = liste[0]
+    titre = liste[1]
+    debut = liste[2]
+    fin = liste[3]
+    description = liste[4]
+    
+    query="""UPDATE calendrier SET titre=?,debut=?,fin=?,description=? WHERE id=?;"""
+    args=[titre,debut,fin,description,id]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    dbc.commit()
+    dbc.close
+
+    return redirect("/jardin")
+
+def participer_evenement(id_evenement, pseudo_particiant):
+    query="""SELECT participants FROM calendrier WHERE id=?;"""
+    args=[id_evenement]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbc.close()
+    
+    if data[0][0] == "aucun":
+        query="""UPDATE calendrier SET participants = ? WHERE id = ?;"""
+        args = [pseudo_particiant,id_evenement]
+        dbc, cursor = connectDatabaseCalendrier()
+        cursor.execute(query,args)
+        dbc.commit()
+        dbc.close()
+    else :
+        flash("Il y a déjà un participant !", "error")
+    
+    query="""SELECT user FROM calendrier WHERE id=?;"""
+    args=[id_evenement]
+    dbc, cursor = connectDatabaseCalendrier()
+    cursor.execute(query,args)
+    data = cursor.fetchall()
+    dbc.close()
+    
+    return redirect(f"/user/{ data[0][0] }")

@@ -9,21 +9,22 @@
 
     <div class="page-content">
         <center>
-        <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
-            <div class="form-detail" >
-                <h2>Profil de {{pseudo}}</h2>
-                
-            </div>
-            <div class="encadrement-profil">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="color:white;">Pseudo :</div>
-                            </td>
-                            <td>
-                                <div style="color:white;">{{ pseudo }}</div>
-                            </td>
+            <div class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
+                <div class="form-detail" >
+                    <h2>Profil de {{pseudo}}</h2>
+                    
+                </div>
+                <div class="encadrement-profil">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="color:white;">Pseudo :</div>
+                                </td>
+                                <td>
+                                    <div style="color:white;">{{ pseudo }}</div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <div style="color:white;">Mail :</div>
@@ -50,10 +51,29 @@
                                     </td>
                                 {% endif %}
                             </tr>
+                            <tr>
+                                <td>
+                                    <div style="color:white;">Evenements du jardin de {{ pseudo }}</div>
+                                </td>
+                                <td>
+                                    {% for items in evenements %}
+                                        <div style="color:white;">------------------------------------------</div>
+                                        <div style="color:white;">Titre : {{ items[1] }}</div>
+                                        <div style="color:white;">Date de début : {{ items[2] }}</div>
+                                        <div style="color:white;">Date de fin : {{ items[3] }}</div>
+                                        <div style="color:white;">Description : {{ items[4] }}</div>
+                                        <div style="color:white;">Participant : {{ items[5] }}</div>
+                                        <div style="color:white;">
+                                            <a href="/participerevenement/{{ items[0] }}">S'inscrire comme participant</a>
+                                        </div>
+                                        <div style="color:white;">------------------------------------------</div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
+                </div>
             </div>
-        </div>
         </center>
     </div>
 

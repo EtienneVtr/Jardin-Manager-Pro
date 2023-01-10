@@ -8,10 +8,10 @@
     <div class="page-content">
         <div style="text-align:center"class="form-v9-content" style="background-image: url('images/form-v9.jpg')">
             <div class="form-detail" >
-                <h2>Enregistrer un évènement</h2>  
+                <h2>Modifier un évènement</h2>  
             </div>
         
-            <form class="form-detail" action="/evenement" method="post" enctype="multipart/form-data">
+            <form class="form-detail" action="/modifierevenement/{{ id }}" method="post" enctype="multipart/form-data">
                 <label for="comment" >Titre de l'évènement</label>
                 <div class="form-row-maj">
                     
@@ -33,9 +33,12 @@
                     </div>
                     </div>
                 <div>
-                    <input type="submit" name="enregistrer" style="width:300px" class="register" value="Enregistrer l'évènement">
+                    <input type="submit" name="enregistrer" style="width:300px" class="register" value="Modifier l'évènement">
                 </div>
             </form>
+            <div>
+                <a href="/jardin">Annuler</a>
+            </div>
         </div>
     </div>
 {% endblock %}  
