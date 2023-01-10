@@ -543,8 +543,8 @@ def creer_evenement(donnee):
     fin = donnee[3]
     description = donnee[4]
     
-    query = """ INSERT INTO calendrier (user, titre, debut, fin, description) VALUES (?,?,?,?,?);"""
-    args = (user,titre,debut,fin,description)
+    query = """ INSERT INTO calendrier (user, titre, debut, fin, description, participants) VALUES (?,?,?,?,?,?);"""
+    args = (user,titre,debut,fin,description,"aucun")
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query,args)
     dbc.commit()
@@ -556,7 +556,7 @@ def creer_evenement(donnee):
 
 def liste_evenements(pseudo):
     #on récupère les évènements liés au compte :
-    query = """SELECT titre, debut, fin, description FROM calendrier WHERE user LIKE ?;"""
+    query = """SELECT id, titre, debut, fin, description, participants FROM calendrier WHERE user LIKE ?;"""
     args = [pseudo]
     dbc, cursor = connectDatabaseCalendrier()
     cursor.execute(query, args)
@@ -569,16 +569,16 @@ def inserer(items,liste_triee):
         liste_triee.append(items)
     else :
         for j in range (len(liste_triee)) :
-                if datetime.strptime(items[1],"%d/%m/%Y") < datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                if datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y"):
                     liste_triee.insert(j,items)
                     return
-                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                elif (datetime.strptime(items[2],"%d/%m/%Y") == datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) and (datetime.strptime(items[3],"%d/%m/%Y") < datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
                     liste_triee.insert(j,items)
                     return
-                elif (datetime.strptime(items[1],"%d/%m/%Y") == datetime.strptime(liste_triee[j][1],"%d/%m/%Y")) and (datetime.strptime(items[2],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
+                elif (datetime.strptime(items[2],"%d/%m/%Y") == datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) and (datetime.strptime(items[3],"%d/%m/%Y") >= datetime.strptime(liste_triee[j][2],"%d/%m/%Y")) :
                     liste_triee.insert(j+1,items)
                     return
-                elif datetime.strptime(items[1],"%d/%m/%Y") > datetime.strptime(liste_triee[j][1],"%d/%m/%Y"):
+                elif datetime.strptime(items[2],"%d/%m/%Y") > datetime.strptime(liste_triee[j][2],"%d/%m/%Y"):
                     liste_triee.append(items)
                     return
 

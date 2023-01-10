@@ -98,19 +98,39 @@
                 <h1 style="padding-bottom: 20px; font-size:20px; " >Charger votre jardin:</h1>
                     <button type="submit" id="load" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Charger</button>
 
-                <h1><a href="/evenement">Créer un évènement</a></h1>
-                {% for items in evenements %}
-                    <div>-------------------------</div>
-                    <div>Titre : {{ items[0] }}</div>
-                    <div>Date de début : {{ items[1] }}</div>
-                    <div>Date de fin : {{ items[2] }}</div>
-                    <div>Description : {{ items[3] }}</div>
-                    <div>-------------------------</div>
-                {% endfor %}
-    
-                
+                <!-- Création et affichage de l'agenda du jardin-->
+                <div class="agenda">
+                    <h1 style="padding-bottom: 40px; font-size:25px; text-align:center " >Agenda du jardin:</h1>
                     
-            
+                    <h1 style="text-align:center; padding-bottom:40px"><a href="/evenement"><button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Ajouter un évènement</button></a></h1>
+                    <table>
+                        <tbody>
+                            {% for items in evenements %}
+                                <tr>
+                                    <td>
+                                        <div>------------------------------------------</div>
+                                        <div>Titre : {{ items[1] }}</div>
+                                        <div>Date de début : {{ items[2] }}</div>
+                                        <div>Date de fin : {{ items[3] }}</div>
+                                        <div>Description : {{ items[4] }}</div>
+                                        <div>Participant : {{ items[5] }}</div>
+                                        <div>------------------------------------------</div>
+                                    </td>
+                                    <td>
+                                        <div>------------------------------------------</div>
+                                        <a href="/modifierevenement/{{ items[0] }}">Modifier</a>
+                                        <div>------------------------------------------</div>
+                                    </td>
+                                    <td>
+                                        <div>------------------------------------------</div>
+                                        <a href="/supprimerevenement/{{ items[0] }}">Supprimer</a>
+                                        <div>------------------------------------------</div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {% else %}
             <div class="hidden md:flex md:items-center md:space-x-6">
