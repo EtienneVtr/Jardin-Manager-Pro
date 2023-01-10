@@ -91,7 +91,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
 
 
 
-  // Variable qui indique si le mode suppression est activé ou non
+  /* Variable qui indique si le mode suppression est activé ou non
   var deleteMode = false;
 
   // Gestionnaire d'événement pour le bouton "Supprimer case"
@@ -103,7 +103,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
       document.getElementById('vegetable-select').selectedIndex = 0;
     } else {
       event.target.textContent = 'Supprimer case'; // Change le texte du bouton en "Supprimer case"
-    }
+    }*/
   });
 
   // Gestionnaire d'événement pour le menu déroulant
@@ -125,8 +125,6 @@ document.getElementById('form').addEventListener('submit', function (event) {
     });
   });
 
-
-});
 
 // Variable globale pour stocker le légume actuellement sélectionné
 var currentVegetable = null;
@@ -334,7 +332,6 @@ document.querySelector('.line-button').addEventListener('click', function () {
     // Changement de la valeur du bouton et activation du mode "Ligne entière"
     this.innerHTML = 'Annuler';
     document.lineMode = true;
-
     // Ajout d'un gestionnaire d'événement à chaque ligne du tableau
     var rows = document.querySelectorAll('tr');
     rows.forEach(function (row) {
