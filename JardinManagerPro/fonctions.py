@@ -551,6 +551,7 @@ def creer_evenement(donnee):
     cursor.close()
     dbc.close()
     
+    flash("Votre évènement a bien été créé !", "success")
     return redirect("/jardin")
 
 def liste_evenements(pseudo):
@@ -596,6 +597,7 @@ def supprimer_evenement(id):
     dbc.commit()
     dbc.close()
 
+    flash("L'évènement a bien été supprimé !", "success")
     return redirect("/jardin")
 
 
@@ -613,6 +615,7 @@ def modifier_evenement(liste):
     dbc.commit()
     dbc.close
 
+    flash("L'évènement a bien été modifié !", "success")
     return redirect("/jardin")
 
 def participer_evenement(id_evenement, pseudo_particiant):
@@ -640,4 +643,5 @@ def participer_evenement(id_evenement, pseudo_particiant):
     data = cursor.fetchall()
     dbc.close()
     
+    flash("Vous êtes bien inscrit comme participant !", "success")
     return redirect(f"/user/{ data[0][0] }")
