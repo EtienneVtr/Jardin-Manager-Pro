@@ -15,4 +15,4 @@ Gérald Oster <<gerald.oster@telecomnancy.eu>>
 
 ## Description du projet
 
-À compléter
+Réalisation d'un site web, qui permettra aux utilisateurs de créer, partager un jardin, des tâches, d'échanger et de communiquer sur des  problèmes de jardinages mais aussi d'acheter ou vendre des surplus de production. 
