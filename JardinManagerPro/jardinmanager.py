@@ -4,6 +4,7 @@ import random
 import datetime
 from flask import Flask, request, render_template, flash, redirect, session, url_for
 from flask_session import Session
+from datetime import datetime
 import sqlite3
 import os
 
@@ -23,9 +24,6 @@ Session(app)
 @app.route("/")
 def home():
     return render_template("home.html", title = "JardinManagerPro")
-
-
-
 
 
 #route forum (flo)
@@ -48,7 +46,7 @@ def creersujet():
         message=message.replace("\n", "<br>")
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
-            date= datetime.datetime.now()
+            date= datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creersujet(sujet,message,pseudo,date)
         else :
