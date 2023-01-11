@@ -70,7 +70,7 @@ def creerreponse():
         pseudo1=request.form.get('pseudo1')
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
-            date= datetime.datetime.now()
+            date= datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creerreponse(sujet,reponse,pseudo,date,message,pseudo1)
         else :
