@@ -348,11 +348,11 @@ def user(donnee : str):
 
 #main
 if __name__ == "__main__":
-    if (True    ):
+    if (False):
         initDB()
     if (False):
         initDBforum()
-    if (True):
+    if (False):
         initDB_Calendrier()
         
     app.run(debug=1, host='0.0.0.0', port='5454')
