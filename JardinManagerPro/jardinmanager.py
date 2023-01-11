@@ -92,7 +92,7 @@ def creeroffre():
         description=description.replace("\n", "<br>")
         if  ('name' in session) and (session['name']!=None):
             pseudo = session['name']
-            date= datetime.datetime.now()
+            date= datetime.now()
             date= date.strftime("%d/%m/%Y %H:%M")
             return fct_creeroffre(annonce,prix,localisation,pseudo,date,image,description)
         else :
@@ -336,7 +336,7 @@ def maj(donnee : str):
             return maj_db(pseudo, new_ville, "Ville")
         
         #changement photo
-        else:
+        elif donnee == "photo":
             new_photo = request.files.get("new_photo")
             return maj_db(pseudo, new_photo, "Photo")
         

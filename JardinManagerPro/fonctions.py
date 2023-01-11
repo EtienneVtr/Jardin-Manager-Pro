@@ -155,7 +155,7 @@ def fct_connection(pseudo, mdp):
             previous_url = session["previous_url"]
             session.pop("previous_url", None)
             if previous_url == "http://127.0.0.1:5454/inscription":
-                return redirect("/connection")
+                return redirect("/profil")
             else :
                 return redirect(previous_url)
 
@@ -418,7 +418,7 @@ def affichertableannonce(pseudo):
     #Mettre à jour la table annonce en insérant la distance associée à chaque annonce:
     for i in range(len(distances)):
         query = """ UPDATE annonce SET Distance = ? WHERE id = ?"""
-        args = [distances[i], i+15]
+        args = [distances[i], i+1]
         dbf,cursor=connectdbforum()
         cursor.execute(query, args)
         dbf.commit()
@@ -473,7 +473,7 @@ def affichertableannoncefiltre(prix_min,prix_max,pseudo):
     #Mettre à jour la table annonce en insérant la distance associée à chaque annonce:
     for i in range(len(distances)):
         query = """ UPDATE annonce SET Distance = ? WHERE id = ?"""
-        args = [distances[i], i+15]
+        args = [distances[i], i+1]
         dbf,cursor=connectdbforum()
         cursor.execute(query, args)
         dbf.commit()
