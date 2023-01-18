@@ -92,7 +92,9 @@ def verif_mdp(pseudo,mdp):
     data = cursor.fetchall()
     db.close()
     
-    if data[0][0] == str(mdp):
+    if data == []:
+        return False
+    elif data[0][0] == str(mdp):
         return True
     else :
         return False
@@ -107,6 +109,7 @@ def verif_photo(pseudo):
     data = cursor.fetchall()
     db.close()
     
+    print(data[0][0])
     if data == []:
         return False
     elif data[0][0] == "1" :
